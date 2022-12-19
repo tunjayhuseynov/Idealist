@@ -590,6 +590,10 @@ video {
   margin-top: 1px;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .flex {
   display: flex;
 }
@@ -670,6 +674,10 @@ video {
   width: 276px;
 }
 
+.w-margin {
+  width: 80%;
+}
+
 .min-w-\[15rem\] {
   min-width: 15rem;
 }
@@ -735,6 +743,30 @@ video {
 
 .grid-cols-\[1fr\2c 275px\2c 1fr\] {
   grid-template-columns: 1fr 275px 1fr;
+}
+
+.grid-cols-\[\] {
+  grid-template-columns: ;
+}
+
+.grid-cols-\[75\] {
+  grid-template-columns: 75;
+}
+
+.grid-cols-\[75\%\2c 25\%\] {
+  grid-template-columns: 75% 25%;
+}
+
+.grid-cols-\[5\%\2c 25\%\] {
+  grid-template-columns: 5% 25%;
+}
+
+.grid-cols-\[65\%\2c 25\%\] {
+  grid-template-columns: 65% 25%;
+}
+
+.grid-cols-\[65\%\2c 35\%\] {
+  grid-template-columns: 65% 35%;
 }
 
 .grid-rows-2 {
@@ -805,6 +837,12 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.space-x-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(2rem * var(--tw-space-x-reverse));
+  margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .truncate {
@@ -977,6 +1015,11 @@ video {
   color: rgb(242 122 26 / var(--tw-text-opacity));
 }
 
+.text-green-500 {
+  --tw-text-opacity: 1;
+  color: rgb(34 197 94 / var(--tw-text-opacity));
+}
+
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity));
@@ -1097,9 +1140,9 @@ a {
   bottom: -0.5rem;
 }
 
-.after\:left-\[\.825rem\]::after {
+.after\:left-0::after {
   content: var(--tw-content);
-  left: .825rem;
+  left: 0px;
 }
 
 .after\:h-\[1px\]::after {

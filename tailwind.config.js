@@ -7,8 +7,10 @@ module.exports = {
   ],
   mode: 'jit',
   theme: {
-
     extend: {
+      width:{
+        margin: "80%"
+      },
       colors: {
         primary: '#f27a1a',
         secondary: '#333f48',

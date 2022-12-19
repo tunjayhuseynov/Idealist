@@ -26,7 +26,7 @@ export default function Card({ title, images, body, price }: IProps) {
 
     return <div className="min-w-[15rem] max-w-[16.75rem] max-h-[25rem] bg-white hover:shadow-sm hover:shadow-primary drop-shadow-lg flex flex-col rounded-xl">
         <div className="w-full relative h-[13.865rem]">
-            <Carousel showStatus={false}>
+            <Carousel showStatus={false} showThumbs={false}>
                 {images.map(s => <div key={s} className="relative h-[13.865rem]">
                     <Image src={s} className="object-cover object-center rounded-xl w-full" fill alt={s} />
                 </div>)}

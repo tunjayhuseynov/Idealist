@@ -2,10 +2,10 @@ import { ICommon } from "./Common";
 
 export interface IAnimalDB {
     name: string;
-    generas: {
+    genera: {
         name: string;
     }[] | null;
-    types: {
+    type: {
         name: string;
     }[] | null;
 }

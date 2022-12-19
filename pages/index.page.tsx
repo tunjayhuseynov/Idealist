@@ -1,7 +1,7 @@
-import Card from "components/Card";
 import Header from "components/Header/Header";
-import Navbar from "components/Navbar/Navbar";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
+import { PremiumBox } from "./HomeComponents/PremiumBox";
+
 
 
 export default function HomePage() {
@@ -37,15 +37,8 @@ export default function HomePage() {
     ]
 
 
-    return <div className="w-[80%] mx-auto">
+    return <div className="w-margin mx-auto">
         <Header />
-        <div className="bg-white rounded-lg px-5 pt-3 pb-8 mb-10">
-            <span className="text-xl font-semibold relative after:absolute after:w-[150%] after:-bottom-2 after:h-[1px] after:bg-primary after:left-[.825rem]">
-                Premium
-            </span>
-            <div className="mt-10 justify-items-center md:justify-items-start grid grid-cols-[repeat(auto-fit,minmax(min(95%/2,max(250px,100%/6)),1fr))] gap-8">
-                {cardData.map(s => <Card key={s.title} {...s} />)}
-            </div>
-        </div>
+        <PremiumBox cardData={cardData}></PremiumBox>
     </div>
 }

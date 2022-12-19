@@ -4,15 +4,17 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { FaUserAlt } from 'react-icons/fa'
 import { AiFillSetting } from 'react-icons/ai'
 import { IoExitSharp } from 'react-icons/io5'
+import { useRouter } from 'next/router';
 
 export default function Right() {
     const [isOpen, setOpen] = useState(false)
 
-    const change = () => {
-
-    }
-
-    return <>
+    const { asPath } = useRouter()
+    console.log(asPath)
+    return <div className='flex space-x-8 items-center'>
+        <div className='text-green-500 tracking-wide font-medium cursor-pointer'>
+            Elan yerləşdir
+        </div>
         <div className="relative">
             <Badge count={1}>
                 <Avatar onClick={() => setOpen(!isOpen)} src="https://joeschmoe.io/api/v1/random" className='cursor-pointer' />
@@ -38,5 +40,5 @@ export default function Right() {
                 </ClickAwayListener>
             </div>}
         </div>
-    </>
+    </div>
 }

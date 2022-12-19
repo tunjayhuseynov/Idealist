@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  pageExtensions: ['page.tsx', 'page.ts', 'api.tsx', 'api.ts'],
   images: {
     domains: ['source.unsplash.com'],
   },
