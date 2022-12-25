@@ -7,9 +7,9 @@ import ICrud from "types/utils/crud";
 export type Collections = "animals" | "auto" | "bina" | "home" | "job" | "electro" | "service" | "job" | "hobby" | "child";
 
 export class Crud<T extends ICommon> implements ICrud<T> {
-    collection: Collections;
+    collection: Collections | string;
 
-    constructor(collection: Collections) {
+    constructor(collection: Collections | string) {
         this.collection = collection;
     }
 
@@ -20,8 +20,12 @@ export class Crud<T extends ICommon> implements ICrud<T> {
         return itemDoc.data() as T;
     }
 
-    async GetAll({ order, limit: L }: { order?: { name: string, desc: boolean }, limit?: number }): Promise<T[]> {
+    async GetAll({ order, limit: L }: { order?: { name: string, desc: boolean }, limit?: number } = {}): Promise<T[]> {
         const queryFilter: QueryConstraint[] = [];
+        if (!order && !L) {
+            const itemDocs = await getDocs(collection(db, this.collection));
+            return itemDocs.docs.map(doc => doc.data() as T);
+        }
 
         if (order) {
             queryFilter.push(orderBy(order.name, order.desc ? "desc" : "asc"));
