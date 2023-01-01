@@ -17,6 +17,5 @@ export interface IAnimal extends ICommon {
     genera: string;
     hasDelivery: boolean;
     title: string;
-
     city: number;
 }

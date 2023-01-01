@@ -7,9 +7,9 @@ import ICrud from "types/utils/crud";
 export type Collections = "animals" | "auto" | "bina" | "home" | "job" | "electro" | "service" | "job" | "hobby" | "child";
 
 export class Crud<T extends ICommon> implements ICrud<T> {
-    collection: Collections | string;
+    collection: string;
 
-    constructor(collection: Collections | string) {
+    constructor(collection: string) {
         this.collection = collection;
     }
 
