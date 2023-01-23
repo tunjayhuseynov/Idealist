@@ -1,3 +1,4 @@
+import { DocumentReference } from "firebase/firestore";
 import { ICommon } from "./Common";
 
 export interface IAnimalDB {
@@ -5,17 +6,13 @@ export interface IAnimalDB {
     genera: {
         name: string;
     }[] | null;
-    type: {
-        name: string;
-    }[] | null;
 }
 
 
 export interface IAnimal extends ICommon {
     category: string;
-    type: string;
-    genera: string;
+    genera: string |  null;
     hasDelivery: boolean;
     title: string;
-    city: number;
+    city: string;
 }

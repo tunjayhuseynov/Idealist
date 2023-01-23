@@ -6,7 +6,7 @@ import ICrud from "types/utils/crud";
 
 export type Collections = "animals" | "auto" | "bina" | "home" | "job" | "electro" | "service" | "job" | "hobby" | "child";
 
-export class Crud<T extends ICommon> implements ICrud<T> {
+export class Crud<T> implements ICrud<T> {
     collection: string;
 
     constructor(collection: string) {
@@ -42,7 +42,7 @@ export class Crud<T extends ICommon> implements ICrud<T> {
     }
 
     async Create(data: T): Promise<T> {
-        await addDoc(collection(db, this.collection), data);
+        await addDoc(collection(db, this.collection), data as any);
 
         return data;
     }

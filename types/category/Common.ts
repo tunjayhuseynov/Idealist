@@ -2,8 +2,8 @@ export interface ICommon {
     id: string;
 
 
-    packageName: string;
-    statusName: string;
+    packageName: "VIP" | "Premium" | "Standart";
+    statusName: "Pending" | "Approved" | "Denied";
 
     createdBy: string;
     createdAt: number;
