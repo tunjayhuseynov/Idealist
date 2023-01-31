@@ -10,6 +10,7 @@ const { TextArea } = Input;
 
 interface Cities {
   name: string;
+  id: string,
 }
 
 export default function Yarat() {
@@ -26,6 +27,12 @@ export default function Yarat() {
 
   const addAnimal = async (values: any) => {
     try{
+      console.log(values.city)
+      let slecetedGenera = null
+      const selectedCity = cities?.find((city) => city.id === values.city)
+      if(values.genera){
+        slecetedGenera =  selectedAnimal?.genera?.find((genera) => genera.id === values.genera)
+      }
       const animalIem: IAnimal = {
         id: crypto.randomUUID(),
         packageName: "Standart",
@@ -41,15 +48,24 @@ export default function Yarat() {
         phone: values.phone,
         isWp,
         isCall,
-        category: selectedAnimal!.name,
-        genera: values.genera ?? null,
+        category: {
+          id: selectedAnimal?.id ?? "",
+          value: selectedAnimal?.name ?? "",
+          isDeleted: false
+        },
+        genera: slecetedGenera?.id && slecetedGenera?.value ? {
+          id: slecetedGenera?.id,
+          value: slecetedGenera?.value,
+          isDeleted: false
+        } : null,
         hasDelivery,
         title: values.title,
-        city: values.city
+        city: {
+          id: values.city,
+          name: selectedCity?.name ?? "",
+          isDeleted: false
+        }
       }
-
-      console.log(animal);
-
     
       await animal.Create(animalIem)
     }  catch(e) {
@@ -117,8 +133,8 @@ export default function Yarat() {
               >
                 <Select placeholder="Cins">
                   {selectedAnimal.genera?.map((genus) => (
-                    <Select.Option key={genus.name} value={genus.name}>
-                      {genus.name}
+                    <Select.Option key={genus.value} value={genus.id}>
+                      {genus.value}
                     </Select.Option>
                   ))}
                 </Select>
@@ -187,7 +203,7 @@ export default function Yarat() {
             >
               <Select placeholder="Şəhər">
                 {cities?.map((city) => {
-                  return <Select.Option key={city.name} value={city.name}>
+                  return <Select.Option key={city.name} value={city.id}>
                     {city.name}
                   </Select.Option>
                 })}

@@ -1,7 +1,6 @@
 export interface ICommon {
     id: string;
 
-
     packageName: "VIP" | "Premium" | "Standart";
     statusName: "Pending" | "Approved" | "Denied";
 
