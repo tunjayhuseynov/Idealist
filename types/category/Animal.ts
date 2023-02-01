@@ -1,22 +1,32 @@
+import { DocumentReference } from "firebase/firestore";
 import { ICommon } from "./Common";
 
 export interface IAnimalDB {
+    id: string
     name: string;
     genera: {
-        name: string;
-    }[] | null;
-    type: {
-        name: string;
+        id: string
+        value: string;
     }[] | null;
 }
 
 
 export interface IAnimal extends ICommon {
-    category: string;
-    type: string;
-    genera: string;
+    category: {
+        value: string,
+        id: string,
+        isDeleted: boolean
+    };
+    genera: {
+        id: string,
+        value: string
+        isDeleted: boolean
+    } | null;
     hasDelivery: boolean;
     title: string;
-
-    city: number;
+    city: {
+        id: string,
+        name: string,
+        isDeleted: boolean
+    };
 }
