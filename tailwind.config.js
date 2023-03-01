@@ -11,6 +11,9 @@ module.exports = {
       width:{
         margin: "80%"
       },
+      boxShadow: {
+        "card-shadow": "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px"
+      },
       colors: {
         primary: '#f27a1a',
         secondary: '#333f48',
