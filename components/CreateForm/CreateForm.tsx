@@ -1,38 +1,23 @@
-import { Form, Input, Select, Checkbox, Button } from "antd";
+import { Form, Input, Select, Checkbox, Button, Upload, UploadFile } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
 import { useState } from "react";
 import { Crud } from "modules/Crud";
 import useAsyncEffect from "hooks/useAsyncEffect";
+import { UploadOutlined } from '@ant-design/icons';
+import type { DragEndEvent } from '@dnd-kit/core';
+import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { ICity, IProps } from "./types";
+import { DraggableUploadListItem } from "./DraggableListItem";
+import { uploadImages } from "./CreateForm_Functions";
 
 const { TextArea } = Input;
 
-interface IProps<T> {
-    children?: React.ReactNode;
-    geenricTypes?: T;
-    onFinish: (values: (IOnFinish & T), cities: ICity[]) => void;
-    componentState?: {
-        disableTitleItem: boolean;
-    }
-}
-
-export interface IOnFinish {
-    title?: string;
-    about: string;
-    currency: Currency;
-    price: number;
-    city: string;
-    contactName: string;
-    email: string;
-    phone: string;
-    isWp: boolean;
-    isCall: boolean;
-}
-
-export interface ICity {
-    name: string;
-    id: string,
-}
 
 const formItemLayout = {
     labelCol: { span: 6 },
@@ -43,6 +28,8 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
     const [cities, setCities] = useState<ICity[]>([]);
     const citiesDb = new Crud<ICity>("cities");
 
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
+
     useAsyncEffect(async () => {
         const respCities = await citiesDb.GetAll();
         setCities(respCities);
@@ -50,7 +37,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
 
 
     const selectNumBefore = (
-        <Select defaultValue="050">
+        <Select>
             <Select.Option value="070">070</Select.Option>
             <Select.Option value="077">077</Select.Option>
             <Select.Option value="055">055</Select.Option>
@@ -59,11 +46,27 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
         </Select>
     );
 
+    const sensor = useSensor(PointerSensor, {
+        activationConstraint: { distance: 10 },
+    });
+
+    const onDragEnd = ({ active, over }: DragEndEvent) => {
+        if (active.id !== over?.id) {
+            setFileList((prev) => {
+                const activeIndex = prev.findIndex((i) => i.uid === active.id);
+                const overIndex = prev.findIndex((i) => i.uid === over?.id);
+                return arrayMove(prev, activeIndex, overIndex);
+            });
+        }
+    };
+
+
+
     return (
         <div className="mx-auto my-20 p-8 bg-white rounded-lg shadow-lg">
             <div className="mt-8 grid grid-cols-[65%,35%]">
                 <div className="rounded p-6">
-                    <Form {...formItemLayout} onFinish={(values) => onFinish(values, cities)}>
+                    <Form {...formItemLayout} onFinish={(values) => onFinish(values, cities, fileList, uploadImages)}>
                         {!(componentState?.disableTitleItem == true) &&
                             <Form.Item
                                 label="Elanın adı"
@@ -131,6 +134,60 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                                 })}
                             </Select>
                         </Form.Item>
+
+                        <Form.Item
+                            name="upload"
+                            label="Şəkillər"
+                            rules={[
+                                {
+                                    message: 'Şəkil əlavə olunmalıdır',
+                                    required: true,
+                                    validator: (_, value) => {
+                                        if (fileList.length > 2) {
+                                            return Promise.resolve();
+                                        } else {
+                                            return Promise.reject('Şəkil əlavə olunmalıdır');
+                                        }
+                                    }
+                                }
+                            ]}
+                            extra={
+                                <div>
+                                    <div className="text-sm text-gray-500">Şəkil sıralaması yuxarıdan aşağıdır. Dəyişmək üçün sürüşdürün</div>
+                                    <div className="text-sm text-gray-500">Şəkil sayı ən az 3 və ən çox 15 olmalıdır</div>
+                                </div>
+                            }
+                        >
+                            <DndContext sensors={[sensor]} onDragEnd={onDragEnd} data-fileList={fileList}>
+                                <SortableContext items={fileList.map((i) => i.uid)} strategy={verticalListSortingStrategy}>
+                                    <Upload
+                                        name="logo"
+                                        listType="picture"
+                                        maxCount={15}
+                                        multiple
+                                        fileList={fileList}
+                                        previewFile={async (file) => {
+                                            return URL.createObjectURL(file)
+                                        }}
+                                        iconRender={(file) => {
+                                            return <img src={URL.createObjectURL(file as any)} />
+                                        }}
+                                        onRemove={(file) => {
+                                            setFileList(fileList.filter((i) => i.uid !== file.uid))
+                                        }}
+                                        itemRender={(originNode, file) => (
+                                            <DraggableUploadListItem originNode={originNode} file={file} />
+                                        )}
+                                        beforeUpload={(file, files) => {
+                                            setFileList([...fileList, ...files])
+                                            return false
+                                        }}>
+                                        <Button icon={<UploadOutlined />}>Şəkil əlavə et</Button>
+                                    </Upload>
+                                </SortableContext>
+                            </DndContext>
+                        </Form.Item>
+
                         <Form.Item
                             className="mt-20"
                             label="Əlaqə adı"
@@ -172,6 +229,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                             <Input.Group compact>
                                 <Form.Item
                                     name={['phone', 'prefix']}
+                                    initialValue={"050"}
                                     noStyle
                                     rules={[{ required: true, message: 'Prefix is required' }]}
                                 >
@@ -214,8 +272,10 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                     </Form>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
 export default CreateForm;
+
+

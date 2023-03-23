@@ -10,6 +10,8 @@
     "tailwind": "npx tailwindcss -i ./styles/globals.css -o ./dist/main.css --watch"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.0.8",
+    "@dnd-kit/sortable": "^7.0.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.10.16",
@@ -25,12 +27,12 @@
     "autoprefixer": "^10.4.13",
     "dayjs": "^1.11.7",
     "eslint": "8.29.0",
-    "eslint-config-next": "^13.0.6",
+    "eslint-config-next": "^13.2.4",
     "firebase": "^9.15.0",
     "firebase-admin": "^11.3.0",
     "framer-motion": "^7.7.2",
     "hamburger-react": "^2.5.0",
-    "next": "^13.0.6",
+    "next": "^13.2.4",
     "postcss": "^8.4.19",
     "rc-picker": "^3.1.4",
     "react": "^18.2.0",

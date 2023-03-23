@@ -2,8 +2,9 @@ import useAsyncEffect from "hooks/useAsyncEffect";
 import { Crud } from "modules/Crud";
 import { useState } from "react";
 import { IAnimal, IAnimalDB } from "types/category/Animal";
-import { Form, Select, Checkbox, } from "antd";
-import CreateForm, { ICity, IOnFinish } from "components/CreateForm";
+import { Form, Select, Checkbox, UploadFile, } from "antd";
+import CreateForm from "components/CreateForm/CreateForm";
+import { ICity, IOnFinish, UploadImageType } from "components/CreateForm/types";
 
 export default function Yarat() {
   const [animalDB, setAnimalDB] = useState<IAnimalDB[]>();
@@ -32,7 +33,7 @@ export default function Yarat() {
     hasDelivery: false,
   }
 
-  const onFinish = async (values: IOnFinish & typeof GenericTypes, cities: ICity[]) => {
+  const onFinish = async (values: IOnFinish & typeof GenericTypes, cities: ICity[], images: UploadFile[], uploadImages: UploadImageType) => {
     try {
       const selectedGenera = selectedAnimal?.genera?.find((genera) => genera.id === values?.genera)
       const selectedCity = cities?.find((city) => city.id === values.city)
@@ -108,6 +109,7 @@ export default function Yarat() {
                 })}
               </Select>
             </Form.Item>
+
             {selectedAnimal?.genera && (
               <Form.Item
                 label="Cins"
@@ -128,6 +130,7 @@ export default function Yarat() {
                 </Select>
               </Form.Item>
             )}
+
             <Form.Item
               name="hasDelivery"
               valuePropName="checked"

@@ -1,4 +1,4 @@
-import { Select, Avatar, Badge } from 'antd';
+import { Avatar, Badge } from 'antd';
 import { useState } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { FaUserAlt } from 'react-icons/fa'
@@ -17,7 +17,7 @@ export default function Right() {
         </div>
         <div className="relative">
             <Badge count={1}>
-                <Avatar onClick={() => setOpen(!isOpen)} src="https://joeschmoe.io/api/v1/random" className='cursor-pointer' />
+                <Avatar onClick={() => setOpen(!isOpen)} src="https://i.pravatar.cc/300" className='cursor-pointer' />
             </Badge>
             {isOpen && <div className='absolute top-0 -left-1 translate-y-[10%] -translate-x-full z-[99999]'>
                 <ClickAwayListener onClickAway={() => setOpen(false)}>
