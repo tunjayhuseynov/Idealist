@@ -45,6 +45,7 @@ export default function Yarat() {
         packageName: "Standart",
         statusName: "Pending",
         createdBy: "",
+        paymentData: null,
         createdAt: new Date().getTime(),
         updatedAt: new Date().getTime(),
         about: values.about,
@@ -55,6 +56,7 @@ export default function Yarat() {
         phone: values.phone,
         isWp: values.isWp,
         isCall: values.isCall,
+        images,
         category: {
           id: selectedAnimal?.id ?? "",
           value: selectedAnimal?.name ?? "",

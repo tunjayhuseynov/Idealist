@@ -3,6 +3,12 @@ export interface ICommon {
 
     packageName: "VIP" | "Premium" | "Standart";
     statusName: "Pending" | "Approved" | "Denied";
+    paymentData: {
+        orderId: string
+        sessionId: string
+        paymentType: "bankCard",
+        createdAt: number
+    } | null
 
     createdBy: string;
     createdAt: number;
@@ -11,7 +17,7 @@ export interface ICommon {
     about: string;
     currency: Currency;
     price: number;
-
+    images: string[]
 
     //Contact
     contactName: string;
