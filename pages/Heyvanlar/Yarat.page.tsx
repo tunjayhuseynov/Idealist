@@ -3,7 +3,14 @@ import { Crud } from "modules/Crud";
 import { useState } from "react";
 import { IAnimal, IAnimalDB } from "types/category/Animal";
 import { Form, Select, Checkbox, } from "antd";
-import CreateForm, { ICity, IOnFinish } from "components/CreateForm";
+import CreateForm from "components/CreateForm/CreateForm";
+import { ICity, IOnFinish } from "components/CreateForm/types";
+
+interface IGenericType {
+  category: string;
+  genera?: string;
+  hasDelivery: boolean;
+}
 
 export default function Yarat() {
   const [animalDB, setAnimalDB] = useState<IAnimalDB[]>();
@@ -22,17 +29,13 @@ export default function Yarat() {
     setSelectedAnimal(animalDB?.find((animal) => animal.id === e))
   };
 
-  const GenericTypes: {
-    category: string;
-    genera?: string;
-    hasDelivery: boolean;
-  } = {
+  const GenericTypes: IGenericType = {
     category: "",
     genera: "",
     hasDelivery: false,
   }
 
-  const onFinish = async (values: IOnFinish & typeof GenericTypes, cities: ICity[]) => {
+  const onFinish = async (values: IOnFinish & IGenericType, cities: ICity[], images: string[]) => {
     try {
       const selectedGenera = selectedAnimal?.genera?.find((genera) => genera.id === values?.genera)
       const selectedCity = cities?.find((city) => city.id === values.city)
@@ -108,6 +111,7 @@ export default function Yarat() {
                 })}
               </Select>
             </Form.Item>
+
             {selectedAnimal?.genera && (
               <Form.Item
                 label="Cins"
@@ -128,6 +132,7 @@ export default function Yarat() {
                 </Select>
               </Form.Item>
             )}
+
             <Form.Item
               name="hasDelivery"
               valuePropName="checked"

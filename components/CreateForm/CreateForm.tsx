@@ -1,38 +1,17 @@
-import { Form, Input, Select, Checkbox, Button } from "antd";
+import { Form, Input, Select, Checkbox, Button, UploadFile } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
 import { useState } from "react";
 import { Crud } from "modules/Crud";
 import useAsyncEffect from "hooks/useAsyncEffect";
 
+import { ICity, IProps } from "./types";
+import useFormFunctions from "./useFormFunctions";
+import { auth } from "fb";
+import UploadImages from "./Components/UploadImages";
+
 const { TextArea } = Input;
 
-interface IProps<T> {
-    children?: React.ReactNode;
-    geenricTypes?: T;
-    onFinish: (values: (IOnFinish & T), cities: ICity[]) => void;
-    componentState?: {
-        disableTitleItem: boolean;
-    }
-}
-
-export interface IOnFinish {
-    title?: string;
-    about: string;
-    currency: Currency;
-    price: number;
-    city: string;
-    contactName: string;
-    email: string;
-    phone: string;
-    isWp: boolean;
-    isCall: boolean;
-}
-
-export interface ICity {
-    name: string;
-    id: string,
-}
 
 const formItemLayout = {
     labelCol: { span: 6 },
@@ -40,30 +19,33 @@ const formItemLayout = {
 };
 
 const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
-    const [cities, setCities] = useState<ICity[]>([]);
+    const { uploadImages, NumberPrefixes } = useFormFunctions()
     const citiesDb = new Crud<ICity>("cities");
+
+    const [cities, setCities] = useState<ICity[]>([]);
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     useAsyncEffect(async () => {
         const respCities = await citiesDb.GetAll();
         setCities(respCities);
     }, [])
 
+    const OnFinishFn = async (values: any) => {
+        try {
+            const id = crypto.randomUUID()
+            const images = await uploadImages(fileList, id, auth)
 
-    const selectNumBefore = (
-        <Select defaultValue="050">
-            <Select.Option value="070">070</Select.Option>
-            <Select.Option value="077">077</Select.Option>
-            <Select.Option value="055">055</Select.Option>
-            <Select.Option value="050">050</Select.Option>
-            <Select.Option value="051">051</Select.Option>
-        </Select>
-    );
+            await onFinish(values, cities, images, id)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <div className="mx-auto my-20 p-8 bg-white rounded-lg shadow-lg">
             <div className="mt-8 grid grid-cols-[65%,35%]">
                 <div className="rounded p-6">
-                    <Form {...formItemLayout} onFinish={(values) => onFinish(values, cities)}>
+                    <Form {...formItemLayout} onFinish={OnFinishFn}>
                         {!(componentState?.disableTitleItem == true) &&
                             <Form.Item
                                 label="Elanın adı"
@@ -131,6 +113,33 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                                 })}
                             </Select>
                         </Form.Item>
+
+                        <Form.Item
+                            name="upload"
+                            label="Şəkillər"
+                            rules={[
+                                {
+                                    message: 'Şəkil əlavə olunmalıdır',
+                                    required: true,
+                                    validator: (_, value) => {
+                                        if (fileList.length > 2) {
+                                            return Promise.resolve();
+                                        } else {
+                                            return Promise.reject('Şəkil əlavə olunmalıdır');
+                                        }
+                                    }
+                                }
+                            ]}
+                            extra={
+                                <div>
+                                    <div className="text-sm text-gray-500">Şəkil sıralaması yuxarıdan aşağıdır. Dəyişmək üçün sürüşdürün</div>
+                                    <div className="text-sm text-gray-500">Şəkil sayı ən az 3 və ən çox 15 olmalıdır</div>
+                                </div>
+                            }
+                        >
+                            <UploadImages fileState={[fileList, setFileList]} />
+                        </Form.Item>
+
                         <Form.Item
                             className="mt-20"
                             label="Əlaqə adı"
@@ -172,10 +181,11 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                             <Input.Group compact>
                                 <Form.Item
                                     name={['phone', 'prefix']}
+                                    initialValue={"050"}
                                     noStyle
                                     rules={[{ required: true, message: 'Prefix is required' }]}
                                 >
-                                    {selectNumBefore}
+                                    {NumberPrefixes}
                                 </Form.Item>
                                 <Form.Item
                                     name={['phone', 'number']}
@@ -214,8 +224,10 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                     </Form>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
 export default CreateForm;
+
+
