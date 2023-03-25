@@ -1,20 +1,14 @@
-import { Form, Input, Select, Checkbox, Button, Upload, UploadFile } from "antd";
+import { Form, Input, Select, Checkbox, Button, UploadFile } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
 import { useState } from "react";
 import { Crud } from "modules/Crud";
 import useAsyncEffect from "hooks/useAsyncEffect";
-import { UploadOutlined } from '@ant-design/icons';
-import type { DragEndEvent } from '@dnd-kit/core';
-import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core';
-import {
-    arrayMove,
-    SortableContext,
-    verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+
 import { ICity, IProps } from "./types";
-import { DraggableUploadListItem } from "./DraggableListItem";
-import { uploadImages } from "./CreateForm_Functions";
+import useFormFunctions from "./useFormFunctions";
+import { auth } from "fb";
+import UploadImages from "./Components/UploadImages";
 
 const { TextArea } = Input;
 
@@ -25,9 +19,10 @@ const formItemLayout = {
 };
 
 const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
-    const [cities, setCities] = useState<ICity[]>([]);
+    const { uploadImages, NumberPrefixes } = useFormFunctions()
     const citiesDb = new Crud<ICity>("cities");
 
+    const [cities, setCities] = useState<ICity[]>([]);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     useAsyncEffect(async () => {
@@ -35,38 +30,22 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
         setCities(respCities);
     }, [])
 
+    const OnFinishFn = async (values: any) => {
+        try {
+            const id = crypto.randomUUID()
+            const images = await uploadImages(fileList, id, auth)
 
-    const selectNumBefore = (
-        <Select>
-            <Select.Option value="070">070</Select.Option>
-            <Select.Option value="077">077</Select.Option>
-            <Select.Option value="055">055</Select.Option>
-            <Select.Option value="050">050</Select.Option>
-            <Select.Option value="051">051</Select.Option>
-        </Select>
-    );
-
-    const sensor = useSensor(PointerSensor, {
-        activationConstraint: { distance: 10 },
-    });
-
-    const onDragEnd = ({ active, over }: DragEndEvent) => {
-        if (active.id !== over?.id) {
-            setFileList((prev) => {
-                const activeIndex = prev.findIndex((i) => i.uid === active.id);
-                const overIndex = prev.findIndex((i) => i.uid === over?.id);
-                return arrayMove(prev, activeIndex, overIndex);
-            });
+            await onFinish(values, cities, images, id)
+        } catch (error) {
+            console.error(error)
         }
-    };
-
-
+    }
 
     return (
         <div className="mx-auto my-20 p-8 bg-white rounded-lg shadow-lg">
             <div className="mt-8 grid grid-cols-[65%,35%]">
                 <div className="rounded p-6">
-                    <Form {...formItemLayout} onFinish={(values) => onFinish(values, cities, fileList, uploadImages)}>
+                    <Form {...formItemLayout} onFinish={OnFinishFn}>
                         {!(componentState?.disableTitleItem == true) &&
                             <Form.Item
                                 label="Elanın adı"
@@ -158,34 +137,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                                 </div>
                             }
                         >
-                            <DndContext sensors={[sensor]} onDragEnd={onDragEnd} data-fileList={fileList}>
-                                <SortableContext items={fileList.map((i) => i.uid)} strategy={verticalListSortingStrategy}>
-                                    <Upload
-                                        name="logo"
-                                        listType="picture"
-                                        maxCount={15}
-                                        multiple
-                                        fileList={fileList}
-                                        previewFile={async (file) => {
-                                            return URL.createObjectURL(file)
-                                        }}
-                                        iconRender={(file) => {
-                                            return <img src={URL.createObjectURL(file as any)} />
-                                        }}
-                                        onRemove={(file) => {
-                                            setFileList(fileList.filter((i) => i.uid !== file.uid))
-                                        }}
-                                        itemRender={(originNode, file) => (
-                                            <DraggableUploadListItem originNode={originNode} file={file} />
-                                        )}
-                                        beforeUpload={(file, files) => {
-                                            setFileList([...fileList, ...files])
-                                            return false
-                                        }}>
-                                        <Button icon={<UploadOutlined />}>Şəkil əlavə et</Button>
-                                    </Upload>
-                                </SortableContext>
-                            </DndContext>
+                            <UploadImages fileState={[fileList, setFileList]} />
                         </Form.Item>
 
                         <Form.Item
@@ -233,7 +185,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                                     noStyle
                                     rules={[{ required: true, message: 'Prefix is required' }]}
                                 >
-                                    {selectNumBefore}
+                                    {NumberPrefixes}
                                 </Form.Item>
                                 <Form.Item
                                     name={['phone', 'number']}

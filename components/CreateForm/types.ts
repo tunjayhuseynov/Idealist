@@ -7,7 +7,7 @@ export type UploadImageType = (images: File[], postId: string, auth: Auth) => Pr
 export interface IProps<T> {
     children?: React.ReactNode;
     geenricTypes?: T;
-    onFinish: (values: (IOnFinish & T), cities: ICity[], images: UploadFile[], uploadImages: UploadImageType) => void;
+    onFinish: (values: (IOnFinish & T), cities: ICity[], images: string[], postId: string) => Promise<void>;
     componentState?: {
         disableTitleItem: boolean;
     }
