@@ -32,3 +32,9 @@ export enum Currency {
     AZN = 'AZN',
     USD = 'USD',
 }
+
+export interface IJoinR {
+    value: string,
+    id: string,
+    isDeleted: boolean
+}

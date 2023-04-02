@@ -6,6 +6,8 @@ import Right from './Right';
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic';
 import { Step, CallBackProps, STATUS } from 'react-joyride';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 const ReactJoyride = dynamic(() => import('react-joyride'), { ssr: false });
 
 
@@ -31,6 +33,7 @@ let animation = {
 export default function Navbar() {
     const [isOpen, setOpen] = useState(false)
     const [notification, setNotification] = useState(false)
+    const router = useRouter()
 
     useEffect(() => {
         window.localStorage.getItem("navbarNotification") !== "true" && setNotification(true)
@@ -66,7 +69,9 @@ export default function Navbar() {
     ];
 
     return <nav className="h-[75px] grid grid-cols-[1fr,275px,1fr] w-full relative">
-        <div className="bg-white z-20" style={{ boxShadow: shadow, }} />
+        <div className="bg-white z-20 flex items-center" style={{ boxShadow: shadow, }} >
+            <Image src={'/assets/logo.svg'} alt="Logo of Idealist.az" width={164} height={50} className="pl-16 cursor-pointer" onClick={() => router.push('/')} />
+        </div>
         <div></div>
         <div className="absolute left-1/2 -translate-x-1/2 top-0 w-[276px] h-[75px] z-30" style={{ clipPath: "inset(-2px -2px -2px 0px)" }}>
             <div className="relative">

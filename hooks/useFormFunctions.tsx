@@ -8,10 +8,10 @@ import { getDownloadURL, ref, uploadBytes, UploadMetadata } from "firebase/stora
 export default function useFormFunctions() {
     const uploadImages = async (fileList: UploadFile<File>[], postId: string, auth: Auth): Promise<string[]> => {
         let urls = []
-        if (!auth.currentUser?.uid) throw new Error("User not found")
+        // if (!auth.currentUser?.uid) throw new Error("User not found")
 
         for (let file of fileList) {
-            const f = file.originFileObj as File;
+            const f = file as unknown as File;
 
             const metadata: UploadMetadata = {
                 contentType: 'image/jpeg',
@@ -20,19 +20,19 @@ export default function useFormFunctions() {
                 }
             }
             const name = crypto.randomUUID()
-            const storageRef = ref(storage, `users/${auth.currentUser.uid}/${postId}/${name}.png`);
+            const storageRef = ref(storage, `users/${auth?.currentUser?.uid ?? "00"}/${postId}/${name}.png`);
             try {
                 const image = await uploadBytes(storageRef, f, metadata);
                 const url = await getDownloadURL(image.ref);
                 urls.push(url)
             } catch (e: any) {
-                console.error(e)
+                throw new Error(e)
             }
         }
 
         return urls;
     }
-    
+
 
     const NumberPrefixes = (
         <Select>

@@ -6,9 +6,10 @@ import { Crud } from "modules/Crud";
 import useAsyncEffect from "hooks/useAsyncEffect";
 
 import { ICity, IProps } from "./types";
-import useFormFunctions from "./useFormFunctions";
+import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
+import useError from "hooks/useError";
 
 const { TextArea } = Input;
 
@@ -20,6 +21,7 @@ const formItemLayout = {
 
 const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
     const { uploadImages, NumberPrefixes } = useFormFunctions()
+    const [error, setError] = useState<Error>()
     const citiesDb = new Crud<ICity>("cities");
 
     const [cities, setCities] = useState<ICity[]>([]);
@@ -30,14 +32,19 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
         setCities(respCities);
     }, [])
 
+    useError(error)
+
     const OnFinishFn = async (values: any) => {
         try {
             const id = crypto.randomUUID()
             const images = await uploadImages(fileList, id, auth)
 
             await onFinish(values, cities, images, id)
+
+            alert("Done")
         } catch (error) {
             console.error(error)
+            setError(new Error("Nəsə düzgen etmədi.\nYenidən cəht edin."))
         }
     }
 

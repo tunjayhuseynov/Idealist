@@ -71,7 +71,7 @@ export default function Yarat() {
         title: values.title ?? "",
         city: {
           id: values.city,
-          name: selectedCity?.name ?? "",
+          value: selectedCity?.name ?? "",
           isDeleted: false
         }
       }
