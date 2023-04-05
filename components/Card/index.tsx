@@ -25,7 +25,7 @@ export default function Card({ title, images, body, price }: IProps) {
     return <div className="max-h-[25rem] bg-white hover:shadow-sm hover:shadow-primary shadow-card-shadow grid grid-cols-[40%,60%] rounded-xl">
         <div className="relative h-[13.865rem]">
             <Carousel showStatus={false} showThumbs={false}>
-                {images.map(s => <div key={s} className="relative h-[13.865rem]">
+                {images.map((s, index) => <div key={index} className="relative h-[13.865rem]">
                     <Image src={s} className="object-cover object-center rounded-xl w-full" fill alt={s} />
                 </div>)}
             </Carousel>
@@ -35,7 +35,7 @@ export default function Card({ title, images, body, price }: IProps) {
                 <div className="text-sm font-semibold">{title}</div>
                 <div className="grid grid-flow-row grid-rows-2 grid-cols-2 gap-y-4">
                     {
-                        body.map(s => <div key={s.title} className="flex items-center gap-x-2 gap-y-2">
+                        body.map((s, index) => <div key={index} className="flex items-center gap-x-2 gap-y-2">
                             <div className="w-[1.25rem] h-[1.25rem] rounded-full flex items-center justify-center">
                                 {s.icon}
                             </div>
