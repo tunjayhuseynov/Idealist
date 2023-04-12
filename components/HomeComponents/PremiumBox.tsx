@@ -7,7 +7,7 @@ export function PremiumBox(props: { cardData: any[] }) {
             Premium
         </span>
         <div className="mt-10 grid grid-cols-2 gap-8">
-            {props.cardData.map(s => <Card key={s.title} {...s} />)}
+            {props.cardData.map((s, index) => <Card key={index} {...s} />)}
         </div>
     </div>);
 }

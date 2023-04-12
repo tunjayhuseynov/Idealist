@@ -16,6 +16,8 @@ export default function Registration() {
 
     const router = useRouter()
 
+    
+
     useEffect(() => {
         if (status === "loggedIn") {
             router.push("/")

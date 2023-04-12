@@ -1,6 +1,6 @@
 import { auth } from './../fb/index';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
@@ -8,6 +8,14 @@ import { useState } from 'react';
 const useSign = () => {
     const [error, setError] = useState<Error>()
     const [status, setStatus] = useState<"loggedIn" | "notLoggedIn">("notLoggedIn")
+
+    useEffect(() => {
+        auth.onAuthStateChanged(function(user) {
+            if(user) {
+                setStatus("loggedIn")
+            }
+        })
+    }, [])
 
     const SignIn = async ({ mail, password }: { mail: string, password: string }) => {
         try {
