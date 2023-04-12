@@ -17,12 +17,14 @@ export interface IProps<T> {
     images: string[],
     postId: string
   ) => Promise<void>;
-  componentState?: {
-    disableTitleItem: boolean;
-    disableRegionItem: boolean;
-    disableVillageItem: boolean;
-    disableMetroItem: boolean;
-  };
+  componentState?: ComponentState;
+}
+
+export interface ComponentState {
+  disableTitleItem?: boolean;
+  disableRegionItem?: boolean;
+  disableVillageItem?: boolean;
+  disableMetroItem?: boolean;
 }
 
 export interface IOnFinish {
@@ -42,13 +44,19 @@ export interface IOnFinish {
 export interface ICity {
   name: string;
   id: string;
-  regions: IRegion[]
+  regions: IRegion[];
+  metros: IMetro[]
 }
 
 export interface IRegion {
   id: string;
   name: string;
   villages: IVillage[];
+}
+
+export interface IMetro {
+  id: string,
+  name: string
 }
 
 export interface IVillage {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { IAnimal, IAnimalDB } from "types/category/Animal";
 import { Form, Select, Checkbox, } from "antd";
 import CreateForm from "components/CreateForm/CreateForm";
-import { ICity, IOnFinish } from "components/CreateForm/types";
+import { ComponentState, ICity, IOnFinish } from "components/CreateForm/types";
 
 interface IGenericType {
   category: string;
@@ -15,6 +15,7 @@ interface IGenericType {
 export default function Yarat() {
   const [animalDB, setAnimalDB] = useState<IAnimalDB[]>();
   const [selectedAnimal, setSelectedAnimal] = useState<IAnimalDB>();
+
 
   const animalDb = new Crud<IAnimalDB>("dbAnimal");
   const animal = new Crud<IAnimal>("Animal");
@@ -33,6 +34,12 @@ export default function Yarat() {
     category: "",
     genera: "",
     hasDelivery: false,
+  }
+
+  const componentState : ComponentState = {
+    disableRegionItem: true,
+    disableVillageItem: true,
+    disableMetroItem: true,
   }
 
   const onFinish = async (values: IOnFinish & IGenericType, cities: ICity[], images: string[]) => {
@@ -88,6 +95,7 @@ export default function Yarat() {
         <div className="rounded p-6">
           <CreateForm
             geenricTypes={GenericTypes}
+            componentState={componentState}
             onFinish={onFinish}
           >
             <Form.Item

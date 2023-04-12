@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Crud } from "modules/Crud";
 import useAsyncEffect from "hooks/useAsyncEffect";
 
-import { ICity, IProps, IRegion, IVillage } from "./types";
+import { ICity, IMetro, IProps, IRegion, IVillage } from "./types";
 import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
@@ -23,8 +23,11 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
   const [error, setError] = useState<Error>();
   const citiesDb = new Crud<ICity>("cities");
 
+  const [yaratForm] = Form.useForm();
+
   const [cities, setCities] = useState<ICity[]>([]);
   const [regions, setRegions] = useState<IRegion[]>([]);
+  const [metros, setMetros] = useState<IMetro[]>([])
   const [villages, setVillages] = useState<IVillage[]>([]);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
@@ -52,18 +55,23 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
   const setCityRegions = (cityId: string) => {
     const city = cities.find((e) => e.id == cityId);
     setRegions(city?.regions ?? []);
+    setMetros(city?.metros ?? []);
+    yaratForm.setFieldValue("region", null);
+    yaratForm.setFieldValue("metro", null);
+    yaratForm.setFieldValue("village", null);
   };
 
   const setRegionVillages = (regionId: string) => {
     const region = Object.values(regions).find((e) => e.id == regionId);
     setVillages(region?.villages ?? []);
+    yaratForm.setFieldValue("village", null);
   };
 
   return (
     <div className="mx-auto my-20 p-8 bg-white rounded-lg shadow-lg">
       <div className="mt-8 grid grid-cols-[65%,35%]">
         <div className="rounded p-6">
-          <Form {...formItemLayout} onFinish={OnFinishFn}>
+          <Form {...formItemLayout} onFinish={OnFinishFn} form={yaratForm}>
             {!(componentState?.disableTitleItem == true) && (
               <Form.Item
                 label="Elanın adı"
@@ -146,9 +154,9 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                 })}
               </Select>
             </Form.Item>
-            {!(componentState?.disableRegionItem == true) && (
+            {(!(componentState?.disableRegionItem == true) && Object.values(regions).length > 0) && (
               <Form.Item
-                label="Rayon adi"
+                label="Rayon adı"
                 name="region"
                 rules={[
                   {
@@ -173,9 +181,9 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                 </Select>
               </Form.Item>
             )}
-            {!(componentState?.disableVillageItem == true) && (
+            {!(componentState?.disableVillageItem == true) && Object.values(villages).length > 0 && (
               <Form.Item
-                label="Qəsəbə adi"
+                label="Qəsəbə adı"
                 name="village"
                 rules={[
                   {
@@ -189,6 +197,28 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                     return (
                       <Select.Option key={village.name} value={village.id}>
                         {village.name}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            )}
+            {!(componentState?.disableMetroItem == true) && Object.values(metros).length > 0 && (
+              <Form.Item
+                label="Metro adı"
+                name="metro"
+                rules={[
+                  {
+                    required: true,
+                    message: "Metro adı boşdur",
+                  }
+                ]}
+              > 
+                <Select placeholder="Metro">
+                  {Object.values(metros)?.map((metro) => {
+                    return (
+                      <Select.Option key={metro.id} value={metro.id}>
+                        {metro.name}
                       </Select.Option>
                     );
                   })}
