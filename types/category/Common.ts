@@ -36,5 +36,5 @@ export enum Currency {
 export interface IJoinR {
     value: string,
     id: string,
-    isDeleted: boolean
+    isDeleted?: boolean
 }

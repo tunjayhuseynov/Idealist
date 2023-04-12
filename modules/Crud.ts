@@ -1,7 +1,5 @@
 import { db } from "fb";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, QueryConstraint, setDoc, updateDoc } from "firebase/firestore";
-import { IAnimal } from "types/category/Animal";
-import { ICommon } from "types/category/Common";
 import ICrud from "types/utils/crud";
 
 export type Collections = "animals" | "auto" | "bina" | "home" | "job" | "electro" | "service" | "job" | "hobby" | "child";

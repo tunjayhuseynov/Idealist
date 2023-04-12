@@ -2,10 +2,8 @@ import { Form, Input, Select, Checkbox, Button, UploadFile } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
 import { useState } from "react";
-import { Crud } from "modules/Crud";
-import useAsyncEffect from "hooks/useAsyncEffect";
 
-import { ICity, IProps } from "./types";
+import type { IProps } from "./types";
 import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
@@ -19,25 +17,19 @@ const formItemLayout = {
     wrapperCol: { span: 14 },
 };
 
-const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
+const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, disableImageUpload }: IProps<T>) => {
     const { uploadImages, NumberPrefixes } = useFormFunctions()
     const [error, setError] = useState<Error>()
-    const citiesDb = new Crud<ICity>("cities");
 
-    const [cities, setCities] = useState<ICity[]>([]);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-    useAsyncEffect(async () => {
-        const respCities = await citiesDb.GetAll();
-        setCities(respCities);
-    }, [])
 
     useError(error)
 
     const OnFinishFn = async (values: any) => {
         try {
             const id = crypto.randomUUID()
-            const images = await uploadImages(fileList, id, auth)
+            const images = disableImageUpload === true ? [] : await uploadImages(fileList, id, auth)
 
             await onFinish(values, cities, images, id)
 
