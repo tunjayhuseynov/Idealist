@@ -8,7 +8,7 @@ import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
 import useError from "hooks/useError";
-import { ICity, IMetro, IRegion, IVillage } from "types/city";
+import { ICity, IRegion } from "types/city";
 
 const { TextArea } = Input;
 

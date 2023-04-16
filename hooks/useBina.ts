@@ -1,6 +1,7 @@
+import { ElementType } from './../types/index';
 import { IOnFinish } from "components/CreateForm/types";
 import { Crud } from "modules/Crud";
-import { IBina, IBinaDB } from "types/category/Bina";
+import { IBina, IBinaDB, IBinaRentDuration, IBinaRentPros, IBinaTikili } from "types/category/Bina";
 import { ICity } from "types/city";
 
 export const NearbyLocationNames = {
@@ -16,8 +17,17 @@ export const Communal = {
     gas: "Qaz",
     water: "Su",
     light: "İşıq",
-    sewerage: "Kanalizasiya" 
+    sewerage: "Kanalizasiya"
 } as const
+
+export const LandAppointments = [
+    "Kənd təsərrüfatı təyinatlı torpaq",
+    "Torpaqlar, yaşayış məntəqələrinin (şəhərlərin, qəsəbələrin və kənd yaşayış məntəqələrinin) torpaqları",
+    "Sənaye, nəqliyyat, rabitə, müdafiə və digər təyinatlı torpaqlar",
+    "Xüsusi qorunan ərazilərin torpaqları",
+    "Meşə fondu torpaqları",
+    "Su fondu torpaqları", "Ehtiyat fondu torpaqları"
+]
 
 export type IGenericBinaType = {
     category: string, // ID
@@ -25,13 +35,22 @@ export type IGenericBinaType = {
     communal: (keyof typeof Communal)[],
     areaSize: number,
     ownerType: "owner" | "agent",
+    propertySellType: IBina["propertySellType"]
     tikili?: {
         floor: number,
         buildingFloorAmount?: number,
         roomAmount: number,
-        temir: "Təmirli" | "Təmirsiz" | "Orta";
+        temir: IBinaTikili["temir"];
         hamam: number,
-        withStuff: boolean
+        withStuff: boolean,
+        rentalStatus?: {
+            rentalDuration: keyof typeof IBinaRentDuration,
+            rentalPros: (keyof typeof IBinaRentPros)[]
+        }
+    },
+    land?: {
+        landSize: number,
+        landAppointment: string
     }
 }
 

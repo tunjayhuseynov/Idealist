@@ -25,19 +25,39 @@ interface IBinaNearbyServices {
 	nearMall: boolean;
 }
 
-const IBinaRentDuration = {
+export const IBinaRentDuration = {
 	"Aylıq": "Aylıq",
 	"Günlük": "Günlük",
 	"Həftəlik": "Həftəlik"
 } as const
 
+export const IBinaRentPros = {
+	cabelTv: "Kabel Tv",
+	pvcWindow: "PVC Pəncərələr",
+	combi: "Kombi",
+
+	garaj: "Qaraj",
+	parkingArea: "Parking ərazisi",
+	eyvan: "Eyvan",
+	lift: "Lift",
+	hovuz: "Hovuz",
+	metbex: "Mətbəx",
+	qab: "Qab",
+	paltar: "Paltar",
+	soyuducu: "Soyuducu",
+	tv: "Televizor",
+	kondicioner: "Kondisioner",
+	internet: "Internet",
+	telefon: "Telefon xətti",
+}
+
 type BinaRentDurations = typeof IBinaRentDuration[keyof typeof IBinaRentDuration]
 interface IBinaRentalStatus {
 	rentDuration: BinaRentDurations;
-
 	cabelTv: boolean;
 	pvcWindow: boolean;
 	combi: boolean;
+
 	garaj: boolean;
 	parkingArea: boolean;
 	eyvan: boolean;
@@ -52,14 +72,15 @@ interface IBinaRentalStatus {
 	internet: boolean;
 	telefon: boolean;
 
-	usag: boolean;
-	heyvan: boolean;
+	noChild: boolean;
+	noAnimal: boolean;
 	centralHeatingSystem: boolean;
 	isOnlyRoom: boolean;
 }
 
 export interface IBina extends ICommon {
 	category: IJoinR;
+
 	city: IJoinR;
 	region: IJoinR; // Add To City
 	village: IJoinR; // Add To Region in City
@@ -75,20 +96,19 @@ export interface IBina extends ICommon {
 	su: boolean;
 	isig: boolean;
 	kanalizasiya: boolean;
+	propertySellType: "selling" | "renting";
+	tikili: IBinaTikili;
+	torpaq: IBinaTorpaq;
+	description: string
 
 
 	lat: number;
 	lng: number;
-
-	torpaq: IBinaTorpaq;
-	tikili: IBinaTikili;
-	description: string
 	contract: string;
-	propertySelling: "selling" | "renting";
 	madeinHouse: boolean;
 }
 
-interface IBinaTikili {
+export interface IBinaTikili {
 	roomAmount: number;
 	areaSize: number;
 	floor: number;
@@ -96,11 +116,11 @@ interface IBinaTikili {
 	temir: "Təmirli" | "Təmirsiz" | "Orta";
 	hamam: number;
 	withStuff: boolean;
-
 	rentalStatus: IBinaRentalStatus | null
+
 }
 
 interface IBinaTorpaq {
 	landAppointment: string;
-	areaSize: number;
+	landSize: number;
 }

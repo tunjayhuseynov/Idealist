@@ -1,12 +1,12 @@
 import { Form, Input, Radio } from "antd";
+import YaratRental from "./Yarat.rental";
 
 interface IProps {
-    buildingFloor: boolean
+    buildingFloor: boolean,
+    renting: boolean
 }
 
-export default function YaratTikil({ buildingFloor = false }: IProps) {
-
-
+export default function YaratTikil({ buildingFloor = false, renting = false }: IProps) {
     return <>
         <Form.Item
             name={["tikili", "floor"]}
@@ -89,5 +89,6 @@ export default function YaratTikil({ buildingFloor = false }: IProps) {
                 <Radio value={false}>Əşyasız</Radio>
             </Radio.Group>
         </Form.Item>
+        {renting && <YaratRental />}
     </>
 }
