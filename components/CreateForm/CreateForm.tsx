@@ -2,14 +2,13 @@ import { Form, Input, Select, Checkbox, Button, UploadFile } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
 import { useState } from "react";
-import { Crud } from "modules/Crud";
-import useAsyncEffect from "hooks/useAsyncEffect";
 
-import { ICity, IMetro, IProps, IRegion, IVillage } from "./types";
+import type { IProps } from "./types";
 import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
 import useError from "hooks/useError";
+import { ICity, IRegion } from "types/city";
 
 const { TextArea } = Input;
 
@@ -18,30 +17,24 @@ const formItemLayout = {
   wrapperCol: { span: 14 },
 };
 
-const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
+const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, disableImageUpload }: IProps<T>) => {
   const { uploadImages, NumberPrefixes } = useFormFunctions();
   const [error, setError] = useState<Error>();
-  const citiesDb = new Crud<ICity>("cities");
 
   const [yaratForm] = Form.useForm();
 
-  const [cities, setCities] = useState<ICity[]>([]);
-  const [regions, setRegions] = useState<IRegion[]>([]);
-  const [metros, setMetros] = useState<IMetro[]>([])
-  const [villages, setVillages] = useState<IVillage[]>([]);
+  const [regions, setRegions] = useState<ICity["regions"]>();
+  const [metros, setMetros] = useState<ICity["metros"]>()
+  const [villages, setVillages] = useState<IRegion["villages"]>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  useAsyncEffect(async () => {
-    const respCities = await citiesDb.GetAll();
-    setCities(respCities);
-  }, []);
 
   useError(error);
 
   const OnFinishFn = async (values: any) => {
     try {
-      const id = crypto.randomUUID();
-      const images = await uploadImages(fileList, id, auth);
+      const id = crypto.randomUUID()
+      const images = disableImageUpload === true ? [] : await uploadImages(fileList, id, auth)
 
       await onFinish(values, cities, images, id);
 
@@ -54,16 +47,16 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
 
   const setCityRegions = (cityId: string) => {
     const city = cities.find((e) => e.id == cityId);
-    setRegions(city?.regions ?? []);
-    setMetros(city?.metros ?? []);
+    setRegions(city?.regions);
+    setMetros(city?.metros);
     yaratForm.setFieldValue("region", null);
     yaratForm.setFieldValue("metro", null);
     yaratForm.setFieldValue("village", null);
   };
 
   const setRegionVillages = (regionId: string) => {
-    const region = Object.values(regions).find((e) => e.id == regionId);
-    setVillages(region?.villages ?? []);
+    const region = regions?.[regionId];
+    setVillages(region?.villages);
     yaratForm.setFieldValue("village", null);
   };
 
@@ -154,7 +147,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                 })}
               </Select>
             </Form.Item>
-            {(!(componentState?.disableRegionItem == true) && Object.values(regions).length > 0) && (
+            {(!(componentState?.disableRegionItem == true) && Object.values(regions ?? {}).length > 0) && (
               <Form.Item
                 label="Rayon adı"
                 name="region"
@@ -171,7 +164,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                   }}
                   placeholder="Rayon"
                 >
-                  {Object.values(regions)?.map((region) => {
+                  {Object.values(regions ?? {})?.map((region) => {
                     return (
                       <Select.Option key={region.name} value={region.id}>
                         {region.name}
@@ -181,7 +174,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                 </Select>
               </Form.Item>
             )}
-            {!(componentState?.disableVillageItem == true) && Object.values(villages).length > 0 && (
+            {!(componentState?.disableVillageItem == true) && Object.values(villages ?? {}).length > 0 && (
               <Form.Item
                 label="Qəsəbə adı"
                 name="village"
@@ -193,7 +186,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                 ]}
               >
                 <Select placeholder="Qəsəbə">
-                  {Object.values(villages)?.map((village) => {
+                  {Object.values(villages ?? {})?.map((village) => {
                     return (
                       <Select.Option key={village.name} value={village.id}>
                         {village.name}
@@ -203,7 +196,7 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                 </Select>
               </Form.Item>
             )}
-            {!(componentState?.disableMetroItem == true) && Object.values(metros).length > 0 && (
+            {!(componentState?.disableMetroItem == true) && Object.values(metros ?? {}).length > 0 && (
               <Form.Item
                 label="Metro adı"
                 name="metro"
@@ -213,9 +206,9 @@ const CreateForm = <T,>({ children, componentState, onFinish }: IProps<T>) => {
                     message: "Metro adı boşdur",
                   }
                 ]}
-              > 
+              >
                 <Select placeholder="Metro">
-                  {Object.values(metros)?.map((metro) => {
+                  {Object.values(metros ?? {})?.map((metro) => {
                     return (
                       <Select.Option key={metro.id} value={metro.id}>
                         {metro.name}

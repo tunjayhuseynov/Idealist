@@ -1,102 +1,32 @@
-import useAsyncEffect from "hooks/useAsyncEffect";
-import { Crud } from "modules/Crud";
 import { useState } from "react";
-import { IAnimal, IAnimalDB } from "types/category/Animal";
+import type { IAnimalDB } from "types/category/Animal";
 import { Form, Select, Checkbox, } from "antd";
 import CreateForm from "components/CreateForm/CreateForm";
-import { ComponentState, ICity, IOnFinish } from "components/CreateForm/types";
+import type { ICity } from "types/city";
+import { AdminCrud } from "modules/Crud-Admin";
+import { IGenericAnimalType, useAnimal } from "hooks/useAnimal";
 
-interface IGenericType {
-  category: string;
-  genera?: string;
-  hasDelivery: boolean;
+interface IProps {
+  categories: IAnimalDB[],
+  cityList: ICity[]
 }
 
-export default function Yarat() {
-  const [animalDB, setAnimalDB] = useState<IAnimalDB[]>();
+export default function Yarat({ categories: animalDB, cityList }: IProps) {
   const [selectedAnimal, setSelectedAnimal] = useState<IAnimalDB>();
 
-
-  const animalDb = new Crud<IAnimalDB>("dbAnimal");
-  const animal = new Crud<IAnimal>("Animal");
-
-
-  useAsyncEffect(async () => {
-    const respAnimal = await animalDb.GetAll();
-    setAnimalDB(respAnimal);
-  }, []);
+  const { onFinish } = useAnimal({ selectedAnimal })
 
   const onCategoryChanged = (e: string) => {
     setSelectedAnimal(animalDB?.find((animal) => animal.id === e))
-  };
-
-  const GenericTypes: IGenericType = {
-    category: "",
-    genera: "",
-    hasDelivery: false,
-  }
-
-  const componentState : ComponentState = {
-    disableRegionItem: true,
-    disableVillageItem: true,
-    disableMetroItem: true,
-  }
-
-  const onFinish = async (values: IOnFinish & IGenericType, cities: ICity[], images: string[]) => {
-    try {
-      const selectedGenera = selectedAnimal?.genera?.find((genera) => genera.id === values?.genera)
-      const selectedCity = cities?.find((city) => city.id === values.city)
-
-      const animalIem: IAnimal = {
-        id: crypto.randomUUID(),
-        packageName: "Standart",
-        statusName: "Pending",
-        createdBy: "",
-        paymentData: null,
-        createdAt: new Date().getTime(),
-        updatedAt: new Date().getTime(),
-        about: values.about,
-        currency: values.currency,
-        price: +values.price,
-        contactName: values.contactName,
-        email: values.email,
-        phone: values.phone,
-        isWp: values.isWp,
-        isCall: values.isCall,
-        images,
-        category: {
-          id: selectedAnimal?.id ?? "",
-          value: selectedAnimal?.name ?? "",
-          isDeleted: false
-        },
-        genera: selectedGenera ? {
-          id: selectedGenera.id,
-          value: selectedGenera.value,
-          isDeleted: false
-        } : null,
-        hasDelivery: values.hasDelivery,
-        title: values.title ?? "",
-        city: {
-          id: values.city,
-          value: selectedCity?.name ?? "",
-          isDeleted: false
-        }
-      }
-
-      await animal.Create(animalIem)
-    } catch (e) {
-      throw new Error(e as any)
-    }
   };
 
   return (
     <div className="mx-auto my-20 p-8 bg-white rounded-lg shadow-lg">
       <div className="mt-8 grid grid-cols-[65%,35%]">
         <div className="rounded p-6">
-          <CreateForm
-            geenricTypes={GenericTypes}
-            componentState={componentState}
+          <CreateForm<IGenericAnimalType>
             onFinish={onFinish}
+            cityList={cityList}
           >
             <Form.Item
               label="Heyvan növü"
@@ -142,7 +72,6 @@ export default function Yarat() {
                 </Select>
               </Form.Item>
             )}
-
             <Form.Item
               name="hasDelivery"
               valuePropName="checked"
@@ -156,4 +85,17 @@ export default function Yarat() {
       </div>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  let categories = await new AdminCrud("dbAnimal").GetAll()
+  let cityList = await new AdminCrud("cities").GetAll()
+
+  return {
+    props: {
+      categories,
+      cityList
+    },
+    revalidate: 3600
+  }
 }

@@ -1,6 +1,6 @@
-import type { Auth } from "firebase/auth";
-import type { UploadFile } from "antd";
+import type { Auth } from 'firebase/auth';
 import type { Currency } from "types/category/Common";
+import type { ICity } from 'types/city';
 
 export type UploadImageType = (
   images: File[],
@@ -10,6 +10,8 @@ export type UploadImageType = (
 
 export interface IProps<T> {
   children?: React.ReactNode;
+  cityList: ICity[],
+  disableImageUpload?: boolean
   geenricTypes?: T;
   onFinish: (
     values: IOnFinish & T,
@@ -39,27 +41,4 @@ export interface IOnFinish {
   isWp: boolean;
   isCall: boolean;
   fileList: File[];
-}
-
-export interface ICity {
-  name: string;
-  id: string;
-  regions: IRegion[];
-  metros: IMetro[]
-}
-
-export interface IRegion {
-  id: string;
-  name: string;
-  villages: IVillage[];
-}
-
-export interface IMetro {
-  id: string,
-  name: string
-}
-
-export interface IVillage {
-  id: string;
-  name: string;
 }
