@@ -166,7 +166,7 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
                 >
                   {Object.values(regions ?? {})?.map((region) => {
                     return (
-                      <Select.Option key={region.name} value={region.id}>
+                      <Select.Option key={region.id} value={region.id}>
                         {region.name}
                       </Select.Option>
                     );
@@ -188,7 +188,7 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
                 <Select placeholder="Qəsəbə">
                   {Object.values(villages ?? {})?.map((village) => {
                     return (
-                      <Select.Option key={village.name} value={village.id}>
+                      <Select.Option key={village.id} value={village.id}>
                         {village.name}
                       </Select.Option>
                     );
@@ -290,13 +290,13 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
                   name={["phone", "prefix"]}
                   initialValue={"050"}
                   noStyle
-                  rules={[{ required: true, message: "Prefix is required" }]}
+                  rules={[{ required: true, message: "Nömrənin əvvəli (prefiks) seçilməyib" }]}
                 >
                   {NumberPrefixes}
                 </Form.Item>
                 <Form.Item
                   name={["phone", "number"]}
-                  rules={[{ required: true, message: "Number is required" }]}
+                  rules={[{ required: true, message: "Mobil nömrə qeyd olunmayıb" }]}
                 >
                   <Input
                     type="number"

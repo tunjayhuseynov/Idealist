@@ -80,15 +80,17 @@ interface IBinaRentalStatus {
 
 export interface IBina extends ICommon {
 	category: IJoinR;
-
 	city: IJoinR;
 	region: IJoinR; // Add To City
 	village: IJoinR; // Add To Region in City
 	metro: IJoinR | null; // Add To City
+
 	metroWay: "Ayaq ilə" | "Nəqliyyat ilə";
 	metroDuration: number;
-
 	target: string;
+	lat: number;
+	lng: number;
+
 
 	nearbyServices: IBinaNearbyServices;
 	isPublisherOwner: boolean;
@@ -102,10 +104,8 @@ export interface IBina extends ICommon {
 	description: string
 
 
-	lat: number;
-	lng: number;
 	contract: string;
-	madeinHouse: boolean;
+	madeinHouse: boolean; // Unknown
 }
 
 export interface IBinaTikili {

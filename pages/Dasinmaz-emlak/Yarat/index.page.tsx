@@ -27,7 +27,9 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
     const onSellTypeChange = (e: RadioChangeEvent) => { if (e.target.value === "renting") setIsRenting(true); else setIsRenting(false) }
 
     return <>
-        <CreateForm<IGenericBinaType> onFinish={onFinish} cityList={cityList} disableImageUpload>
+        <CreateForm<IGenericBinaType> onFinish={onFinish} cityList={cityList} disableImageUpload componentState={{
+            disableTitleItem: true
+        }}>
             <Form.Item
                 label="Əmlak növü"
                 name="category"

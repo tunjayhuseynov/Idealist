@@ -1,4 +1,3 @@
-import { ElementType } from './../types/index';
 import { IOnFinish } from "components/CreateForm/types";
 import { Crud } from "modules/Crud";
 import { IBina, IBinaDB, IBinaRentDuration, IBinaRentPros, IBinaTikili } from "types/category/Bina";
