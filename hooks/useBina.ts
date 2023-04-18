@@ -1,6 +1,7 @@
 import { IOnFinish } from "components/CreateForm/types";
 import { Crud } from "modules/Crud";
-import { IBina, IBinaDB, IBinaRentDuration, IBinaRentPros, IBinaTikili } from "types/category/Bina";
+import { IRentDuration } from "types";
+import { IBina, IBinaDB, IBinaRentPros, IBinaTikili } from "types/category/Bina";
 import { ICity } from "types/city";
 
 export const NearbyLocationNames = {
@@ -43,7 +44,7 @@ export type IGenericBinaType = {
         hamam: number,
         withStuff: boolean,
         rentalStatus?: {
-            rentalDuration: keyof typeof IBinaRentDuration,
+            rentalDuration: keyof typeof IRentDuration,
             rentalPros: (keyof typeof IBinaRentPros)[]
         }
     },

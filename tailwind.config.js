@@ -19,6 +19,9 @@ module.exports = {
         secondary: '#333f48',
         primaryHover: '#e06f18',
       },
+      borderRadius: {
+        "i": "20px"
+      },
       keyframes: {
         navbarNotification: {
           '0%, 100%': {

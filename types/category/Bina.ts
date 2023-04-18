@@ -1,3 +1,4 @@
+import { IRentDuration } from "types";
 import type { ICommon, IJoinR } from "./Common";
 
 export interface IBinaDB {
@@ -25,11 +26,7 @@ interface IBinaNearbyServices {
 	nearMall: boolean;
 }
 
-export const IBinaRentDuration = {
-	"Aylıq": "Aylıq",
-	"Günlük": "Günlük",
-	"Həftəlik": "Həftəlik"
-} as const
+
 
 export const IBinaRentPros = {
 	cabelTv: "Kabel Tv",
@@ -51,7 +48,7 @@ export const IBinaRentPros = {
 	telefon: "Telefon xətti",
 }
 
-type BinaRentDurations = typeof IBinaRentDuration[keyof typeof IBinaRentDuration]
+type BinaRentDurations = typeof IRentDuration[keyof typeof IRentDuration]
 interface IBinaRentalStatus {
 	rentDuration: BinaRentDurations;
 	cabelTv: boolean;

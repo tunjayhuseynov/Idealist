@@ -5,16 +5,28 @@ import "swiper/css/pagination";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from "swiper";
+import { IRentDuration, currencies } from 'types';
 
-interface IProps{
-    images: string[]
+interface IProps {
+    images: string[],
+    title: string,
+    coordinate: {
+        lat: number,
+        lng: number
+    },
+    description: string
+    price: number,
+    currency: keyof typeof currencies,
+    rentDuration?: keyof typeof IRentDuration,
+    details: { [name: string]: string },
+    booleanDetails: { [name: string]: string[] }
 }
 
 //https://i.pravatar.cc/1000
 export default function ViewComponent() {
 
-    return <main className="px-16 grid grid-cols-[66%,33%] mt-24">
-        <section id="left">
+    return <main className="px-16 grid grid-cols-[66.66%,33.33%] gap-x-10 mt-24">
+        <section id="Left">
             <div id="carousel" className='w-full aspect-square border h-1/2'>
                 <Swiper
                     pagination={{
@@ -40,13 +52,41 @@ export default function ViewComponent() {
                     <SwiperSlide>
                         <Image src={"https://i.pravatar.cc/1000"} alt="" fill style={{ objectFit: "contain" }} />
                     </SwiperSlide>
-                    ...
                 </Swiper>
+            </div>
+            <div id='Left-Bottom' className='grid grid-cols-[70%,30%] mt-4'>
+                <div id='Left-Bottom-Left'>
+                    <div id='Title-Map' className='grid grid-cols-[75%,25%]'>
+                        <div id='Title' className='relative h-[66%] before:absolute before:w-16 before:h-[1px] before:bg-black before:bg-opacity-20 before:-bottom-1'>
+                            <span className='text-xl font-semibold'>Title</span>
+                        </div>
+                        <div id='Map'>
+                            <button className='px-5 py-3 bg-secondary rounded-i text-white font-medium'>Xəritəni aç</button>
+                        </div>
+                    </div>
+                    <div id='Description' className='mt-5'>
+                        <span className=''>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt, earum distinctio magnam cumque illum sint. Vel debitis reiciendis dignissimos, dolore laborum delectus, tempore illo impedit id temporibus tenetur error fugit.
+                        </span>
+                    </div>
+                </div>
+                <div id='Left-Bottom-Right'>
+                    <div className='shadow-lg rounded-i w-full h-[150px] grid grid-rows-[32%,68%]'>
+                        <div className='bg-primary rounded-t-i flex items-center justify-center'>
+                            <span className='font-semibold text-2xl text-white'>
+                                500.000 ₼
+                            </span>
+                        </div>
+                        <div className='rounded-b-i'></div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="right">
+        <section id="Right">
+            <div id='data-table' className='drop-shadow-lg min-h-[200px] rounded-i bg-white'>
 
+            </div>
         </section>
     </main>
 }
