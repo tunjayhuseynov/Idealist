@@ -1,4 +1,4 @@
-import { Form, Input, Select, Checkbox, Button, UploadFile } from "antd";
+import { Form, Input, Select, Checkbox, Button, UploadFile, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
 import useError from "hooks/useError";
 import { ICity, IRegion } from "types/city";
+import GoogleMaps  from "./Components/GoogleMaps";
 
 const { TextArea } = Input;
 
@@ -21,12 +22,17 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
   const { uploadImages, NumberPrefixes } = useFormFunctions();
   const [error, setError] = useState<Error>();
 
+  const [isGoogleMapModalOpen, setIsGoogleMapModalOpen] = useState(false);
+
   const [yaratForm] = Form.useForm();
 
   const [regions, setRegions] = useState<ICity["regions"]>();
   const [metros, setMetros] = useState<ICity["metros"]>()
   const [villages, setVillages] = useState<IRegion["villages"]>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  
+  const [lat, setLat] = useState<number>(0)
+  const [lng, setLng] = useState<number>(0)
 
 
   useError(error);
@@ -59,6 +65,13 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
     setVillages(region?.villages);
     yaratForm.setFieldValue("village", null);
   };
+
+  const selectMarkerCordinates = (e: google.maps.MapMouseEvent) => {
+    console.log(e.latLng?.lat())
+    console.log(e.latLng?.lng())
+    setLat(e.latLng?.lat() ?? 0)
+    setLng(e.latLng?.lng() ?? 0)
+  }
 
   return (
     <div className="mx-auto my-20 p-8 bg-white rounded-lg shadow-lg">
@@ -146,6 +159,11 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
                   );
                 })}
               </Select>
+            </Form.Item>
+            <Form.Item 
+              label=""
+            >
+              <Button type="primary">Xəritədə göstərmək</Button>
             </Form.Item>
             {(!(componentState?.disableRegionItem == true) && Object.values(regions ?? {}).length > 0) && (
               <Form.Item
@@ -333,6 +351,9 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
           </Form>
         </div>
       </div>
+      <Modal title="Basic Modal" open={isGoogleMapModalOpen} >
+        <GoogleMaps selectMarkerCordinates={selectMarkerCordinates} lat={lat} lng={lng} />
+      </Modal>
     </div>
   );
 };
