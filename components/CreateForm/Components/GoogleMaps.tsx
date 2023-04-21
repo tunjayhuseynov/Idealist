@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker, MarkerF } from "@react-google-maps/api";
 
 const containerStyle = {
   width: "100%",
   height: "30rem",
+};
+
+const center = {
+  lat: 40.409264,
+  lng: 49.867092,
 };
 
 function GoogleMapsSelectLocation({
@@ -15,10 +20,7 @@ function GoogleMapsSelectLocation({
   lat: number;
   lng: number;
 }) {
-  const center = {
-    lat: 40.409264,
-    lng: 49.867092,
-  };
+
 
   const position = {
     lat,
@@ -26,13 +28,14 @@ function GoogleMapsSelectLocation({
   };
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyBxBdPJUrxdl4rJ1_56OlAt91Fv2qJtxGc">
-      <GoogleMap mapContainerStyle={containerStyle} zoom={15} center={center} > 
-        <Marker
+    <LoadScript googleMapsApiKey="">
+      <GoogleMap  mapContainerStyle={containerStyle} zoom={15} center={center} mapContainerClassName="map-container" > 
+        {/* <Marker
           onDragEnd={(e) => selectMarkerCordinates(e)}
           draggable={true}
           position={position}
-        />
+        /> */}
+        <MarkerF onDragEnd={(e) => selectMarkerCordinates(e)} draggable={true} position={(position.lat && position.lng) == 0 ? center : position} />
       </GoogleMap>
     </LoadScript>
   );

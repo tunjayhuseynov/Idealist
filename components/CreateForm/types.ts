@@ -17,7 +17,9 @@ export interface IProps<T> {
     values: IOnFinish & T,
     cities: ICity[],
     images: string[],
-    postId: string
+    postId: string,
+    lat: number,
+    lng: number
   ) => Promise<void>;
   componentState?: ComponentState;
 }
@@ -27,6 +29,7 @@ export interface ComponentState {
   disableRegionItem?: boolean;
   disableVillageItem?: boolean;
   disableMetroItem?: boolean;
+  disableMapItem?: boolean;
 }
 
 export interface IOnFinish {

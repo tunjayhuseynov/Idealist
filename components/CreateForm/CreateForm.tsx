@@ -1,14 +1,13 @@
 import { Form, Input, Select, Checkbox, Button, UploadFile, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
-import { useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import type { IProps } from "./types";
 import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
 import useError from "hooks/useError";
-import { ICity, IRegion } from "types/city";
+import type { ICity, IRegion } from "types/city";
 import GoogleMaps from "./Components/GoogleMaps";
 
 const { TextArea } = Input;
@@ -37,8 +36,11 @@ const CreateForm = <T,>({
   const [villages, setVillages] = useState<IRegion["villages"]>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const [lat, setLat] = useState<number>(40.409264);
-  const [lng, setLng] = useState<number>(49.867092);
+  const [lat, setLat] = useState<number>(0);
+  const [lng, setLng] = useState<number>(0);
+
+  const [mapButtonClickCount, setMapButtonClickCount] = useState<number>(0);
+  const mapButtonRef = useRef<HTMLButtonElement>(null);
 
   useError(error);
 
@@ -50,7 +52,7 @@ const CreateForm = <T,>({
           ? []
           : await uploadImages(fileList, id, auth);
 
-      await onFinish(values, cities, images, id);
+      await onFinish(values, cities, images, id, lat, lng);
 
       alert("Done");
     } catch (error) {
@@ -75,8 +77,6 @@ const CreateForm = <T,>({
   };
 
   const selectMarkerCordinates = (e: google.maps.MapMouseEvent) => {
-    console.log(e.latLng?.lat());
-    console.log(e.latLng?.lng());
     setLat(e.latLng?.lat() ?? 0);
     setLng(e.latLng?.lng() ?? 0);
   };
@@ -168,17 +168,25 @@ const CreateForm = <T,>({
                 })}
               </Select>
             </Form.Item>
-            <Form.Item>
-              <Button
-                className="rounded-full flex float-right items-center mt-5 text-white hover:!text-white bg-primary hover:bg-primaryHover"
-                onClick={() => {
-                  setIsGoogleMapModalOpen(true);
-                }}
-                type="primary"
-              >
-                Xəritədə göstərmək
-              </Button>
-            </Form.Item>
+            {!(componentState?.disableTitleItem == true) && (
+              <div className="w-full flex justify-center mb-5">
+                {mapButtonClickCount < 3 ? (
+                  <button
+                    className="rounded-full p-2 mt-5 text-white hover:!text-white bg-primary hover:bg-primaryHover"
+                    onClick={() => {
+                      setIsGoogleMapModalOpen(true);
+                      setMapButtonClickCount(mapButtonClickCount + 1);
+                    }}
+                    type="button"
+                    ref={mapButtonRef}
+                  >
+                    Xəritədə göstərmək
+                  </button>
+                ) : (
+                  <span>Xəritəyə baxmaq üçün səhifəni yeniləyin</span>
+                )}
+              </div>
+            )}
             {!(componentState?.disableRegionItem == true) &&
               Object.values(regions ?? {}).length > 0 && (
                 <Form.Item
@@ -230,7 +238,7 @@ const CreateForm = <T,>({
                   </Select>
                 </Form.Item>
               )}
-            {!(componentState?.disableMetroItem == true) &&
+             {!(componentState?.disableMetroItem == true) &&
               Object.values(metros ?? {}).length > 0 && (
                 <Form.Item
                   label="Metro adı"
@@ -243,6 +251,9 @@ const CreateForm = <T,>({
                   ]}
                 >
                   <Select placeholder="Metro">
+                    <Select.Option key={0} value={"Yoxdur"}>
+                      Metro yoxdur
+                    </Select.Option>
                     {Object.values(metros ?? {})?.map((metro) => {
                       return (
                         <Select.Option key={metro.id} value={metro.id}>
@@ -283,7 +294,6 @@ const CreateForm = <T,>({
             >
               <UploadImages fileState={[fileList, setFileList]} />
             </Form.Item>
-
             <Form.Item
               className="mt-20"
               label="Əlaqə adı"
@@ -368,22 +378,23 @@ const CreateForm = <T,>({
           </Form>
         </div>
       </div>
-      <Modal
-        title="Xəritə"
-        footer={null}
-        centered
-        width={1000}
-        
-        open={isGoogleMapModalOpen}
-        onOk={() => setIsGoogleMapModalOpen(false)}
-        onCancel={() => setIsGoogleMapModalOpen(false)}
-      >
-        <GoogleMaps
-          selectMarkerCordinates={selectMarkerCordinates}
-          lat={lat}
-          lng={lng}
-        />
-      </Modal>
+      {!(componentState?.disableTitleItem == true) && (
+        <Modal
+          title="Xəritə"
+          footer={null}
+          centered
+          width={1000}
+          open={isGoogleMapModalOpen}
+          onOk={() => setIsGoogleMapModalOpen(false)}
+          onCancel={() => setIsGoogleMapModalOpen(false)}
+        >
+          <GoogleMaps
+            selectMarkerCordinates={selectMarkerCordinates}
+            lat={lat}
+            lng={lng}
+          />
+        </Modal>
+      )}
     </div>
   );
 };
