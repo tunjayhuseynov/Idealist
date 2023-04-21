@@ -9,7 +9,7 @@ import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
 import useError from "hooks/useError";
 import { ICity, IRegion } from "types/city";
-import GoogleMaps  from "./Components/GoogleMaps";
+import GoogleMaps from "./Components/GoogleMaps";
 
 const { TextArea } = Input;
 
@@ -18,7 +18,13 @@ const formItemLayout = {
   wrapperCol: { span: 14 },
 };
 
-const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, disableImageUpload }: IProps<T>) => {
+const CreateForm = <T,>({
+  children,
+  componentState,
+  onFinish,
+  cityList: cities,
+  disableImageUpload,
+}: IProps<T>) => {
   const { uploadImages, NumberPrefixes } = useFormFunctions();
   const [error, setError] = useState<Error>();
 
@@ -27,20 +33,22 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
   const [yaratForm] = Form.useForm();
 
   const [regions, setRegions] = useState<ICity["regions"]>();
-  const [metros, setMetros] = useState<ICity["metros"]>()
+  const [metros, setMetros] = useState<ICity["metros"]>();
   const [villages, setVillages] = useState<IRegion["villages"]>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  
-  const [lat, setLat] = useState<number>(0)
-  const [lng, setLng] = useState<number>(0)
 
+  const [lat, setLat] = useState<number>(40.409264);
+  const [lng, setLng] = useState<number>(49.867092);
 
   useError(error);
 
   const OnFinishFn = async (values: any) => {
     try {
-      const id = crypto.randomUUID()
-      const images = disableImageUpload === true ? [] : await uploadImages(fileList, id, auth)
+      const id = crypto.randomUUID();
+      const images =
+        disableImageUpload === true
+          ? []
+          : await uploadImages(fileList, id, auth);
 
       await onFinish(values, cities, images, id);
 
@@ -67,11 +75,11 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
   };
 
   const selectMarkerCordinates = (e: google.maps.MapMouseEvent) => {
-    console.log(e.latLng?.lat())
-    console.log(e.latLng?.lng())
-    setLat(e.latLng?.lat() ?? 0)
-    setLng(e.latLng?.lng() ?? 0)
-  }
+    console.log(e.latLng?.lat());
+    console.log(e.latLng?.lng());
+    setLat(e.latLng?.lat() ?? 0);
+    setLng(e.latLng?.lng() ?? 0);
+  };
 
   return (
     <div className="mx-auto my-20 p-8 bg-white rounded-lg shadow-lg">
@@ -160,82 +168,91 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
                 })}
               </Select>
             </Form.Item>
-            <Form.Item 
-              label=""
-            >
-              <Button type="primary">Xəritədə göstərmək</Button>
+            <Form.Item>
+              <Button
+                className="rounded-full flex float-right items-center mt-5 text-white hover:!text-white bg-primary hover:bg-primaryHover"
+                onClick={() => {
+                  setIsGoogleMapModalOpen(true);
+                }}
+                type="primary"
+              >
+                Xəritədə göstərmək
+              </Button>
             </Form.Item>
-            {(!(componentState?.disableRegionItem == true) && Object.values(regions ?? {}).length > 0) && (
-              <Form.Item
-                label="Rayon adı"
-                name="region"
-                rules={[
-                  {
-                    required: true,
-                    message: "Rayon adı boşdur",
-                  },
-                ]}
-              >
-                <Select
-                  onSelect={(e) => {
-                    setRegionVillages(e);
-                  }}
-                  placeholder="Rayon"
+            {!(componentState?.disableRegionItem == true) &&
+              Object.values(regions ?? {}).length > 0 && (
+                <Form.Item
+                  label="Rayon adı"
+                  name="region"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Rayon adı boşdur",
+                    },
+                  ]}
                 >
-                  {Object.values(regions ?? {})?.map((region) => {
-                    return (
-                      <Select.Option key={region.name} value={region.id}>
-                        {region.name}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            )}
-            {!(componentState?.disableVillageItem == true) && Object.values(villages ?? {}).length > 0 && (
-              <Form.Item
-                label="Qəsəbə adı"
-                name="village"
-                rules={[
-                  {
-                    required: true,
-                    message: "Qəsəbə adı boşdur",
-                  },
-                ]}
-              >
-                <Select placeholder="Qəsəbə">
-                  {Object.values(villages ?? {})?.map((village) => {
-                    return (
-                      <Select.Option key={village.name} value={village.id}>
-                        {village.name}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            )}
-            {!(componentState?.disableMetroItem == true) && Object.values(metros ?? {}).length > 0 && (
-              <Form.Item
-                label="Metro adı"
-                name="metro"
-                rules={[
-                  {
-                    required: true,
-                    message: "Metro adı boşdur",
-                  }
-                ]}
-              >
-                <Select placeholder="Metro">
-                  {Object.values(metros ?? {})?.map((metro) => {
-                    return (
-                      <Select.Option key={metro.id} value={metro.id}>
-                        {metro.name}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            )}
+                  <Select
+                    onSelect={(e) => {
+                      setRegionVillages(e);
+                    }}
+                    placeholder="Rayon"
+                  >
+                    {Object.values(regions ?? {})?.map((region) => {
+                      return (
+                        <Select.Option key={region.name} value={region.id}>
+                          {region.name}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              )}
+            {!(componentState?.disableVillageItem == true) &&
+              Object.values(villages ?? {}).length > 0 && (
+                <Form.Item
+                  label="Qəsəbə adı"
+                  name="village"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Qəsəbə adı boşdur",
+                    },
+                  ]}
+                >
+                  <Select placeholder="Qəsəbə">
+                    {Object.values(villages ?? {})?.map((village) => {
+                      return (
+                        <Select.Option key={village.name} value={village.id}>
+                          {village.name}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              )}
+            {!(componentState?.disableMetroItem == true) &&
+              Object.values(metros ?? {}).length > 0 && (
+                <Form.Item
+                  label="Metro adı"
+                  name="metro"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Metro adı boşdur",
+                    },
+                  ]}
+                >
+                  <Select placeholder="Metro">
+                    {Object.values(metros ?? {})?.map((metro) => {
+                      return (
+                        <Select.Option key={metro.id} value={metro.id}>
+                          {metro.name}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              )}
             <Form.Item
               name="upload"
               label="Şəkillər"
@@ -351,8 +368,21 @@ const CreateForm = <T,>({ children, componentState, onFinish, cityList: cities, 
           </Form>
         </div>
       </div>
-      <Modal title="Basic Modal" open={isGoogleMapModalOpen} >
-        <GoogleMaps selectMarkerCordinates={selectMarkerCordinates} lat={lat} lng={lng} />
+      <Modal
+        title="Xəritə"
+        footer={null}
+        centered
+        width={1000}
+        
+        open={isGoogleMapModalOpen}
+        onOk={() => setIsGoogleMapModalOpen(false)}
+        onCancel={() => setIsGoogleMapModalOpen(false)}
+      >
+        <GoogleMaps
+          selectMarkerCordinates={selectMarkerCordinates}
+          lat={lat}
+          lng={lng}
+        />
       </Modal>
     </div>
   );
