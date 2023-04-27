@@ -31,6 +31,7 @@ export const LandAppointments = [
 
 export type IGenericBinaType = {
     category: string, // ID
+
     nearbyLocations: (keyof typeof NearbyLocationNames)[],
     communal: (keyof typeof Communal)[],
     areaSize: number,

@@ -35,6 +35,9 @@ export interface IOnFinish {
   currency: Currency;
   price: number;
   city: string;
+  region?: string,
+  village?: string,
+  metro?: string,
   contactName: string;
   email: string;
   phone: string;

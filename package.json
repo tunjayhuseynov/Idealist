@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "tailwind": "npx tailwindcss -i ./styles/globals.css -o ./dist/main.css --watch"
+    "tailwind": "npx tailwindcss -i ./styles/globals.css -o ./dist/main.css --watch",
+    "check:fix": "prettier --write . && next lint --fix && eslint --fix ."
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
@@ -35,6 +36,7 @@
     "hamburger-react": "^2.5.0",
     "next": "^13.2.4",
     "postcss": "^8.4.19",
+    "prettier": "^2.8.8",
     "rc-picker": "^3.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from "swiper";
 import { IRentDuration, currencies } from 'types';
+import { Descriptions } from 'antd';
 
 interface IProps {
     images: string[],
@@ -23,7 +24,7 @@ interface IProps {
 }
 
 //https://i.pravatar.cc/1000
-export default function ViewComponent() {
+export default function ViewComponent({ details, booleanDetails }: IProps) {
 
     return <main className="px-16 grid grid-cols-[66.66%,33.33%] gap-x-10 mt-24">
         <section id="Left">
@@ -84,8 +85,23 @@ export default function ViewComponent() {
         </section>
 
         <section id="Right">
-            <div id='data-table' className='drop-shadow-lg min-h-[200px] rounded-i bg-white'>
-
+            <div id='data-table' className='drop-shadow-lg min-h-[200px] rounded-i bg-white px-3 py-2'>
+                <Descriptions title="Məlumatlar" layout='horizontal'>
+                    {Object.entries(details).map(([k, v]) => {
+                        return <Descriptions.Item label={k}>
+                            {v}
+                        </Descriptions.Item>
+                    })}
+                </Descriptions>
+                <Descriptions layout='vertical'>
+                    {Object.entries(booleanDetails).map(([k, v]) => {
+                        return <Descriptions.Item label={k} span={2} className='!pb-0'>
+                            <div className='pl-3'>
+                                {v.map(s => <div className='relative before:-left-2 before:top-[10.5px] before:absolute before:w-1 before:h-1 before:rounded-full before:bg-secondary'>{s}</div>)}
+                            </div>
+                        </Descriptions.Item>
+                    })}
+                </Descriptions>
             </div>
         </section>
     </main>
