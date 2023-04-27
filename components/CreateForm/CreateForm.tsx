@@ -161,7 +161,7 @@ const CreateForm = <T,>({
               >
                 {cities?.map((city) => {
                   return (
-                    <Select.Option key={city.name} value={city.id}>
+                    <Select.Option key={city.id} value={city.id}>
                       {city.name}
                     </Select.Option>
                   );
