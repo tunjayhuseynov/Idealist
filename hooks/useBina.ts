@@ -7,7 +7,7 @@ import { BinaRentPropertyTypeOptions, Communal, BinaRentNotAllowed, BinaRentPros
 
 export type IGenericBinaType = {
     category: string, // ID
-    contract: string,
+    contract?: string,
     address: string,
     nearbyLocations: (keyof typeof NearbyLocationNames)[],
     communal: (keyof typeof Communal)[],
@@ -25,7 +25,7 @@ export type IGenericBinaType = {
         rentalStatus?: {
             rentPropertyType: typeof BinaRentPropertyTypeOptions[number]["value"],
             rentNotAllowed: (keyof typeof BinaRentNotAllowed)[]
-            rentalDuration: keyof typeof IRentDuration,
+            rentDuration: keyof typeof IRentDuration,
             rentalPros: (keyof typeof BinaRentPros)[]
         }
     },
@@ -52,6 +52,7 @@ export function useBina({ selectedBina }: IProps) {
             const selectedRegion = values.region ? selectedCity.regions?.[values.region] : null
             const selectedVillage = values.village ? selectedRegion?.villages?.[values.village] : null;
             const selectedMetro = values.metro ? selectedCity.metros?.[values.metro] : null
+
 
             let newDocument: IBina = {
                 id: postId,
@@ -89,7 +90,7 @@ export function useBina({ selectedBina }: IProps) {
                 price: values.price,
                 about: values.about,
                 address: values.address,
-                contract: values.contract,
+                contract: values?.contract ?? null,
 
                 metroWay: null,
 
@@ -109,7 +110,7 @@ export function useBina({ selectedBina }: IProps) {
                     withStuff: values.tikili.withStuff,
                     rentalStatus: values.tikili.rentalStatus ? {
                         rentPropertyType: values.tikili.rentalStatus.rentPropertyType,
-                        rentDuration: values.tikili.rentalStatus.rentalDuration,
+                        rentDuration: values.tikili.rentalStatus.rentDuration,
                         rentNotAllowed: {
                             noAnimal: values.tikili.rentalStatus.rentNotAllowed.includes("noAnimal"),
                             noChild: values.tikili.rentalStatus.rentNotAllowed.includes("noChild"),
@@ -164,6 +165,7 @@ export function useBina({ selectedBina }: IProps) {
                 contactName: values.contactName
 
             }
+            console.log(newDocument)
 
             await bina.Create(newDocument)
 

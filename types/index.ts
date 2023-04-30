@@ -11,7 +11,7 @@ export const currencies = {
 }
 
 export const IRentDuration = {
-	"Aylıq": "Aylıq",
-	"Günlük": "Günlük",
-	"Həftəlik": "Həftəlik"
+	"monthly": "Aylıq",
+	"daily": "Günlük",
+	"weekly": "Həftəlik"
 } as const

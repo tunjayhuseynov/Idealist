@@ -599,6 +599,10 @@ video {
   margin-top: 2rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .mt-20 {
   margin-top: 5rem;
 }
@@ -617,10 +621,6 @@ video {
 
 .mt-4 {
   margin-top: 1rem;
-}
-
-.mt-5 {
-  margin-top: 1.25rem;
 }
 
 .flex {
@@ -782,20 +782,8 @@ video {
   cursor: pointer;
 }
 
-.list-inside {
-  list-style-position: inside;
-}
-
 .list-none {
   list-style-type: none;
-}
-
-.list-disc {
-  list-style-type: disc;
-}
-
-.list-decimal {
-  list-style-type: decimal;
 }
 
 .grid-flow-row {
@@ -1100,16 +1088,8 @@ video {
   padding-right: 4rem;
 }
 
-.pb-0 {
-  padding-bottom: 0px;
-}
-
 .\!pb-0 {
   padding-bottom: 0px !important;
-}
-
-.pl-2 {
-  padding-left: 0.5rem;
 }
 
 .pl-3 {
@@ -1280,64 +1260,9 @@ a {
   bottom: -0.25rem;
 }
 
-.before\:left-0::before {
-  content: var(--tw-content);
-  left: 0px;
-}
-
-.before\:left-2::before {
-  content: var(--tw-content);
-  left: 0.5rem;
-}
-
 .before\:-left-2::before {
   content: var(--tw-content);
   left: -0.5rem;
-}
-
-.before\:-left-3::before {
-  content: var(--tw-content);
-  left: -0.75rem;
-}
-
-.before\:top-3::before {
-  content: var(--tw-content);
-  top: 0.75rem;
-}
-
-.before\:top-1::before {
-  content: var(--tw-content);
-  top: 0.25rem;
-}
-
-.before\:top-2::before {
-  content: var(--tw-content);
-  top: 0.5rem;
-}
-
-.before\:top-\[5px\]::before {
-  content: var(--tw-content);
-  top: 5px;
-}
-
-.before\:top-\[15px\]::before {
-  content: var(--tw-content);
-  top: 15px;
-}
-
-.before\:top-\[10px\]::before {
-  content: var(--tw-content);
-  top: 10px;
-}
-
-.before\:top-\[11px\]::before {
-  content: var(--tw-content);
-  top: 11px;
-}
-
-.before\:top-\[9px\]::before {
-  content: var(--tw-content);
-  top: 9px;
 }
 
 .before\:top-\[10\.5px\]::before {
@@ -1355,11 +1280,6 @@ a {
   height: 1px;
 }
 
-.before\:h-2::before {
-  content: var(--tw-content);
-  height: 0.5rem;
-}
-
 .before\:h-1::before {
   content: var(--tw-content);
   height: 0.25rem;
@@ -1373,11 +1293,6 @@ a {
 .before\:w-16::before {
   content: var(--tw-content);
   width: 4rem;
-}
-
-.before\:w-2::before {
-  content: var(--tw-content);
-  width: 0.5rem;
 }
 
 .before\:w-1::before {

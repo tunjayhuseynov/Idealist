@@ -1,5 +1,5 @@
 import { Form, Input, Select } from "antd";
-import { LandAppointments } from "hooks/useBina";
+import { LandAppointments } from "types/category/consts/Bina";
 
 interface IProps {
 
@@ -38,10 +38,10 @@ export default function YaratTorpaq({ }: IProps) {
             <Select
                 placeholder="Torpağın təyinatı"
             >
-                {LandAppointments?.map((teyinat) => {
+                {LandAppointments?.map((appointment) => {
                     return (
-                        <Select.Option key={teyinat} value={teyinat}>
-                            {teyinat}
+                        <Select.Option key={appointment} value={appointment}>
+                            {appointment}
                         </Select.Option>
                     );
                 })}

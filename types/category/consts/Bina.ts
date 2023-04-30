@@ -33,7 +33,8 @@ export const BinaRentPros = {
 
 export const BinaRentNotAllowed = {
     noChild: "Uşaqlı olmaz",
-    noAnimal: "Heyvan saxlamaq olmaz"
+    noAnimal: "Heyvan saxlamaq olmaz",
+    noSmoking: "Siqaret çəkmək olmaz"
 }
 
 
@@ -55,7 +56,7 @@ export const Communal = {
 
 export const LandAppointments = [
     "Kənd təsərrüfatı təyinatlı torpaq",
-    "Torpaqlar, yaşayış məntəqələrinin (şəhərlərin, qəsəbələrin və kənd yaşayış məntəqələrinin) torpaqları",
+    "Yaşayış məntəqələrinin torpaqları",
     "Sənaye, nəqliyyat, rabitə, müdafiə və digər təyinatlı torpaqlar",
     "Xüsusi qorunan ərazilərin torpaqları",
     "Meşə fondu torpaqları",

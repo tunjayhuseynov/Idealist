@@ -25,10 +25,10 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
 
     const { onFinish } = useBina({ selectedBina })
 
-    const onSellTypeChange = (e: RadioChangeEvent) => { if (e.target.value === "renting") setIsRenting(true); else setIsRenting(false) }
+    const onSellTypeChange = (e: RadioChangeEvent) => setIsRenting(e.target.value === "renting")
 
     return <>
-        <CreateForm<IGenericBinaType> onFinish={onFinish} cityList={cityList} disableImageUpload componentState={{
+        <CreateForm<IGenericBinaType> onFinish={onFinish} cityList={cityList} componentState={{
             disableTitleItem: true,
         }}>
             <Form.Item
@@ -54,7 +54,13 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
                     })}
                 </Select>
             </Form.Item>
-            <Form.Item
+            {selectedBina?.rentalStatus && <Form.Item name="propertySellType" label="Satış tipi" rules={[{ required: true }]}>
+                <Radio.Group onChange={onSellTypeChange}>
+                    <Radio value="selling">Satılır</Radio>
+                    <Radio value="renting">Kirayə verilir</Radio>
+                </Radio.Group>
+            </Form.Item>}
+            {(!isRenting || !selectedBina?.rentalStatus) && <Form.Item
                 label="Əmlak sənədi"
                 name="contract"
                 rules={[
@@ -64,10 +70,7 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
                     },
                 ]}
             >
-                <Select
-                    onSelect={onCategoryChanged}
-                    placeholder="Əmlak sənədi"
-                >
+                <Select placeholder="Əmlak sənədi">
                     {Object.entries(BinaContracts)?.map(([key, contract]) => {
                         return (
                             <Select.Option key={key} value={key}>
@@ -76,15 +79,9 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
                         );
                     })}
                 </Select>
-            </Form.Item>
+            </Form.Item>}
             <Form.Item name="address" label="Ünvan" rules={[{ required: true }]}>
                 <Input />
-            </Form.Item>
-            <Form.Item name="propertySellType" label="Satış tipi" rules={[{ required: true }]}>
-                <Radio.Group onChange={onSellTypeChange}>
-                    <Radio value="selling">Satılır</Radio>
-                    <Radio value="renting">Kirayə verilir</Radio>
-                </Radio.Group>
             </Form.Item>
             {selectedBina?.torpaq && <YaratTorpaq />}
             <Form.Item

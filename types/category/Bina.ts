@@ -24,7 +24,7 @@ interface IBinaNearbyServices {
 }
 
 
-type BinaRentDurations = typeof IRentDuration[keyof typeof IRentDuration]
+type BinaRentDurations = keyof typeof IRentDuration
 interface IBinaRentalStatus {
 	rentDuration: BinaRentDurations;
 	rentPropertyType: "onlyRoom" | "whole",
@@ -82,7 +82,7 @@ export interface IBina extends ICommon {
 	torpaq: IBinaTorpaq | null;
 
 
-	contract: string;
+	contract: string | null;
 	address: string;
 }
 
