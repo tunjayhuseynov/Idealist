@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "tailwind": "npx tailwindcss -i ./styles/globals.css -o ./dist/main.css --watch",
-    "check:fix": "prettier --write . && next lint --fix && eslint --fix ."
+    "check:fix": "prettier --write . && next lint --fix && eslint --fix .",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
@@ -28,6 +29,7 @@
     "antd": "^5.0.3",
     "autoprefixer": "^10.4.13",
     "axios": "^1.3.4",
+    "cypress": "^12.11.0",
     "dayjs": "^1.11.7",
     "eslint": "8.29.0",
     "eslint-config-next": "^13.2.4",

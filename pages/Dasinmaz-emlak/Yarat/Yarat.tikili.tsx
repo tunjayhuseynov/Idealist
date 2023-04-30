@@ -59,6 +59,14 @@ export default function YaratTikil({ buildingFloor = false, renting = false }: I
         >
             <Input type="number" placeholder="Otaq sayı" />
         </Form.Item>
+        <Form.Item name={["tikili", "roomAmountChanged"]} label="Otaq sayı dəyişdirilib?" rules={[{ required: true }]}>
+            <Radio.Group
+                options={[{ label: "Bəli", value: "yes" }, { label: "Xeyir", value: "no" }]}
+                optionType="button"
+                defaultValue={"whole"}
+                buttonStyle="solid"
+            />
+        </Form.Item>
         <Form.Item
             name={["tikili", "hamam"]}
             label="Hamam sayı"

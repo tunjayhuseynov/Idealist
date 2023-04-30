@@ -1,9 +1,10 @@
 import { Checkbox, Col, Form, Input, Radio, RadioChangeEvent, Row, Select } from "antd";
 import CreateForm from "components/CreateForm/CreateForm";
-import { Communal, IGenericBinaType, NearbyLocationNames, useBina } from "hooks/useBina";
+import { IGenericBinaType, useBina } from "hooks/useBina";
 import { AdminCrud } from "modules/Crud-Admin";
 import { useState } from "react";
 import type { IBinaDB } from "types/category/Bina";
+import { Communal, BinaContracts, NearbyLocationNames } from "types/category/consts/Bina";
 import type { ICity } from "types/city";
 import YaratTikil from "./Yarat.tikili";
 import YaratTorpaq from "./Yarat.torpaq";
@@ -28,7 +29,7 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
 
     return <>
         <CreateForm<IGenericBinaType> onFinish={onFinish} cityList={cityList} disableImageUpload componentState={{
-            disableTitleItem: true
+            disableTitleItem: true,
         }}>
             <Form.Item
                 label="Əmlak növü"
@@ -53,6 +54,32 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
                     })}
                 </Select>
             </Form.Item>
+            <Form.Item
+                label="Əmlak sənədi"
+                name="contract"
+                rules={[
+                    {
+                        required: true,
+                        message: "Əmlak sənədi boşdur",
+                    },
+                ]}
+            >
+                <Select
+                    onSelect={onCategoryChanged}
+                    placeholder="Əmlak sənədi"
+                >
+                    {Object.entries(BinaContracts)?.map(([key, contract]) => {
+                        return (
+                            <Select.Option key={key} value={key}>
+                                {contract}
+                            </Select.Option>
+                        );
+                    })}
+                </Select>
+            </Form.Item>
+            <Form.Item name="address" label="Ünvan" rules={[{ required: true }]}>
+                <Input />
+            </Form.Item>
             <Form.Item name="propertySellType" label="Satış tipi" rules={[{ required: true }]}>
                 <Radio.Group onChange={onSellTypeChange}>
                     <Radio value="selling">Satılır</Radio>
@@ -60,7 +87,6 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
                 </Radio.Group>
             </Form.Item>
             {selectedBina?.torpaq && <YaratTorpaq />}
-
             <Form.Item
                 label="Yerin Sahəsi"
                 name="areaSize"

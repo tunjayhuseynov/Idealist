@@ -1,8 +1,8 @@
 import { Form, Input, Select, Checkbox, Button, UploadFile, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
-import { useEffect, useRef, useState } from "react";
-import type { IProps } from "./types";
+import { useRef, useState } from "react";
+import type { ICreateFormProps } from "./types";
 import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
@@ -23,7 +23,7 @@ const CreateForm = <T,>({
   onFinish,
   cityList: cities,
   disableImageUpload,
-}: IProps<T>) => {
+}: ICreateFormProps<T>) => {
   const { uploadImages, NumberPrefixes } = useFormFunctions();
   const [error, setError] = useState<Error>();
 
@@ -52,7 +52,7 @@ const CreateForm = <T,>({
           ? []
           : await uploadImages(fileList, id, auth);
 
-      await onFinish(values, cities, images, id, lat, lng);
+      await onFinish(values, cities, images, id, { lat, lng });
 
       alert("Done");
     } catch (error) {
@@ -238,7 +238,7 @@ const CreateForm = <T,>({
                   </Select>
                 </Form.Item>
               )}
-             {!(componentState?.disableMetroItem == true) &&
+            {!(componentState?.disableMetroItem == true) &&
               Object.values(metros ?? {}).length > 0 && (
                 <Form.Item
                   label="Metro adı"

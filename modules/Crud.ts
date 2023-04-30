@@ -5,7 +5,7 @@ import ICrud from "types/utils/crud";
 export type Collections = "animals" | "auto" | "bina" | "home" | "job" | "electro" | "service" | "job" | "hobby" | "child";
 
 export class Crud<T> implements ICrud<T> {
-    collection: string;
+    private collection: string;
 
     constructor(collection: string) {
         this.collection = collection;
@@ -22,7 +22,7 @@ export class Crud<T> implements ICrud<T> {
         const queryFilter: QueryConstraint[] = [];
         if (!order && !L) {
             const itemDocs = await getDocs(collection(db, this.collection));
-            return itemDocs.docs.map((doc) => ({id: doc.id, ...doc.data() as T}));
+            return itemDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() as T }));
         }
 
         if (order) {
@@ -36,7 +36,7 @@ export class Crud<T> implements ICrud<T> {
 
         const itemDocs = await getDocs(q);
 
-        return itemDocs.docs.map((doc) => ({id: doc.id, ...doc.data() as T}));
+        return itemDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() as T }));
     }
 
     async Create(data: T): Promise<T> {

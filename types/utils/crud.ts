@@ -1,5 +1,5 @@
 export default interface ICrud<T> {
-    collection: string;
+    // collection: string;
     GetOne: (id: string) => Promise<T>;
     GetAll: ({ limit, order }: { order?: { name: string, desc: boolean }, limit?: number }) => Promise<T[]>;
     Create: (data: T) => Promise<T>;

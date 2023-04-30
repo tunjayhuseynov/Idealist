@@ -3,12 +3,9 @@ import type { ICommon, IJoinR } from "./Common";
 
 export interface IBinaDB {
 	id: string,
-
 	buildingFloor: boolean
-
 	tikili: boolean;
 	torpaq: boolean;
-
 	areaUnit: string,
 	barter: boolean,
 	madeinHouse: boolean,
@@ -27,82 +24,66 @@ interface IBinaNearbyServices {
 }
 
 
-
-export const IBinaRentPros = {
-	cabelTv: "Kabel Tv",
-	pvcWindow: "PVC Pəncərələr",
-	combi: "Kombi",
-
-	garaj: "Qaraj",
-	parkingArea: "Parking ərazisi",
-	eyvan: "Eyvan",
-	lift: "Lift",
-	hovuz: "Hovuz",
-	metbex: "Mətbəx",
-	qab: "Qab",
-	paltar: "Paltar",
-	soyuducu: "Soyuducu",
-	tv: "Televizor",
-	kondicioner: "Kondisioner",
-	internet: "Internet",
-	telefon: "Telefon xətti",
-}
-
 type BinaRentDurations = typeof IRentDuration[keyof typeof IRentDuration]
 interface IBinaRentalStatus {
 	rentDuration: BinaRentDurations;
-	cabelTv: boolean;
-	pvcWindow: boolean;
-	combi: boolean;
-
-	garaj: boolean;
-	parkingArea: boolean;
-	eyvan: boolean;
-	lift: boolean;
-	hovuz: boolean;
-	metbex: boolean;
-	qab: boolean;
-	paltar: boolean;
-	soyuducu: boolean;
-	tv: boolean;
-	kondicioner: boolean;
-	internet: boolean;
-	telefon: boolean;
-
-	noChild: boolean;
-	noAnimal: boolean;
-	centralHeatingSystem: boolean;
-	isOnlyRoom: boolean;
+	rentPropertyType: "onlyRoom" | "whole",
+	rentProps: {
+		cabelTv: boolean;
+		pvcWindow: boolean;
+		combi: boolean;
+		garage: boolean;
+		parkingArea: boolean;
+		balcony: boolean;
+		lift: boolean;
+		pool: boolean;
+		kitchen: boolean;
+		dishes: boolean;
+		washer: boolean;
+		refrigerator: boolean;
+		tv: boolean;
+		airConditioner: boolean;
+		internet: boolean;
+		telephone: boolean;
+		centralHeatingSystem: boolean;
+	},
+	rentNotAllowed: {
+		noChild: boolean;
+		noAnimal: boolean;
+	}
 }
 
 export interface IBina extends ICommon {
 	category: IJoinR;
 	city: IJoinR;
-	region: IJoinR; // Add To City
-	village: IJoinR; // Add To Region in City
+	region: IJoinR | null; // Add To City
+	village: IJoinR | null; // Add To Region in City
 	metro: IJoinR | null; // Add To City
 
-	metroWay: "Ayaq ilə" | "Nəqliyyat ilə";
-	metroDuration: number;
-	target: string;
-	lat: number;
-	lng: number;
-
+	metroWay: {
+		metroWay: "Ayaq ilə" | "Nəqliyyat ilə";
+		metroDuration: number;
+	} | null
+	coordinate: {
+		lat: number;
+		lng: number;
+	}
 
 	nearbyServices: IBinaNearbyServices;
 	isPublisherOwner: boolean;
-	qaz: boolean;
-	su: boolean;
-	isig: boolean;
-	kanalizasiya: boolean;
+	communal: {
+		qaz: boolean;
+		su: boolean;
+		isig: boolean;
+		kanalizasiya: boolean;
+	}
 	propertySellType: "selling" | "renting";
-	tikili: IBinaTikili;
-	torpaq: IBinaTorpaq;
-	description: string
+	tikili: IBinaTikili | null;
+	torpaq: IBinaTorpaq | null;
 
 
 	contract: string;
-	madeinHouse: boolean; // Unknown
+	address: string;
 }
 
 export interface IBinaTikili {
@@ -114,6 +95,7 @@ export interface IBinaTikili {
 	hamam: number;
 	withStuff: boolean;
 	rentalStatus: IBinaRentalStatus | null
+	roomAmountChanged: boolean;
 
 }
 

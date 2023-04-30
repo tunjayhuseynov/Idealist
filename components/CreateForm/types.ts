@@ -8,18 +8,20 @@ export type UploadImageType = (
   auth: Auth
 ) => Promise<string[]>;
 
-export interface IProps<T> {
+export interface ICreateFormProps<T> {
   children?: React.ReactNode;
   cityList: ICity[],
   disableImageUpload?: boolean
-  geenricTypes?: T;
+  genericTypes?: T;
   onFinish: (
     values: IOnFinish & T,
     cities: ICity[],
     images: string[],
     postId: string,
-    lat: number,
-    lng: number
+    coordinates: {
+      lat: number,
+      lng: number
+    }
   ) => Promise<void>;
   componentState?: ComponentState;
 }

@@ -1,4 +1,4 @@
-import { IOnFinish } from "components/CreateForm/types";
+import { ICreateFormProps, IOnFinish } from "components/CreateForm/types";
 import { Crud } from "modules/Crud";
 import { IAnimal, IAnimalDB } from "types/category/Animal";
 import { ICity } from "types/city";
@@ -16,14 +16,14 @@ interface IProps {
 export function useAnimal({ selectedAnimal }: IProps) {
     const animal = new Crud<IAnimal>("Animal");
 
-    const onFinish = async (values: IOnFinish & IGenericAnimalType, cities: ICity[], images: string[]) => {
+    const onFinish: ICreateFormProps<IGenericAnimalType>['onFinish'] = async (values, cities, images, postId) => {
         try {
             if (!selectedAnimal) throw Error("Heyvan növü seçilməyib")
             const selectedGenera = selectedAnimal.genera?.find((genera) => genera.id === values?.genera)
             const selectedCity = cities?.find((city) => city.id === values.city)
 
             const animalIem: IAnimal = {
-                id: crypto.randomUUID(),
+                id: postId,
                 packageName: "Standart",
                 statusName: "Pending",
                 createdBy: "",
