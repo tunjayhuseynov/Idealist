@@ -1,12 +1,12 @@
 import { adminApp } from "fb/adminSdk";
 import ICrud from "types/utils/crud";
+import { Collections } from "utils/collections";
 
-export type Collections = "animals" | "auto" | "bina" | "home" | "job" | "electro" | "service" | "job" | "hobby" | "child";
 
 export class AdminCrud<T> implements ICrud<T> {
-    collection: string;
+    collection: Collections;
 
-    constructor(collection: string) {
+    constructor(collection: Collections) {
         this.collection = collection;
     }
 

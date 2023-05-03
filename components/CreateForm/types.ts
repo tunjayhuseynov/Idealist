@@ -37,7 +37,7 @@ export interface ComponentState {
 export interface IOnFinish {
   title?: string;
   about: string;
-  currency: Currency;
+  currency: keyof typeof Currency;
   price: number;
   city: string;
   region?: string,

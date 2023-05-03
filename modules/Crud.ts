@@ -1,13 +1,13 @@
 import { db } from "fb";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, QueryConstraint, setDoc, updateDoc } from "firebase/firestore";
 import ICrud from "types/utils/crud";
+import { Collections } from "utils/collections";
 
-export type Collections = "animals" | "auto" | "bina" | "home" | "job" | "electro" | "service" | "job" | "hobby" | "child";
 
 export class Crud<T> implements ICrud<T> {
-    private collection: string;
+    private collection: Collections;
 
-    constructor(collection: string) {
+    constructor(collection: Collections) {
         this.collection = collection;
     }
 

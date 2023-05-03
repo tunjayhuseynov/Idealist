@@ -15,7 +15,7 @@ export interface ICommon {
     updatedAt: number;
 
     about: string;
-    currency: Currency;
+    currency: keyof typeof Currency;
     price: number;
     images: string[]
 
@@ -28,10 +28,10 @@ export interface ICommon {
 }
 
 
-export enum Currency {
-    AZN = 'AZN',
-    USD = 'USD',
-}
+export const Currency = {
+    AZN: 'AZN',
+    USD: 'USD',
+} as const
 
 export interface IJoinR {
     value: string,

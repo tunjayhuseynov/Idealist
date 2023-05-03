@@ -5,8 +5,10 @@ import "swiper/css/pagination";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from "swiper";
-import { IRentDuration, currencies } from 'types';
+import { IRentDuration } from 'types';
 import { Descriptions } from 'antd';
+import { currencies } from 'types/view';
+import { Currency } from 'types/category/Common';
 
 interface IProps {
     images: string[],
@@ -17,7 +19,7 @@ interface IProps {
     },
     description: string
     price: number,
-    currency: keyof typeof currencies,
+    currency: keyof typeof Currency,
     rentDuration?: keyof typeof IRentDuration,
     details: { [name: string]: string },
     booleanDetails: { [name: string]: string[] }
