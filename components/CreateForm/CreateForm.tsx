@@ -9,6 +9,7 @@ import UploadImages from "./Components/UploadImages";
 import useError from "hooks/useError";
 import type { ICity, IRegion } from "types/city";
 import GoogleMaps from "./Components/GoogleMaps";
+import { type } from "os";
 
 const { TextArea } = Input;
 
@@ -39,6 +40,8 @@ const CreateForm = <T,>({
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
 
+  const [toMetroTransport, setToMetroTransport] = useState<"Ayaqla" | "Maşınla">('Ayaqla');
+
   const [mapButtonClickCount, setMapButtonClickCount] = useState<number>(0);
   const mapButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -52,7 +55,7 @@ const CreateForm = <T,>({
           ? []
           : await uploadImages(fileList, id, auth);
 
-      await onFinish(values, cities, images, id, lat, lng);
+      await onFinish(values, cities, images, id, lat, lng, toMetroTransport);
 
       alert("Done");
     } catch (error) {
@@ -265,6 +268,23 @@ const CreateForm = <T,>({
                 </Form.Item>
               )}
             <Form.Item
+              name="howLongToMetro"
+              label="Metroya məsafə"
+              rules={[
+                {
+                  required: true,
+                  message: "",
+                }
+              ]}
+            >
+              <Input type="number" onChange={(e) => console.log(e.target.value)} addonBefore={
+                <Select onSelect={(e) => setToMetroTransport(e as "Ayaqla" | "Maşınla")} defaultValue="Ayaqla">
+                  <Select.Option value="Ayaqla">Ayaqla</Select.Option>
+                  <Select.Option value="Maşınla">Maşınla</Select.Option>
+                </Select>
+              } addonAfter={"dəyqa"}/>
+            </Form.Item>
+            <Form.Item
               name="upload"
               label="Şəkillər"
               rules={[
@@ -400,3 +420,6 @@ const CreateForm = <T,>({
 };
 
 export default CreateForm;
+
+
+

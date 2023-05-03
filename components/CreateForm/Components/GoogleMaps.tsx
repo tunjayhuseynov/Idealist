@@ -30,11 +30,6 @@ function GoogleMapsSelectLocation({
   return (
     <LoadScript googleMapsApiKey="">
       <GoogleMap  mapContainerStyle={containerStyle} zoom={15} center={center} mapContainerClassName="map-container" > 
-        {/* <Marker
-          onDragEnd={(e) => selectMarkerCordinates(e)}
-          draggable={true}
-          position={position}
-        /> */}
         <MarkerF onDragEnd={(e) => selectMarkerCordinates(e)} draggable={true} position={(position.lat && position.lng) == 0 ? center : position} />
       </GoogleMap>
     </LoadScript>

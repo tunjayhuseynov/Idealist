@@ -19,7 +19,8 @@ export interface IProps<T> {
     images: string[],
     postId: string,
     lat: number,
-    lng: number
+    lng: number,
+    toMetroTransport?: "Ayaqla" | "Maşınla"
   ) => Promise<void>;
   componentState?: ComponentState;
 }
