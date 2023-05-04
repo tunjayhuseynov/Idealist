@@ -2,19 +2,24 @@ import ViewComponent from "components/ViewComponent/view";
 import { AdminCrud } from "modules/Crud-Admin";
 import { GetServerSidePropsContext } from "next/types";
 import { IBina } from "types/category/Bina";
+import { Currency } from "types/category/Common";
+import { DetailParser } from "./utils";
 
+interface IProps {
+    currency: keyof typeof Currency,
+    details: { [name: string]: string },
 
-export default function ViewPage() {
+}
+
+export default function ViewPage({ currency, details }: IProps) {
 
     return <>
         <ViewComponent
-            details={{
-                "a": "a"
-            }}
+            details={details}
             booleanDetails={{
                 "s": ["asdas"]
             }}
-            currency={"AZN"}
+            currency={currency}
             description={""}
             images={[]}
             price={5}
@@ -42,7 +47,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
         props: {
-
-        }, // will be passed to the page component as props
+            currency: doc.currency,
+            details: DetailParser(doc)
+        },
     }
 }
+
+

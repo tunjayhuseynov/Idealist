@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image';
 import 'swiper/css';
 import "swiper/css/navigation";
@@ -7,7 +9,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from "swiper";
 import { IRentDuration } from 'types';
 import { Descriptions } from 'antd';
-import { currencies } from 'types/view';
 import { Currency } from 'types/category/Common';
 
 interface IProps {

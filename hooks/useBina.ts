@@ -157,12 +157,14 @@ export function useBina({ selectedBina }: IProps) {
                     nearShop: values.nearbyLocations.includes("market")
                 },
 
-                phone: values.phone,
                 isPublisherOwner: values.ownerType == "owner",
-                isCall: values.isCall,
-                isWp: values.isWp,
-                email: values.email,
-                contactName: values.contactName
+                contactInfo: {
+                    phone: values.phone,
+                    isCall: values.isCall,
+                    isWp: values.isWp,
+                    email: values.email,
+                    contactName: values.contactName
+                }
 
             }
             console.log(newDocument)

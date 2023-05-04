@@ -20,11 +20,13 @@ export interface ICommon {
     images: string[]
 
     //Contact
-    contactName: string;
-    email: string;
-    phone: string;
-    isWp: boolean;
-    isCall: boolean;
+    contactInfo: {
+        contactName: string;
+        email: string;
+        phone: string;
+        isWp: boolean;
+        isCall: boolean;
+    }
 }
 
 

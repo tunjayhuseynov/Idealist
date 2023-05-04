@@ -33,11 +33,13 @@ export function useAnimal({ selectedAnimal }: IProps) {
                 about: values.about,
                 currency: values.currency,
                 price: +values.price,
-                contactName: values.contactName,
-                email: values.email,
-                phone: values.phone,
-                isWp: values.isWp,
-                isCall: values.isCall,
+                contactInfo: {
+                    contactName: values.contactName,
+                    email: values.email,
+                    phone: values.phone,
+                    isWp: values.isWp,
+                    isCall: values.isCall,
+                },
                 images,
                 category: {
                     id: selectedAnimal.id ?? "",

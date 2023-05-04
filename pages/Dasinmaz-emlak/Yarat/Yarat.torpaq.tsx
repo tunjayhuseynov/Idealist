@@ -38,9 +38,9 @@ export default function YaratTorpaq({ }: IProps) {
             <Select
                 placeholder="Torpağın təyinatı"
             >
-                {LandAppointments?.map((appointment) => {
+                {Object.entries(LandAppointments)?.map(([k, appointment]) => {
                     return (
-                        <Select.Option key={appointment} value={appointment}>
+                        <Select.Option key={k} value={k}>
                             {appointment}
                         </Select.Option>
                     );

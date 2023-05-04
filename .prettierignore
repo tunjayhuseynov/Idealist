@@ -1,0 +1,10 @@
+/.next
+/.vscode
+/node_modules
+/public
+/styles
+
+.env
+.env.local
+.env.development
+.env.production

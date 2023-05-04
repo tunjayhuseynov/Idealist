@@ -1,5 +1,6 @@
 import { IRentDuration } from "types";
 import type { ICommon, IJoinR } from "./Common";
+import { BinaContracts, BinaRentNotAllowed, LandAppointments, NearbyLocationNames } from "./consts/Bina";
 
 export interface IBinaDB {
 	id: string,
@@ -12,15 +13,6 @@ export interface IBinaDB {
 	name: string,
 	subname: string,
 	rentalStatus: boolean
-}
-
-interface IBinaNearbyServices {
-	nearSchool: boolean;
-	nearBusstop: boolean;
-	nearHospital: boolean;
-	nearShop: boolean;
-	nearKindigarden: boolean;
-	nearMall: boolean;
 }
 
 
@@ -47,10 +39,7 @@ interface IBinaRentalStatus {
 		telephone: boolean;
 		centralHeatingSystem: boolean;
 	},
-	rentNotAllowed: {
-		noChild: boolean;
-		noAnimal: boolean;
-	}
+	rentNotAllowed: { [name in keyof typeof BinaRentNotAllowed]: boolean }
 }
 
 export interface IBina extends ICommon {
@@ -69,20 +58,20 @@ export interface IBina extends ICommon {
 		lng: number;
 	}
 
-	nearbyServices: IBinaNearbyServices;
+	nearbyServices: { [name in keyof typeof NearbyLocationNames]: boolean };
 	isPublisherOwner: boolean;
 	communal: {
-		qaz: boolean;
-		su: boolean;
-		isig: boolean;
-		kanalizasiya: boolean;
+		gas: boolean;
+		water: boolean;
+		light: boolean;
+		sewerage: boolean;
 	}
 	propertySellType: "selling" | "renting";
 	tikili: IBinaTikili | null;
 	torpaq: IBinaTorpaq | null;
 
 
-	contract: string | null;
+	contract: keyof typeof BinaContracts | null;
 	address: string;
 }
 
@@ -100,6 +89,6 @@ export interface IBinaTikili {
 }
 
 interface IBinaTorpaq {
-	landAppointment: string;
+	landAppointment: keyof typeof LandAppointments;
 	landSize: number;
 }

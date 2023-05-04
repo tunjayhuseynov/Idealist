@@ -54,14 +54,15 @@ export const Communal = {
     sewerage: "Kanalizasiya"
 } as const
 
-export const LandAppointments = [
-    "Kənd təsərrüfatı təyinatlı torpaq",
-    "Yaşayış məntəqələrinin torpaqları",
-    "Sənaye, nəqliyyat, rabitə, müdafiə və digər təyinatlı torpaqlar",
-    "Xüsusi qorunan ərazilərin torpaqları",
-    "Meşə fondu torpaqları",
-    "Su fondu torpaqları", "Ehtiyat fondu torpaqları"
-]
+export const LandAppointments = {
+    agriculture: "Kənd təsərrüfatı təyinatlı torpaq",
+    living: "Yaşayış məntəqələrinin torpaqları",
+    industrial: "Sənaye, nəqliyyat, rabitə, müdafiə və digər təyinatlı torpaqlar",
+    protectedLand: "Xüsusi qorunan ərazilərin torpaqları",
+    forest: "Meşə fondu torpaqları",
+    waterReserve: "Su fondu torpaqları", 
+    landReserve: "Ehtiyat fondu torpaqları"
+}
 
 export const BinaRentPropertyTypeOptions = [
     { label: 'Bütün yer', value: 'whole' },
