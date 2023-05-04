@@ -1,14 +1,20 @@
 export interface IPrivate {
-    delivery: boolean;
-    name: string;
-    new: boolean;
-    types: {
+  delivery: boolean;
+  name: string;
+  new: boolean;
+  types:
+    | {
         name: string;
-    }[] | null;
-    genders: {
+      }[]
+    | null;
+  genders:
+    | {
         name: string;
-        types: {
-            name: string;
-        }[] | null;
-    }[] | null;
+        types:
+          | {
+              name: string;
+            }[]
+          | null;
+      }[]
+    | null;
 }

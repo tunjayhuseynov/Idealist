@@ -335,13 +335,20 @@ const CreateForm = <T,>({
                   name={["phone", "prefix"]}
                   initialValue={"050"}
                   noStyle
-                  rules={[{ required: true, message: "Nömrənin əvvəli (prefiks) seçilməyib" }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Nömrənin əvvəli (prefiks) seçilməyib",
+                    },
+                  ]}
                 >
                   {NumberPrefixes}
                 </Form.Item>
                 <Form.Item
                   name={["phone", "number"]}
-                  rules={[{ required: true, message: "Mobil nömrə qeyd olunmayıb" }]}
+                  rules={[
+                    { required: true, message: "Mobil nömrə qeyd olunmayıb" },
+                  ]}
                 >
                   <Input
                     type="number"

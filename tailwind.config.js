@@ -1,43 +1,43 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
   ],
-  mode: 'jit',
+  mode: "jit",
   theme: {
     extend: {
-      width:{
-        margin: "80%"
+      width: {
+        margin: "80%",
       },
       boxShadow: {
-        "card-shadow": "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px"
+        "card-shadow": "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px",
       },
       colors: {
-        primary: '#f27a1a',
-        secondary: '#333f48',
-        primaryHover: '#e06f18',
+        primary: "#f27a1a",
+        secondary: "#333f48",
+        primaryHover: "#e06f18",
       },
       borderRadius: {
-        "i": "20px"
+        i: "20px",
       },
       keyframes: {
         navbarNotification: {
-          '0%, 100%': {
-            transform: 'translateY(-15%) translateX(-50%)',
-            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+          "0%, 100%": {
+            transform: "translateY(-15%) translateX(-50%)",
+            animationTimingFunction: "cubic-bezier(0.8, 0, 1, 1)",
           },
-          '50%': {
-            transform: 'translateX(-50%)',
-            animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
+          "50%": {
+            transform: "translateX(-50%)",
+            animationTimingFunction: "cubic-bezier(0,0,0.2,1)",
           },
         },
       },
       animation: {
-        navbarNotification: 'navbarNotification 1.5s infinite',
+        navbarNotification: "navbarNotification 1.5s infinite",
       },
     },
   },
   plugins: [],
-}
+};
