@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { Step, CallBackProps, STATUS } from "react-joyride";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import Link from "next/link";
 const ReactJoyride = dynamic(() => import("react-joyride"), { ssr: false });
 
 let shadow = "0px 0px 2px rgba(0, 0, 0, 0.25)";
@@ -32,7 +32,6 @@ let animation = {
 export default function Navbar() {
   const [isOpen, setOpen] = useState(false);
   const [notification, setNotification] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     window.localStorage.getItem("navbarNotification") !== "true" &&
@@ -73,14 +72,15 @@ export default function Navbar() {
         className="bg-white z-20 flex items-center"
         style={{ boxShadow: shadow }}
       >
-        <Image
-          src={"/assets/logo.svg"}
-          alt="Logo of Idealist.az"
-          width={164}
-          height={50}
-          className="pl-16 cursor-pointer"
-          onClick={() => router.push("/")}
-        />
+        <Link href={"/"}>
+          <Image
+            src={"/assets/logo.svg"}
+            alt="Logo of Idealist.az"
+            width={164}
+            height={50}
+            className="pl-16 cursor-pointer"
+          />
+        </Link>
       </div>
       <div></div>
       <div

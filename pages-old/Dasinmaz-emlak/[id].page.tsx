@@ -35,14 +35,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   if (!params || typeof params.id != "string") {
     return {
-      props: {
-        notFound: true,
-      },
+      notFound: true,
     };
   }
 
   const { id } = params;
   const doc = await crud.GetOne(id);
+
+  if (!doc) return { notFound: true }
 
   return {
     props: {

@@ -1,3 +1,5 @@
+'use client'
+
 import az from "antd/locale/az_AZ";
 import { ConfigProvider } from "antd";
 import Navbar from "components/Navbar/Navbar";

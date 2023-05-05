@@ -4,18 +4,19 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { FaUserAlt } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
 import { IoExitSharp } from "react-icons/io5";
-import { useRouter } from "next/router";
+import Link from "next/link";
+import { auth } from "fb";
 
 export default function Right() {
   const [isOpen, setOpen] = useState(false);
 
-  const { asPath } = useRouter();
-  console.log(asPath);
   return (
     <div className="flex space-x-8 items-center">
-      <div className="text-green-500 tracking-wide font-medium cursor-pointer">
-        Elan yerləşdir
-      </div>
+      <Link href={auth.currentUser ? "" : "/Daxil-ol"}>
+        <div className="text-green-500 tracking-wide font-medium cursor-pointer">
+          Elan yerləşdir
+        </div>
+      </Link>
       <div className="relative">
         <Badge count={1}>
           <Avatar

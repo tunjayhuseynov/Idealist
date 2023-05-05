@@ -9,13 +9,13 @@ export class AdminCrud<T> implements ICrud<T> {
     this.collection = collection;
   }
 
-  async GetOne(id: string): Promise<T> {
+  async GetOne(id: string): Promise<T | undefined> {
     const itemDoc = await adminApp
       .firestore()
       .collection(this.collection)
       .doc(id)
       .get();
-    if (!itemDoc.exists) throw new Error("Not found");
+    if (!itemDoc.exists) return undefined;
 
     return itemDoc.data() as T;
   }

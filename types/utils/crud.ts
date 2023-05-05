@@ -1,6 +1,6 @@
 export default interface ICrud<T> {
   // collection: string;
-  GetOne: (id: string) => Promise<T>;
+  GetOne: (id: string) => Promise<T | undefined>;
   GetAll: ({
     limit,
     order,
