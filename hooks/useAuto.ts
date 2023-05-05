@@ -7,9 +7,7 @@ interface IProps {
   selectedAuto: IAutoDB | undefined;
 }
 
-export type IGeneryAutoType = {
-    
-}
+export type IGeneryAutoType = {};
 
 export function useAuto({ selectedAuto }: IProps) {
   const auto = new Crud<IAuto>("Auto");

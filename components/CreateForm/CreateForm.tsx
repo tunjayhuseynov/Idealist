@@ -10,8 +10,8 @@ import {
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
-import { useEffect, useRef, useState } from "react";
-import type { IProps } from "./types";
+import { useRef, useState } from "react";
+import type { ICreateFormProps } from "./types";
 import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
@@ -33,7 +33,7 @@ const CreateForm = <T,>({
   onFinish,
   cityList: cities,
   disableImageUpload,
-}: IProps<T>) => {
+}: ICreateFormProps<T>) => {
   const { uploadImages, NumberPrefixes } = useFormFunctions();
   const [error, setError] = useState<Error>();
 
@@ -62,7 +62,7 @@ const CreateForm = <T,>({
           ? []
           : await uploadImages(fileList, id, auth);
 
-      await onFinish(values, cities, images, id, lat, lng);
+      await onFinish(values, cities, images, id, { lat, lng });
 
       alert("Done");
     } catch (error) {
@@ -171,7 +171,7 @@ const CreateForm = <T,>({
               >
                 {cities?.map((city) => {
                   return (
-                    <Select.Option key={city.name} value={city.id}>
+                    <Select.Option key={city.id} value={city.id}>
                       {city.name}
                     </Select.Option>
                   );
@@ -217,7 +217,7 @@ const CreateForm = <T,>({
                   >
                     {Object.values(regions ?? {})?.map((region) => {
                       return (
-                        <Select.Option key={region.name} value={region.id}>
+                        <Select.Option key={region.id} value={region.id}>
                           {region.name}
                         </Select.Option>
                       );
@@ -240,7 +240,7 @@ const CreateForm = <T,>({
                   <Select placeholder="Qəsəbə">
                     {Object.values(villages ?? {})?.map((village) => {
                       return (
-                        <Select.Option key={village.name} value={village.id}>
+                        <Select.Option key={village.id} value={village.id}>
                           {village.name}
                         </Select.Option>
                       );
@@ -289,9 +289,14 @@ const CreateForm = <T,>({
                 <Form.Item
                   name={["toMetro", "minutes"]}
                   noStyle
-                  rules={[{ required: true, message: ""}]}
+                  rules={[{ required: true, message: "" }]}
                 >
-                  <Input type="number" style={{ width: "100%" }} placeholder="Metroya dəyqa" addonAfter={"dəyqa"} />
+                  <Input
+                    type="number"
+                    style={{ width: "100%" }}
+                    placeholder="Metroya dəyqa"
+                    addonAfter={"dəyqa"}
+                  />
                 </Form.Item>
               </Space.Compact>
             </Form.Item>
@@ -366,13 +371,20 @@ const CreateForm = <T,>({
                   name={["phone", "prefix"]}
                   initialValue={"050"}
                   noStyle
-                  rules={[{ required: true, message: "Prefix is required" }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Nömrənin əvvəli (prefiks) seçilməyib",
+                    },
+                  ]}
                 >
                   {NumberPrefixes}
                 </Form.Item>
                 <Form.Item
                   name={["phone", "number"]}
-                  rules={[{ required: true, message: "Number is required" }]}
+                  rules={[
+                    { required: true, message: "Mobil nömrə qeyd olunmayıb" },
+                  ]}
                 >
                   <Input
                     type="number"

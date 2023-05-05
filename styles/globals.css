@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 html,
 body {
   background-color: rgb(245, 245, 245);
@@ -10,9 +9,20 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  color:#333f48!important;
-  }
+  color: #333f48 !important;
+}
 
+.swiper-button-prev {
+  color: white !important;
+}
+
+.swiper-button-next {
+  color: white !important;
+}
+
+.swiper-pagination-progressbar-fill {
+  @apply !bg-primary;
+}
 
 
 a {

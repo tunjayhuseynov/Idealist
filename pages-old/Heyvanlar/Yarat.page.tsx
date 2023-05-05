@@ -1,23 +1,23 @@
 import { useState } from "react";
 import type { IAnimalDB } from "types/category/Animal";
-import { Form, Select, Checkbox, } from "antd";
+import { Form, Select, Checkbox } from "antd";
 import CreateForm from "components/CreateForm/CreateForm";
 import type { ICity } from "types/city";
 import { AdminCrud } from "modules/Crud-Admin";
 import { IGenericAnimalType, useAnimal } from "hooks/useAnimal";
 
 interface IProps {
-  categories: IAnimalDB[],
-  cityList: ICity[]
+  categories: IAnimalDB[];
+  cityList: ICity[];
 }
 
 export default function Yarat({ categories: animalDB, cityList }: IProps) {
   const [selectedAnimal, setSelectedAnimal] = useState<IAnimalDB>();
 
-  const { onFinish } = useAnimal({ selectedAnimal })
+  const { onFinish } = useAnimal({ selectedAnimal });
 
   const onCategoryChanged = (e: string) => {
-    setSelectedAnimal(animalDB?.find((animal) => animal.id === e))
+    setSelectedAnimal(animalDB?.find((animal) => animal.id === e));
   };
 
   return (
@@ -38,10 +38,7 @@ export default function Yarat({ categories: animalDB, cityList }: IProps) {
                 },
               ]}
             >
-              <Select
-                onSelect={onCategoryChanged}
-                placeholder="Heyvan növü"
-              >
+              <Select onSelect={onCategoryChanged} placeholder="Heyvan növü">
                 {animalDB?.map((animal) => {
                   return (
                     <Select.Option key={animal.name} value={animal.id}>
@@ -88,14 +85,14 @@ export default function Yarat({ categories: animalDB, cityList }: IProps) {
 }
 
 export async function getStaticProps() {
-  let categories = await new AdminCrud("dbAnimal").GetAll()
-  let cityList = await new AdminCrud("cities").GetAll()
+  let categories = await new AdminCrud("dbAnimal").GetAll();
+  let cityList = await new AdminCrud("cities").GetAll();
 
   return {
     props: {
       categories,
-      cityList
+      cityList,
     },
-    revalidate: 3600
-  }
+    revalidate: 3600,
+  };
 }

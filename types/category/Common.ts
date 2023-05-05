@@ -1,40 +1,41 @@
 export interface ICommon {
-    id: string;
+  id: string;
 
-    packageName: "VIP" | "Premium" | "Standart";
-    statusName: "Pending" | "Approved" | "Denied";
-    paymentData: {
-        orderId: string
-        sessionId: string
-        paymentType: "bankCard",
-        createdAt: number
-    } | null
-
-    createdBy: string;
+  packageName: "VIP" | "Premium" | "Standart";
+  statusName: "Pending" | "Approved" | "Denied";
+  paymentData: {
+    orderId: string;
+    sessionId: string;
+    paymentType: "bankCard";
     createdAt: number;
-    updatedAt: number;
+  } | null;
 
-    about: string;
-    currency: Currency;
-    price: number;
-    images: string[]
+  createdBy: string;
+  createdAt: number;
+  updatedAt: number;
 
-    //Contact
+  about: string;
+  currency: keyof typeof Currency;
+  price: number;
+  images: string[];
+
+  //Contact
+  contactInfo: {
     contactName: string;
     email: string;
     phone: string;
     isWp: boolean;
     isCall: boolean;
+  };
 }
 
-
-export enum Currency {
-    AZN = 'AZN',
-    USD = 'USD',
-}
+export const Currency = {
+  AZN: "AZN",
+  USD: "USD",
+} as const;
 
 export interface IJoinR {
-    value: string,
-    id: string,
-    isDeleted?: boolean
+  value: string;
+  id: string;
+  isDeleted?: boolean;
 }

@@ -1,6 +1,6 @@
-import type { Auth } from 'firebase/auth';
+import type { Auth } from "firebase/auth";
 import type { Currency } from "types/category/Common";
-import type { ICity } from 'types/city';
+import type { ICity } from "types/city";
 
 export type UploadImageType = (
   images: File[],
@@ -8,18 +8,20 @@ export type UploadImageType = (
   auth: Auth
 ) => Promise<string[]>;
 
-export interface IProps<T> {
+export interface ICreateFormProps<T> {
   children?: React.ReactNode;
-  cityList: ICity[],
-  disableImageUpload?: boolean
-  geenricTypes?: T;
+  cityList: ICity[];
+  disableImageUpload?: boolean;
+  genericTypes?: T;
   onFinish: (
     values: IOnFinish & T,
     cities: ICity[],
     images: string[],
     postId: string,
-    lat: number,
-    lng: number,
+    coordinates: {
+      lat: number;
+      lng: number;
+    }
   ) => Promise<void>;
   componentState?: ComponentState;
 }
@@ -35,9 +37,12 @@ export interface ComponentState {
 export interface IOnFinish {
   title?: string;
   about: string;
-  currency: Currency;
+  currency: keyof typeof Currency;
   price: number;
   city: string;
+  region?: string;
+  village?: string;
+  metro?: string;
   contactName: string;
   email: string;
   phone: string;
