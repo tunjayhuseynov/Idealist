@@ -20,7 +20,6 @@ export interface IProps<T> {
     postId: string,
     lat: number,
     lng: number,
-    toMetroTransport?: "Ayaqla" | "Maşınla"
   ) => Promise<void>;
   componentState?: ComponentState;
 }

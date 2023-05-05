@@ -22,7 +22,7 @@ export interface IAutoDB {
     }[] | null
 }
 
-export interface iAuto extends ICommon {
+export interface IAuto extends ICommon {
     sellType: string; //
     rentDuration: string; //
     type: string;

@@ -10,7 +10,7 @@ export default function YaratRental({ }: IProps) {
     return <>
         <Form.Item name={["tikili", "rentalStatus", "rentDuration"]} label="Kirayə müddəti" rules={[{ required: true }]}>
             <Radio.Group>
-                {Object.entries(IBinaRentDuration).map(([k, v]) => <Radio value={k}>{v}</Radio>)}
+                {Object.entries(IBinaRentDuration).map(([k, v]) => <Radio key={k} value={k}>{v}</Radio>)}
             </Radio.Group>
         </Form.Item>
         <Form.Item name={["tikili", "rentalStatus", "rentalPros"]} label="Kirayə daxildir" valuePropName="checked">

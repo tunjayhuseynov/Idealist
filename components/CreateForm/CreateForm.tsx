@@ -1,4 +1,13 @@
-import { Form, Input, Select, Checkbox, Button, UploadFile, Modal } from "antd";
+import {
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  Button,
+  UploadFile,
+  Modal,
+  Space,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency } from "types/category/Common";
 import { useEffect, useRef, useState } from "react";
@@ -40,8 +49,6 @@ const CreateForm = <T,>({
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
 
-  const [toMetroTransport, setToMetroTransport] = useState<"Ayaqla" | "Maşınla">('Ayaqla');
-
   const [mapButtonClickCount, setMapButtonClickCount] = useState<number>(0);
   const mapButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -55,7 +62,7 @@ const CreateForm = <T,>({
           ? []
           : await uploadImages(fileList, id, auth);
 
-      await onFinish(values, cities, images, id, lat, lng, toMetroTransport);
+      await onFinish(values, cities, images, id, lat, lng);
 
       alert("Done");
     } catch (error) {
@@ -241,7 +248,7 @@ const CreateForm = <T,>({
                   </Select>
                 </Form.Item>
               )}
-             {!(componentState?.disableMetroItem == true) &&
+            {!(componentState?.disableMetroItem == true) &&
               Object.values(metros ?? {}).length > 0 && (
                 <Form.Item
                   label="Metro adı"
@@ -267,22 +274,26 @@ const CreateForm = <T,>({
                   </Select>
                 </Form.Item>
               )}
-            <Form.Item
-              name="howLongToMetro"
-              label="Metroya məsafə"
-              rules={[
-                {
-                  required: true,
-                  message: "",
-                }
-              ]}
-            >
-              <Input type="number" onChange={(e) => console.log(e.target.value)} addonBefore={
-                <Select onSelect={(e) => setToMetroTransport(e as "Ayaqla" | "Maşınla")} defaultValue="Ayaqla">
-                  <Select.Option value="Ayaqla">Ayaqla</Select.Option>
-                  <Select.Option value="Maşınla">Maşınla</Select.Option>
-                </Select>
-              } addonAfter={"dəyqa"}/>
+            <Form.Item name="toMetro" label="Metroya məsafə" required>
+              <Space.Compact>
+                <Form.Item
+                  name={["toMetro", "transport"]}
+                  noStyle
+                  rules={[{ required: true, message: "" }]}
+                >
+                  <Select style={{ width: "40%" }} defaultValue="Ayaqla">
+                    <Select.Option value="Ayaqla">Ayaqla</Select.Option>
+                    <Select.Option value="Maşınla">Maşınla</Select.Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  name={["toMetro", "minutes"]}
+                  noStyle
+                  rules={[{ required: true, message: ""}]}
+                >
+                  <Input type="number" style={{ width: "100%" }} placeholder="Metroya dəyqa" addonAfter={"dəyqa"} />
+                </Form.Item>
+              </Space.Compact>
             </Form.Item>
             <Form.Item
               name="upload"
@@ -420,6 +431,3 @@ const CreateForm = <T,>({
 };
 
 export default CreateForm;
-
-
-
