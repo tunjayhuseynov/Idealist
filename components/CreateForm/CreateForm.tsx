@@ -45,6 +45,7 @@ const CreateForm = <T,>({
   const [metros, setMetros] = useState<ICity["metros"]>();
   const [villages, setVillages] = useState<IRegion["villages"]>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [isMetro, setIsMetro] = useState<boolean>(false);
 
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
@@ -75,6 +76,7 @@ const CreateForm = <T,>({
     const city = cities.find((e) => e.id == cityId);
     setRegions(city?.regions);
     setMetros(city?.metros);
+    setIsMetro(false)
     yaratForm.setFieldValue("region", null);
     yaratForm.setFieldValue("metro", null);
     yaratForm.setFieldValue("village", null);
@@ -154,6 +156,25 @@ const CreateForm = <T,>({
             >
               <Input type="number" placeholder="Qiymət" />
             </Form.Item>
+            {!(componentState?.disableMapItem == true) && (
+              <div className="w-full flex justify-center mb-5">
+                {mapButtonClickCount < 3 ? (
+                  <button
+                    className="rounded-full p-2 mt-5 text-white hover:!text-white bg-primary hover:bg-primaryHover"
+                    onClick={() => {
+                      setIsGoogleMapModalOpen(true);
+                      setMapButtonClickCount(mapButtonClickCount + 1);
+                    }}
+                    type="button"
+                    ref={mapButtonRef}
+                  >
+                    Xəritədə göstərmək
+                  </button>
+                ) : (
+                  <span>Xəritəyə baxmaq üçün səhifəni yeniləyin</span>
+                )}
+              </div>
+            )}
             <Form.Item
               label="Şəhər"
               name="city"
@@ -178,25 +199,6 @@ const CreateForm = <T,>({
                 })}
               </Select>
             </Form.Item>
-            {!(componentState?.disableTitleItem == true) && (
-              <div className="w-full flex justify-center mb-5">
-                {mapButtonClickCount < 3 ? (
-                  <button
-                    className="rounded-full p-2 mt-5 text-white hover:!text-white bg-primary hover:bg-primaryHover"
-                    onClick={() => {
-                      setIsGoogleMapModalOpen(true);
-                      setMapButtonClickCount(mapButtonClickCount + 1);
-                    }}
-                    type="button"
-                    ref={mapButtonRef}
-                  >
-                    Xəritədə göstərmək
-                  </button>
-                ) : (
-                  <span>Xəritəyə baxmaq üçün səhifəni yeniləyin</span>
-                )}
-              </div>
-            )}
             {!(componentState?.disableRegionItem == true) &&
               Object.values(regions ?? {}).length > 0 && (
                 <Form.Item
@@ -226,7 +228,8 @@ const CreateForm = <T,>({
                 </Form.Item>
               )}
             {!(componentState?.disableVillageItem == true) &&
-              Object.values(villages ?? {}).length > 0 && (
+              Object.values(villages ?? {}).length > 0 &&
+              Object.values(regions ?? {}).length > 0 && (
                 <Form.Item
                   label="Qəsəbə adı"
                   name="village"
@@ -260,7 +263,13 @@ const CreateForm = <T,>({
                     },
                   ]}
                 >
-                  <Select placeholder="Metro">
+                  <Select onSelect={(e) => {
+                    if(e != "Yoxdur") {
+                      setIsMetro(true)
+                    } else {
+                      setIsMetro(false)
+                    }
+                  }} placeholder="Metro">
                     <Select.Option key={0} value={"Yoxdur"}>
                       Metro yoxdur
                     </Select.Option>
@@ -274,32 +283,35 @@ const CreateForm = <T,>({
                   </Select>
                 </Form.Item>
               )}
-            <Form.Item name="toMetro" label="Metroya məsafə" required>
-              <Space.Compact>
-                <Form.Item
-                  name={["toMetro", "transport"]}
-                  noStyle
-                  rules={[{ required: true, message: "" }]}
-                >
-                  <Select style={{ width: "40%" }} defaultValue="Ayaqla">
-                    <Select.Option value="Ayaqla">Ayaqla</Select.Option>
-                    <Select.Option value="Maşınla">Maşınla</Select.Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  name={["toMetro", "minutes"]}
-                  noStyle
-                  rules={[{ required: true, message: "" }]}
-                >
-                  <Input
-                    type="number"
-                    style={{ width: "100%" }}
-                    placeholder="Metroya dəyqa"
-                    addonAfter={"dəyqa"}
-                  />
-                </Form.Item>
-              </Space.Compact>
-            </Form.Item>
+            {!(componentState?.disableMetroItem == true) && isMetro == true && 
+              Object.values(metros ?? {}).length > 0 && (
+              <Form.Item name="toMetro" label="Metroya məsafə" required>
+                <Space.Compact>
+                  <Form.Item
+                    name={["toMetro", "transport"]}
+                    noStyle
+                    rules={[{ required: true, message: "" }]}
+                  >
+                    <Select style={{ width: "40%" }} defaultValue="Ayaqla">
+                      <Select.Option value="Ayaqla">Ayaqla</Select.Option>
+                      <Select.Option value="Maşınla">Maşınla</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name={["toMetro", "minutes"]}
+                    noStyle
+                    rules={[{ required: true, message: "" }]}
+                  >
+                    <Input
+                      type="number"
+                      style={{ width: "100%" }}
+                      placeholder="Metroya dəyqa"
+                      addonAfter={"dəyqa"}
+                    />
+                  </Form.Item>
+                </Space.Compact>
+              </Form.Item>
+            )}
             <Form.Item
               name="upload"
               label="Şəkillər"
