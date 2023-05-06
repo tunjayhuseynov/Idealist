@@ -8,11 +8,13 @@ import {
   BinaRentNotAllowed,
   BinaRentPros,
   NearbyLocationNames,
+  BinaContracts,
+  LandAppointments,
 } from "types/category/consts/Bina";
 
 export type IGenericBinaType = {
   category: string; // ID
-  contract?: string;
+  contract?: keyof typeof BinaContracts;
   address: string;
   nearbyLocations: (keyof typeof NearbyLocationNames)[];
   communal: (keyof typeof Communal)[];
@@ -36,7 +38,7 @@ export type IGenericBinaType = {
   };
   land?: {
     landSize: number;
-    landAppointment: string;
+    landAppointment: keyof typeof LandAppointments;
   };
 };
 
@@ -149,6 +151,10 @@ export function useBina({ selectedBina }: IProps) {
                           values.tikili.rentalStatus.rentNotAllowed.includes(
                             "noChild"
                           ),
+                        noSmoking:
+                          values.tikili.rentalStatus.rentNotAllowed.includes(
+                            "noSmoking"
+                          ),
                       },
                       rentProps: {
                         centralHeatingSystem:
@@ -227,18 +233,18 @@ export function useBina({ selectedBina }: IProps) {
           lng: coordinates.lng,
         },
         communal: {
-          isig: values.communal.includes("light"),
-          su: values.communal.includes("water"),
-          kanalizasiya: values.communal.includes("sewerage"),
-          qaz: values.communal.includes("gas"),
+          light: values.communal.includes("light"),
+          water: values.communal.includes("water"),
+          sewerage: values.communal.includes("sewerage"),
+          gas: values.communal.includes("gas"),
         },
         nearbyServices: {
-          nearBusstop: values.nearbyLocations.includes("busstop"),
-          nearHospital: values.nearbyLocations.includes("hospital"),
-          nearKindigarden: values.nearbyLocations.includes("kindigarden"),
-          nearMall: values.nearbyLocations.includes("mall"),
-          nearSchool: values.nearbyLocations.includes("school"),
-          nearShop: values.nearbyLocations.includes("market"),
+          busstop: values.nearbyLocations.includes("busstop"),
+          hospital: values.nearbyLocations.includes("hospital"),
+          kindigarden: values.nearbyLocations.includes("kindigarden"),
+          mall: values.nearbyLocations.includes("mall"),
+          school: values.nearbyLocations.includes("school"),
+          market: values.nearbyLocations.includes("market"),
         },
 
         isPublisherOwner: values.ownerType == "owner",
