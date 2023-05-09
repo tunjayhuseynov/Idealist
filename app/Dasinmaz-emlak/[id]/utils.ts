@@ -4,12 +4,13 @@ import {
   BinaRentNotAllowed,
   BinaRentPropertyTypeOptions,
   BinaRentPros,
+  BinaRepairing,
   Communal,
   LandAppointments,
   NearbyLocationNames,
 } from "types/category/consts/Bina";
 
-export function DetailParser(doc: IBina) {
+export async function DetailParser(doc: IBina) {
   let details: { [name: string]: string } = {
     Kateqoriya: doc.category.value,
   };
@@ -33,8 +34,9 @@ export function DetailParser(doc: IBina) {
     details["Sahəsi"] = areaSize.toFixed();
     details["Otaq sayı"] = roomAmount.toFixed();
     details["Hamam sayı"] = hamam.toFixed();
-    details["Təmir vəziyyəti"] = temir;
+    details["Təmir vəziyyəti"] = BinaRepairing[temir];
     details["Əşya vəziyyəti"] = withStuff ? "Əşyalı" : "Əşyasız";
+    details["Otaq artırılıb"] = roomAmountChanged ? "Bəli" : "Xeyir"
 
     if (doc.tikili.rentalStatus?.rentPropertyType) {
       let rentType = BinaRentPropertyTypeOptions.find(
@@ -52,7 +54,7 @@ export function DetailParser(doc: IBina) {
   return details;
 }
 
-export function BooleanDetailParser(doc: IBina) {
+export async function BooleanDetailParser(doc: IBina) {
   let booleanDetails: { [name: string]: string[] } = {};
 
   booleanDetails["Kommunal xidətlər"] = Object.entries(doc.communal)

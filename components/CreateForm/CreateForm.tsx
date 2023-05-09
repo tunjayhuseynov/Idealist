@@ -2,23 +2,22 @@ import {
   Form,
   Input,
   Select,
-  Checkbox,
   Button,
   UploadFile,
   Modal,
   Space,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { Currency } from "types/category/Common";
+import { Currency, IToMetro } from "types/category/Common";
 import { useRef, useState } from "react";
 import type { ICreateFormProps } from "./types";
 import useFormFunctions from "../../hooks/useFormFunctions";
 import { auth } from "fb";
 import UploadImages from "./Components/UploadImages";
 import useError from "hooks/useError";
-import type { ICity, IRegion } from "types/city";
 import GoogleMaps from "./Components/GoogleMaps";
-import { type } from "os";
+import ContactForm from "./CreateFrom.Contact";
+import CityForm from "./CreateForm.City";
 
 const { TextArea } = Input;
 
@@ -34,16 +33,14 @@ const CreateForm = <T,>({
   cityList: cities,
   disableImageUpload,
 }: ICreateFormProps<T>) => {
-  const { uploadImages, NumberPrefixes } = useFormFunctions();
+  const { uploadImages } = useFormFunctions();
   const [error, setError] = useState<Error>();
 
   const [isGoogleMapModalOpen, setIsGoogleMapModalOpen] = useState(false);
 
   const [yaratForm] = Form.useForm();
 
-  const [regions, setRegions] = useState<ICity["regions"]>();
-  const [metros, setMetros] = useState<ICity["metros"]>();
-  const [villages, setVillages] = useState<IRegion["villages"]>();
+
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const [lat, setLat] = useState<number>(0);
@@ -71,20 +68,7 @@ const CreateForm = <T,>({
     }
   };
 
-  const setCityRegions = (cityId: string) => {
-    const city = cities.find((e) => e.id == cityId);
-    setRegions(city?.regions);
-    setMetros(city?.metros);
-    yaratForm.setFieldValue("region", null);
-    yaratForm.setFieldValue("metro", null);
-    yaratForm.setFieldValue("village", null);
-  };
 
-  const setRegionVillages = (regionId: string) => {
-    const region = regions?.[regionId];
-    setVillages(region?.villages);
-    yaratForm.setFieldValue("village", null);
-  };
 
   const selectMarkerCordinates = (e: google.maps.MapMouseEvent) => {
     setLat(e.latLng?.lat() ?? 0);
@@ -133,10 +117,10 @@ const CreateForm = <T,>({
               ]}
             >
               <Select placeholder="Valyuta">
-                {Object.values(Currency).map((cur) => {
+                {Object.values(Currency).map((currency) => {
                   return (
-                    <Select.Option key={cur} value={cur}>
-                      {cur}
+                    <Select.Option key={currency} value={currency}>
+                      {currency}
                     </Select.Option>
                   );
                 })}
@@ -154,30 +138,7 @@ const CreateForm = <T,>({
             >
               <Input type="number" placeholder="Qiymət" />
             </Form.Item>
-            <Form.Item
-              label="Şəhər"
-              name="city"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Select
-                onSelect={(e) => {
-                  setCityRegions(e);
-                }}
-                placeholder="Şəhər"
-              >
-                {cities?.map((city) => {
-                  return (
-                    <Select.Option key={city.id} value={city.id}>
-                      {city.name}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
+            <CityForm formInstance={yaratForm} cities={cities} componentState={componentState} />
             {!(componentState?.disableTitleItem == true) && (
               <div className="w-full flex justify-center mb-5">
                 {mapButtonClickCount < 3 ? (
@@ -197,109 +158,6 @@ const CreateForm = <T,>({
                 )}
               </div>
             )}
-            {!(componentState?.disableRegionItem == true) &&
-              Object.values(regions ?? {}).length > 0 && (
-                <Form.Item
-                  label="Rayon adı"
-                  name="region"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Rayon adı boşdur",
-                    },
-                  ]}
-                >
-                  <Select
-                    onSelect={(e) => {
-                      setRegionVillages(e);
-                    }}
-                    placeholder="Rayon"
-                  >
-                    {Object.values(regions ?? {})?.map((region) => {
-                      return (
-                        <Select.Option key={region.id} value={region.id}>
-                          {region.name}
-                        </Select.Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-              )}
-            {!(componentState?.disableVillageItem == true) &&
-              Object.values(villages ?? {}).length > 0 && (
-                <Form.Item
-                  label="Qəsəbə adı"
-                  name="village"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Qəsəbə adı boşdur",
-                    },
-                  ]}
-                >
-                  <Select placeholder="Qəsəbə">
-                    {Object.values(villages ?? {})?.map((village) => {
-                      return (
-                        <Select.Option key={village.id} value={village.id}>
-                          {village.name}
-                        </Select.Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-              )}
-            {!(componentState?.disableMetroItem == true) &&
-              Object.values(metros ?? {}).length > 0 && (
-                <Form.Item
-                  label="Metro adı"
-                  name="metro"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Metro adı boşdur",
-                    },
-                  ]}
-                >
-                  <Select placeholder="Metro">
-                    <Select.Option key={0} value={"Yoxdur"}>
-                      Metro yoxdur
-                    </Select.Option>
-                    {Object.values(metros ?? {})?.map((metro) => {
-                      return (
-                        <Select.Option key={metro.id} value={metro.id}>
-                          {metro.name}
-                        </Select.Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-              )}
-            <Form.Item name="toMetro" label="Metroya məsafə" required>
-              <Space.Compact>
-                <Form.Item
-                  name={["toMetro", "transport"]}
-                  noStyle
-                  rules={[{ required: true, message: "" }]}
-                >
-                  <Select style={{ width: "40%" }} defaultValue="Ayaqla">
-                    <Select.Option value="Ayaqla">Ayaqla</Select.Option>
-                    <Select.Option value="Maşınla">Maşınla</Select.Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  name={["toMetro", "minutes"]}
-                  noStyle
-                  rules={[{ required: true, message: "" }]}
-                >
-                  <Input
-                    type="number"
-                    style={{ width: "100%" }}
-                    placeholder="Metroya dəyqa"
-                    addonAfter={"dəyqa"}
-                  />
-                </Form.Item>
-              </Space.Compact>
-            </Form.Item>
             <Form.Item
               name="upload"
               label="Şəkillər"
@@ -330,86 +188,7 @@ const CreateForm = <T,>({
             >
               <UploadImages fileState={[fileList, setFileList]} />
             </Form.Item>
-            <Form.Item
-              className="mt-20"
-              label="Əlaqə adı"
-              name="contactName"
-              rules={[
-                {
-                  required: true,
-                  message: "Əlaqə adı boşdur",
-                },
-              ]}
-            >
-              <Input placeholder="Əlaqə adı" />
-            </Form.Item>
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  type: "email",
-                  message: "Email adı boşdur",
-                },
-              ]}
-            >
-              <Input placeholder="Email" />
-            </Form.Item>
-            <Form.Item
-              label="Mobil nömrə"
-              name="phone"
-              rules={[
-                {
-                  required: true,
-                  message: "Mobil nömrə boşdur",
-                },
-              ]}
-            >
-              <Input.Group compact>
-                <Form.Item
-                  name={["phone", "prefix"]}
-                  initialValue={"050"}
-                  noStyle
-                  rules={[
-                    {
-                      required: true,
-                      message: "Nömrənin əvvəli (prefiks) seçilməyib",
-                    },
-                  ]}
-                >
-                  {NumberPrefixes}
-                </Form.Item>
-                <Form.Item
-                  name={["phone", "number"]}
-                  rules={[
-                    { required: true, message: "Mobil nömrə qeyd olunmayıb" },
-                  ]}
-                >
-                  <Input
-                    type="number"
-                    pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
-                    placeholder="XXX-XX-XX"
-                  />
-                </Form.Item>
-              </Input.Group>
-            </Form.Item>
-            <Form.Item
-              name="isWp"
-              valuePropName="checked"
-              initialValue={false}
-              label="WhatsApp?"
-            >
-              <Checkbox></Checkbox>
-            </Form.Item>
-            <Form.Item
-              name="isCall"
-              valuePropName="checked"
-              label="Zəng?"
-              initialValue={false}
-            >
-              <Checkbox></Checkbox>
-            </Form.Item>
+            <ContactForm />
             <Form.Item>
               <Button
                 htmlType="submit"

@@ -1,4 +1,5 @@
 import { Form, Input, Radio } from "antd";
+import { BinaRepairing } from "types/category/consts/Bina";
 import YaratRental from "./Yarat.rental";
 
 interface IProps {
@@ -113,9 +114,9 @@ export default function YaratTikil({
         rules={[{ required: true }]}
       >
         <Radio.Group>
-          <Radio value="Təmirli">Təmirli</Radio>
-          <Radio value="Orta">Orta</Radio>
-          <Radio value="Təmirsiz">Təmirsiz</Radio>
+          {Object.entries(BinaRepairing).map(([k, v]) => {
+            return <Radio value={k}>{v}</Radio>
+          })}
         </Radio.Group>
       </Form.Item>
       <Form.Item
