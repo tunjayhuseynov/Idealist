@@ -13,15 +13,15 @@ export interface IAutoDB {
   title: boolean;
   transmissionBox: boolean;
   transmitter: boolean;
-  marks:
+  marks: IAutoMark[] | null;
+}
+
+export interface IAutoMark {
+  name: string;
+  models:
     | {
         name: string;
-        models:
-          | {
-              name: string;
-              title: string | null;
-            }[]
-          | null;
+        title: string | null;
       }[]
     | null;
 }

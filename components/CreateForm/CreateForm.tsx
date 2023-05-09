@@ -18,7 +18,6 @@ import UploadImages from "./Components/UploadImages";
 import useError from "hooks/useError";
 import type { ICity, IRegion } from "types/city";
 import GoogleMaps from "./Components/GoogleMaps";
-import { type } from "os";
 
 const { TextArea } = Input;
 
@@ -285,7 +284,7 @@ const CreateForm = <T,>({
               )}
             {!(componentState?.disableMetroItem == true) && isMetro == true && 
               Object.values(metros ?? {}).length > 0 && (
-              <Form.Item name="toMetro" label="Metroya məsafə" required>
+              <Form.Item label="Metroya məsafə">
                 <Space.Compact>
                   <Form.Item
                     name={["toMetro", "transport"]}
@@ -433,7 +432,7 @@ const CreateForm = <T,>({
           </Form>
         </div>
       </div>
-      {!(componentState?.disableTitleItem == true) && (
+      {!(componentState?.disableMapItem == true) && (
         <Modal
           title="Xəritə"
           footer={null}
