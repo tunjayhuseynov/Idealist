@@ -73,7 +73,23 @@ export const AutoMarket = {
 };
 
 export const AutoSituation = {
-    stroke: "Vuruğu var",
-    colored: "Rənglənib",
-    spareParts: "Qəzalı və ya ehtiyat hissələr üçün"
-} as const
+  stroke: "Vuruğu var",
+  colored: "Rənglənib",
+  spareParts: "Qəzalı və ya ehtiyat hissələr üçün",
+} as const;
+
+export const VehicleSupply = {
+  alloyWheels: "Yüngül lehimli disklər",
+  abs: "ABS",
+  hatch: "Lyuk",
+  rainSensor: "Yağış sensoru",
+  centralLocking: "Central locking",
+  parkingRadar: "Park radarı",
+  airCond: "Kondisioner",
+  seatHeating: "Oturacaqların isidilməsi",
+  leatherSalon: "Dəri salon",
+  xenonLamps: "Ksenon lampalar",
+  rearCamera: "Arxa görüntü kamerası",
+  sideCurtains: "Yan pərdələr",
+  seatVentilation: "Oturacaqların ventilyasiyası",
+} as const;

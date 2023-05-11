@@ -7,9 +7,8 @@ import "swiper/css/pagination";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
-import { IRentDuration } from "types";
 import { Descriptions } from "antd";
-import { Currency } from "types/category/Common";
+import { Currency, IRentDuration } from "types/category/Common";
 
 interface IProps {
   images: string[];
@@ -27,7 +26,7 @@ interface IProps {
 }
 
 //https://i.pravatar.cc/1000
-export default function ViewComponent({ details, booleanDetails }: IProps) {
+export default function ViewComponent({ details, booleanDetails, price, currency, coordinate, description, images, title, rentDuration }: IProps) {
   return (
     <main className="px-16 grid grid-cols-[66.66%,33.33%] gap-x-10 mt-24">
       <section id="Left">
@@ -44,38 +43,14 @@ export default function ViewComponent({ details, booleanDetails }: IProps) {
             onSlideChange={() => console.log("slide change")}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            <SwiperSlide>
+            {images.map(l => <SwiperSlide>
               <Image
-                src={"https://i.pravatar.cc/1000"}
+                src={l}
                 alt=""
                 fill
                 style={{ objectFit: "contain" }}
               />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Image
-                src={"https://i.pravatar.cc/1000"}
-                alt=""
-                fill
-                style={{ objectFit: "contain" }}
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Image
-                src={"https://i.pravatar.cc/1000"}
-                alt=""
-                fill
-                style={{ objectFit: "contain" }}
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Image
-                src={"https://i.pravatar.cc/1000"}
-                alt=""
-                fill
-                style={{ objectFit: "contain" }}
-              />
-            </SwiperSlide>
+            </SwiperSlide>)}
           </Swiper>
         </div>
         <div id="Left-Bottom" className="grid grid-cols-[70%,30%] mt-4">
@@ -85,7 +60,7 @@ export default function ViewComponent({ details, booleanDetails }: IProps) {
                 id="Title"
                 className="relative h-[66%] before:absolute before:w-16 before:h-[1px] before:bg-black before:bg-opacity-20 before:-bottom-1"
               >
-                <span className="text-xl font-semibold">Title</span>
+                <span className="text-xl font-semibold">{title}</span>
               </div>
               <div id="Map">
                 <button className="px-5 py-3 bg-secondary rounded-i text-white font-medium">
@@ -95,10 +70,7 @@ export default function ViewComponent({ details, booleanDetails }: IProps) {
             </div>
             <div id="Description" className="mt-5">
               <span className="">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Incidunt, earum distinctio magnam cumque illum sint. Vel debitis
-                reiciendis dignissimos, dolore laborum delectus, tempore illo
-                impedit id temporibus tenetur error fugit.
+                {description}
               </span>
             </div>
           </div>
@@ -106,8 +78,9 @@ export default function ViewComponent({ details, booleanDetails }: IProps) {
             <div className="shadow-lg rounded-i w-full h-[150px] grid grid-rows-[32%,68%]">
               <div className="bg-primary rounded-t-i flex items-center justify-center">
                 <span className="font-semibold text-2xl text-white">
-                  500.000 ₼
+                  {Intl.NumberFormat("de-DE", { style: "currency", currency }).format(price)}
                 </span>
+                {rentDuration && <span>/ {IRentDuration[rentDuration]}</span>}
               </div>
               <div className="rounded-b-i"></div>
             </div>

@@ -9,6 +9,7 @@ import {
   AutoGearType,
   AutoMarket,
   AutoSituation,
+  VehicleSupply,
 } from "types/category/consts/Auto";
 import { ICity } from "types/city";
 
@@ -16,8 +17,13 @@ interface IProps {
   selectedAuto: IAutoDB | undefined;
 }
 
-export type IGeneryAutoType = {
-  category: string; //ID
+export type IGenericTransportationTypeM<T> = {
+  category: string; // ID
+  year: number;
+  VIN: string;
+};
+
+export type IGenericAutoType = {
   mark: string;
   model: string;
   banType: keyof typeof AutoBansType;
@@ -30,17 +36,20 @@ export type IGeneryAutoType = {
   fuelType: keyof typeof AutoFuelType;
   gearType: keyof typeof AutoGearType;
   gearBox: keyof typeof AutoGearBox;
-  year: number;
   engineCapacity: number;
   enginePower: number;
-  market: keyof typeof AutoMarket;
+  market?: keyof typeof AutoMarket;
   situation: (keyof typeof AutoSituation)[];
+  numberOFfseats?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | "8+" | "notMentioned";
+  vehicleSupplies: (keyof typeof VehicleSupply)[];
 };
 
 export function useAuto({ selectedAuto }: IProps) {
   const auto = new Crud<IAuto>("Auto");
 
-  const onFinish: ICreateFormProps<IGeneryAutoType>["onFinish"] = async (
+  const onFinish: ICreateFormProps<
+    IGenericTransportationTypeM<null | IGenericAutoType>
+  >["onFinish"] = async (
     values: IOnFinish,
     cities: ICity[],
     images: string[]

@@ -34,6 +34,17 @@ export const Currency = {
   USD: "USD",
 } as const;
 
+export const IRentDuration = {
+  monthly: "Aylıq",
+  daily: "Günlük",
+  weekly: "Həftəlik",
+} as const;
+
+export const IToMetro = {
+  walking: "Ayaqla",
+  withCar: "Maşınla"
+}
+
 export interface IJoinR {
   value: string;
   id: string;

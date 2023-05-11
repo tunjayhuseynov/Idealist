@@ -1,5 +1,5 @@
 import { Checkbox, Col, Form, Radio, Row } from "antd";
-import { IRentDuration } from "types";
+import { IRentDuration } from "types/category/Common";
 import {
   BinaRentNotAllowed,
   BinaRentPropertyTypeOptions,

@@ -9,7 +9,7 @@ const YaratVeziyyet = () => {
         <Checkbox.Group>
           <Col>
             {Object.entries(AutoSituation).map(([k, v]) => (
-              <Checkbox value={k} style={{ lineHeight: "32px" }}>
+              <Checkbox key={k} value={k} style={{ lineHeight: "32px" }}>
                 {v}
               </Checkbox>
             ))}

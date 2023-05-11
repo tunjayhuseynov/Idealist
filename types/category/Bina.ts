@@ -1,8 +1,8 @@
-import { IRentDuration } from "types";
-import type { ICommon, IJoinR } from "./Common";
+import type { ICommon, IJoinR, IRentDuration, IToMetro } from "./Common";
 import {
   BinaContracts,
   BinaRentNotAllowed,
+  BinaRepairing,
   LandAppointments,
   NearbyLocationNames,
 } from "./consts/Bina";
@@ -54,7 +54,7 @@ export interface IBina extends ICommon {
   metro: IJoinR | null; // Add To City
 
   metroWay: {
-    metroWay: "Ayaq ilə" | "Nəqliyyat ilə";
+    metroWay: keyof typeof IToMetro;
     metroDuration: number;
   } | null;
   coordinate: {
@@ -83,7 +83,7 @@ export interface IBinaTikili {
   areaSize: number;
   floor: number;
   buildingFloorAmount: number;
-  temir: "Təmirli" | "Təmirsiz" | "Orta";
+  temir: keyof typeof BinaRepairing;
   hamam: number;
   withStuff: boolean;
   rentalStatus: IBinaRentalStatus | null;

@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import type { ICity } from "types/city";
 import type { IAutoDB, IAutoMark } from "types/category/Auto";
 import CreateForm from "components/CreateForm/CreateForm";
-import { Form, InputNumber, Radio, Select, Space } from "antd";
+import { Checkbox, Form, Input, InputNumber, Radio, Select, Space } from "antd";
 import { IGeneryAutoType, useAuto } from "hooks/useAuto";
-import { ComponentState } from "components/CreateForm/types";
+import { IComponentState } from "components/CreateForm/types";
 import {
   AutoBansType,
   AutoColours,
@@ -16,6 +16,7 @@ import {
   AutoMarket,
 } from "types/category/consts/Auto";
 import YaratVeziyyet from "./Yarat.Veziyyet";
+import YaratSupply from "./Yarat.Supply";
 
 const { Option } = Select;
 interface IProps {
@@ -25,7 +26,7 @@ interface IProps {
   engineCapacutyArray: number[];
 }
 
-const componentState: ComponentState = {
+const componentState: IComponentState = {
   disableTitleItem: true,
   disableMapItem: true,
   disableRegionItem: true,
@@ -144,13 +145,14 @@ export default function NeqliyatYarat({
             })}
           </Select>
         </Form.Item>
-        <Form.Item label="Yürüş">
+        <Form.Item label="Yürüş" required>
           <Form.Item
             name={["mileage", "number"]}
             noStyle
-            rules={[{ required: true, message: "", type: "number" }]}
+            rules={[{ required: true, message: "Yürüş boşdur", type: "number" }]}
           >
             <InputNumber
+              type="number"
               min={0}
               style={{ width: "40%", marginRight: "0.5rem" }}
             />
@@ -255,7 +257,6 @@ export default function NeqliyatYarat({
           </Select>
         </Form.Item>
         <Form.Item
-        
           label="İl"
           name="year"
           rules={[
@@ -315,16 +316,7 @@ export default function NeqliyatYarat({
             min={1}
           />
         </Form.Item>
-        <Form.Item
-          label="Hansı bazar üçün yığılıb"
-          name="market"
-          rules={[
-            {
-              required: true,
-              message: "Bazar boşdur",
-            },
-          ]}
-        >
+        <Form.Item label="Hansı bazar üçün yığılıb" name="market">
           <Select placeholder="Hansı bazar üçün yığılıb">
             {Object.entries(AutoMarket).map(([key, market]) => {
               return (
@@ -336,6 +328,50 @@ export default function NeqliyatYarat({
           </Select>
         </Form.Item>
         <YaratVeziyyet />
+        <Form.Item
+          label="Yerlərin sayı"
+          name="numberOFfseats"
+        >
+          <Select placeholder="Yerlərin sayı">
+            <Option key="notMentioned" value="notMentioned">
+              Qeyd olunmasın
+            </Option>
+            {[1, 2, 3, 4, 5, 6, 7].map((num) => {
+              return (
+                <Option key={num} value={num}>
+                  {num}
+                </Option>
+              );
+            })}
+            <Option key="8+" value="8+">
+              8+
+            </Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="isOnCredit"
+          valuePropName="checked"
+          label="Kreditdədir?"
+          initialValue={false}
+        >
+          <Checkbox></Checkbox>
+        </Form.Item>
+        <Form.Item
+          name="isBarter"
+          valuePropName="checked"
+          label="Barter mümkündür?"
+          initialValue={false}
+        >
+          <Checkbox></Checkbox>
+        </Form.Item>
+        <Form.Item rules={[{}]} label="VIN-kod" name="VIN">
+          <Input
+            style={{
+              textTransform: "uppercase",
+            }}
+          />
+        </Form.Item>
+        <YaratSupply />
       </CreateForm>
     </>
   );

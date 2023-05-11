@@ -1,5 +1,5 @@
 import type { Auth } from "firebase/auth";
-import type { Currency } from "types/category/Common";
+import type { Currency, IToMetro } from "types/category/Common";
 import type { ICity } from "types/city";
 
 export type UploadImageType = (
@@ -23,10 +23,10 @@ export interface ICreateFormProps<T> {
       lng: number;
     }
   ) => Promise<void>;
-  componentState?: ComponentState;
+  componentState?: IComponentState;
 }
 
-export interface ComponentState {
+export interface IComponentState {
   disableTitleItem?: boolean;
   disableRegionItem?: boolean;
   disableVillageItem?: boolean;
@@ -42,7 +42,8 @@ export interface IOnFinish {
   city: string;
   region?: string;
   village?: string;
-  metro?: string;
+  metro?: string | "noMetro";
+  toMetro?: { transport: keyof typeof IToMetro, minutes: number }
   contactName: string;
   email: string;
   phone: string;

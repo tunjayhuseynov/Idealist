@@ -1,7 +1,7 @@
 import ViewComponent from "components/ViewComponent/view";
 import { AdminCrud } from "modules/Crud-Admin";
 import { IBina } from "types/category/Bina";
-import { BooleanDetailParser, DetailParser } from "../utils";
+import { BooleanDetailParser, DetailParser } from "./utils";
 import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -11,8 +11,18 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   if (!doc) return notFound();
 
-  let details = DetailParser(doc);
-  let booleanDetails = BooleanDetailParser(doc);
+  let details = await DetailParser(doc);
+  let booleanDetails = await BooleanDetailParser(doc);
+
+  let title = ""
+
+  if (doc.village) {
+    title += doc.village.value + doc.region?.value
+  } else if (doc.region) {
+    title += doc.region.value
+  } else {
+    title += doc.city.value
+  }
 
   return (
     <>
@@ -20,11 +30,11 @@ export default async function Page({ params }: { params: { id: string } }) {
         details={details}
         booleanDetails={booleanDetails}
         currency={doc.currency}
-        description={""}
-        images={[]}
-        price={5}
-        title={""}
-        coordinate={{ lat: 0, lng: 0 }}
+        description={doc.about}
+        images={doc.images}
+        price={doc.price}
+        title={title}
+        coordinate={doc.coordinate}
       />
     </>
   );

@@ -9,7 +9,7 @@ export const BinaContracts = {
   paket: "Paket sənəd",
   icare: "Çıxarış (İcarə)",
   kupcasiz: "Çıxarışsız (Kupçasız)",
-};
+} as const;
 
 export const BinaRentPros = {
   cabelTv: "Kabel Tv",
@@ -29,13 +29,13 @@ export const BinaRentPros = {
   airConditioner: "Kondisioner",
   internet: "Internet",
   telephone: "Telefon xətti",
-};
+} as const;
 
 export const BinaRentNotAllowed = {
   noChild: "Uşaqlı olmaz",
   noAnimal: "Heyvan saxlamaq olmaz",
   noSmoking: "Siqaret çəkmək olmaz",
-};
+} as const;
 
 export const NearbyLocationNames = {
   school: "Məktəb",
@@ -67,3 +67,9 @@ export const BinaRentPropertyTypeOptions = [
   { label: "Bütün yer", value: "whole" },
   { label: "Tək otaq", value: "onlyRoom" },
 ] as const;
+
+export const BinaRepairing = {
+  repaired: "Təmirli",
+  unrepared: "Təmirsiz",
+  halfRepaired: "Orta"
+} as const
