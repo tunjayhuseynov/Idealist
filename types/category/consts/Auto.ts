@@ -78,7 +78,7 @@ export const AutoSituation = {
   spareParts: "Qəzalı və ya ehtiyat hissələr üçün",
 } as const;
 
-export const VehicleSupply = {
+export const VehicleSupplies = {
   alloyWheels: "Yüngül lehimli disklər",
   abs: "ABS",
   hatch: "Lyuk",

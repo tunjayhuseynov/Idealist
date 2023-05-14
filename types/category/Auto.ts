@@ -1,4 +1,12 @@
-import { ICommon } from "./Common";
+import { ICommon, IJoinR } from "./Common";
+import {
+  AutoBansType,
+  AutoFuelType,
+  AutoGearBox,
+  AutoGearType,
+  AutoSituation,
+  VehicleSupplies,
+} from "./consts/Auto";
 
 export interface IAutoDB {
   banType: boolean;
@@ -14,6 +22,7 @@ export interface IAutoDB {
   transmissionBox: boolean;
   transmitter: boolean;
   marks: IAutoMark[] | null;
+  withSupplies: boolean;
 }
 
 export interface IAutoMark {
@@ -63,4 +72,26 @@ export interface IAuto extends ICommon {
   esp: boolean;
   kruizKontrol: boolean;
   startStopSistemi: boolean;
+}
+
+export interface INewAuto extends ICommon {
+  category: IJoinR;
+  city: IJoinR;
+  year: number;
+  mark: IJoinR;
+  VIN: string;
+  mileage: {
+    measure: string;
+    count: number;
+  };
+  colour: IJoinR;
+  vehicleSuppplies: { [name in keyof typeof VehicleSupplies]: boolean };
+  model: IJoinR;
+  banType: keyof typeof AutoBansType | null;
+  gearBox: keyof typeof AutoGearBox;
+  gearType: keyof typeof AutoGearType;
+  isNew: boolean;
+  numberOfSeats: number | string;
+  situation: { [name in keyof typeof AutoSituation]: boolean };
+  fuelType: keyof typeof AutoFuelType;
 }

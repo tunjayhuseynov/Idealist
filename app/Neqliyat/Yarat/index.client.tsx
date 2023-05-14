@@ -172,31 +172,33 @@ export default function NeqliyatYarat({
                 })}
               </Select>
             </Form.Item>
-            <Form.Item label="Yürüş" required>
-              <Form.Item
-                name={["mileage", "number"]}
-                noStyle
-                rules={[
-                  { required: true, message: "Yürüş boşdur", type: "number" },
-                ]}
-              >
-                <InputNumber
-                  type="number"
-                  min={0}
-                  style={{ width: "40%", marginRight: "0.5rem" }}
-                />
+            {selectedAuto.mileage && (
+              <Form.Item label="Yürüş" required>
+                <Form.Item
+                  name={["mileage", "number"]}
+                  noStyle
+                  rules={[
+                    { required: true, message: "Yürüş boşdur", type: "number" },
+                  ]}
+                >
+                  <InputNumber
+                    type="number"
+                    min={0}
+                    style={{ width: "40%", marginRight: "0.5rem" }}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name={["mileage", "measure"]}
+                  noStyle
+                  rules={[{ required: true, message: "" }]}
+                >
+                  <Radio.Group>
+                    <Radio value="km">km</Radio>
+                    <Radio value="ml">ml</Radio>
+                  </Radio.Group>
+                </Form.Item>
               </Form.Item>
-              <Form.Item
-                name={["mileage", "measure"]}
-                noStyle
-                rules={[{ required: true, message: "" }]}
-              >
-                <Radio.Group>
-                  <Radio value="km">km</Radio>
-                  <Radio value="ml">ml</Radio>
-                </Radio.Group>
-              </Form.Item>
-            </Form.Item>
+            )}
             <Form.Item
               label="Rəng"
               name="colour"
@@ -225,26 +227,28 @@ export default function NeqliyatYarat({
                 addonAfter="ci"
               />
             </Form.Item>
-            <Form.Item
-              label="Yanacaq növü"
-              name="fuelType"
-              rules={[
-                {
-                  required: true,
-                  message: "Yanacaq növü boşdur",
-                },
-              ]}
-            >
-              <Select placeholder="Yanacaq növü">
-                {Object.entries(AutoFuelType).map(([key, fuel]) => {
-                  return (
-                    <Option key={key} value={key}>
-                      {fuel}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
+            {selectedAuto.fuel && (
+              <Form.Item
+                label="Yanacaq növü"
+                name="fuelType"
+                rules={[
+                  {
+                    required: true,
+                    message: "Yanacaq növü boşdur",
+                  },
+                ]}
+              >
+                <Select placeholder="Yanacaq növü">
+                  {Object.entries(AutoFuelType).map(([key, fuel]) => {
+                    return (
+                      <Option key={key} value={key}>
+                        {fuel}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            )}
             <Form.Item
               label="Ötürücü növü"
               name="gearType"
@@ -285,30 +289,32 @@ export default function NeqliyatYarat({
                 })}
               </Select>
             </Form.Item>
-            <Form.Item
-              label={
-                <p>
-                  Mühərrikin həcmi sm<sup>3</sup>{" "}
-                </p>
-              }
-              name="engineCapacity"
-              rules={[
-                {
-                  required: true,
-                  message: "Mühərrikin həcmi boşdur",
-                },
-              ]}
-            >
-              <Select placeholder="Mühərrikin həcmi">
-                {engineCapacutyArray.map((capacity) => {
-                  return (
-                    <Option key={capacity} value={capacity}>
-                      {capacity}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
+            {selectedAuto.capacity && (
+              <Form.Item
+                label={
+                  <p>
+                    Mühərrikin həcmi sm<sup>3</sup>{" "}
+                  </p>
+                }
+                name="engineCapacity"
+                rules={[
+                  {
+                    required: true,
+                    message: "Mühərrikin həcmi boşdur",
+                  },
+                ]}
+              >
+                <Select placeholder="Mühərrikin həcmi">
+                  {engineCapacutyArray.map((capacity) => {
+                    return (
+                      <Option key={capacity} value={capacity}>
+                        {capacity}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            )}
             <Form.Item
               label="Mühərrikin gücü, a.g."
               name="enginePower"
@@ -371,7 +377,7 @@ export default function NeqliyatYarat({
               <Checkbox></Checkbox>
             </Form.Item>
 
-            <YaratSupply />
+            {selectedAuto.withSupplies ?? <YaratSupply />}
           </>
         )}
       </CreateForm>
