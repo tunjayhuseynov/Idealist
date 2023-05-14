@@ -17,39 +17,34 @@ interface IProps {
   selectedAuto: IAutoDB | undefined;
 }
 
-export type IGenericTransportationTypeM<T> = {
+export type IGenericAutoType = {
   category: string; // ID
   year: number;
   VIN: string;
-};
-
-export type IGenericAutoType = {
-  mark: string;
-  model: string;
-  banType: keyof typeof AutoBansType;
-  mileage: {
+  mark?: string; // Required Auto
+  model?: string; // Required Auto
+  banType?: keyof typeof AutoBansType; // Required Auto
+  mileage?: { 
     measure: "km" | "ml";
     number: number;
-  };
-  colour: keyof typeof AutoColours;
+  }; // Required Auto
+  colour?: keyof typeof AutoColours; // Required Auto
   ownerNo?: number;
-  fuelType: keyof typeof AutoFuelType;
-  gearType: keyof typeof AutoGearType;
-  gearBox: keyof typeof AutoGearBox;
-  engineCapacity: number;
-  enginePower: number;
+  fuelType?: keyof typeof AutoFuelType; // Required Auto
+  gearType?: keyof typeof AutoGearType; // Required Auto
+  gearBox?: keyof typeof AutoGearBox; // Required Auto
+  engineCapacity?: number; // Required Auto
+  enginePower?: number; // Required Auto
   market?: keyof typeof AutoMarket;
-  situation: (keyof typeof AutoSituation)[];
-  numberOFfseats?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | "8+" | "notMentioned";
-  vehicleSupplies: (keyof typeof VehicleSupply)[];
+  situation?: (keyof typeof AutoSituation)[]; // Required Auto
+  numberOFfseats?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | "8+" | "notMentioned"; 
+  vehicleSupplies?: (keyof typeof VehicleSupply)[]; // Required Auto
 };
 
 export function useAuto({ selectedAuto }: IProps) {
   const auto = new Crud<IAuto>("Auto");
 
-  const onFinish: ICreateFormProps<
-    IGenericTransportationTypeM<null | IGenericAutoType>
-  >["onFinish"] = async (
+  const onFinish: ICreateFormProps<IGenericAutoType>["onFinish"] = async (
     values: IOnFinish,
     cities: ICity[],
     images: string[]

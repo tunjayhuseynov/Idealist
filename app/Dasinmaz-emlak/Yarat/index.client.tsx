@@ -12,7 +12,6 @@ import {
 } from "antd";
 import CreateForm from "components/CreateForm/CreateForm";
 import { IGenericBinaType, useBina } from "hooks/useBina";
-import { AdminCrud } from "modules/Crud-Admin";
 import { useState } from "react";
 import type { IBinaDB } from "types/category/Bina";
 import {

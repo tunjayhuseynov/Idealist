@@ -5,7 +5,7 @@ import { AutoSituation } from "types/category/consts/Auto";
 const YaratVeziyyet = () => {
   return (
     <>
-      <Form.Item label="Vəziyyəti" name="Situation">
+      <Form.Item label="Vəziyyəti" name="situation">
         <Checkbox.Group>
           <Col>
             {Object.entries(AutoSituation).map(([k, v]) => (
