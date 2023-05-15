@@ -5,6 +5,7 @@ import {
   Col,
   Form,
   Input,
+  InputNumber,
   Radio,
   RadioChangeEvent,
   Row,
@@ -12,7 +13,6 @@ import {
 } from "antd";
 import CreateForm from "components/CreateForm/CreateForm";
 import { IGenericBinaType, useBina } from "hooks/useBina";
-import { AdminCrud } from "modules/Crud-Admin";
 import { useState } from "react";
 import type { IBinaDB } from "types/category/Bina";
 import {
@@ -23,6 +23,8 @@ import {
 import type { ICity } from "types/city";
 import YaratTikil from "./Yarat.tikili";
 import YaratTorpaq from "./Yarat.torpaq";
+import _ from 'lodash'
+import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
 
 interface IProps {
   categories: IBinaDB[];
@@ -61,15 +63,16 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
             },
           ]}
         >
-          <Select onSelect={onCategoryChanged} placeholder="Əmlak növü">
-            {BinaDB?.map((bina) => {
-              return (
-                <Select.Option key={bina.id} value={bina.id}>
-                  {bina.name}
-                </Select.Option>
-              );
+          <Select
+            onSelect={onCategoryChanged}
+            placeholder="Əmlak növü"
+            options={Object.entries(_.groupBy(BinaDB, "subname")).map(([k, v]) => {
+              return {
+                label: k,
+                options: v.map(v => ({ label: v.name, value: v.id }))
+              }
             })}
-          </Select>
+          />
         </Form.Item>
         {selectedBina?.rentalStatus && (
           <Form.Item
@@ -83,6 +86,9 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
             </Radio.Group>
           </Form.Item>
         )}
+        <Form.Item name="address" label="Ünvan" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
         {(!isRenting || !selectedBina?.rentalStatus) && (
           <Form.Item
             label="Əmlak sənədi"
@@ -105,17 +111,14 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
             </Select>
           </Form.Item>
         )}
-        <Form.Item name="address" label="Ünvan" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
         {selectedBina?.torpaq && <YaratTorpaq />}
         <Form.Item
-          label="Yerin Sahəsi"
+          label="Əmlakın Sahəsi"
           name="areaSize"
           rules={[
             {
               required: true,
-              message: "Yerin Sahəsi boşdur",
+              message: "Əmlakın Sahəsi boşdur",
               validator: (_, value) => {
                 if (value && value > 0) {
                   return Promise.resolve();
@@ -126,7 +129,13 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
             },
           ]}
         >
-          <Input type="number" placeholder="Yerin sahəsi" />
+          <InputNumber
+            className="w-full"
+            placeholder="Əmlakın sahəsi"
+            addonAfter={"m²"}
+            formatter={InputNumberFormatter}
+            parser={InputNumberParser}
+          />
         </Form.Item>
         {selectedBina?.tikili && (
           <YaratTikil

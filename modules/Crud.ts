@@ -1,22 +1,15 @@
 import { db } from "fb";
 import {
-  addDoc,
-  collection,
   deleteDoc,
   doc,
   getDoc,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  QueryConstraint,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
 import ICrud from "types/utils/crud";
 import { Collections } from "utils/collections";
 
-export class Crud<T> implements ICrud<T> {
+export class Crud<T extends { id: string }> implements ICrud<T> {
   private collection: Collections;
 
   constructor(collection: Collections) {
@@ -30,34 +23,34 @@ export class Crud<T> implements ICrud<T> {
     return itemDoc.data() as T;
   }
 
-  async GetAll({
-    order,
-    limit: L,
-  }: { order?: { name: string; desc: boolean }; limit?: number } = {}): Promise<
-    T[]
-  > {
-    const queryFilter: QueryConstraint[] = [];
-    if (!order && !L) {
-      const itemDocs = await getDocs(collection(db, this.collection));
-      return itemDocs.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) }));
-    }
+  // async GetAll({
+  //   order,
+  //   limit: L,
+  // }: { order?: { name: string; desc: boolean }; limit?: number } = {}): Promise<
+  //   T[]
+  // > {
+  //   const queryFilter: QueryConstraint[] = [];
+  //   if (!order && !L) {
+  //     const itemDocs = await getDocs(collection(db, this.collection));
+  //     return itemDocs.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) }));
+  //   }
 
-    if (order) {
-      queryFilter.push(orderBy(order.name, order.desc ? "desc" : "asc"));
-    }
-    if (L) {
-      queryFilter.push(limit(L));
-    }
+  //   if (order) {
+  //     queryFilter.push(orderBy(order.name, order.desc ? "desc" : "asc"));
+  //   }
+  //   if (L) {
+  //     queryFilter.push(limit(L));
+  //   }
 
-    const q = query(collection(db, this.collection), ...queryFilter);
+  //   const q = query(collection(db, this.collection), ...queryFilter);
 
-    const itemDocs = await getDocs(q);
+  //   const itemDocs = await getDocs(q);
 
-    return itemDocs.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) }));
-  }
+  //   return itemDocs.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) }));
+  // }
 
   async Create(data: T): Promise<T> {
-    await addDoc(collection(db, this.collection), data as any);
+    await setDoc(doc(db, this.collection, data.id), data as any);
 
     return data;
   }

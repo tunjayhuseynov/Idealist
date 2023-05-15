@@ -11,6 +11,7 @@ import { Descriptions } from "antd";
 import { Currency, IRentDuration } from "types/category/Common";
 
 interface IProps {
+  id: string,
   images: string[];
   title: string;
   coordinate: {
@@ -25,7 +26,6 @@ interface IProps {
   booleanDetails: { [name: string]: string[] };
 }
 
-//https://i.pravatar.cc/1000
 export default function ViewComponent({ details, booleanDetails, price, currency, coordinate, description, images, title, rentDuration }: IProps) {
   return (
     <main className="px-16 grid grid-cols-[66.66%,33.33%] gap-x-10 mt-24">
@@ -43,7 +43,7 @@ export default function ViewComponent({ details, booleanDetails, price, currency
             onSlideChange={() => console.log("slide change")}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            {images.map(l => <SwiperSlide>
+            {images.map((l, i) => <SwiperSlide key={i}>
               <Image
                 src={l}
                 alt=""
@@ -80,7 +80,7 @@ export default function ViewComponent({ details, booleanDetails, price, currency
                 <span className="font-semibold text-2xl text-white">
                   {Intl.NumberFormat("de-DE", { style: "currency", currency }).format(price)}
                 </span>
-                {rentDuration && <span>/ {IRentDuration[rentDuration]}</span>}
+                {rentDuration && <span className="pl-2 font-semibold text-2xl text-white">/ {IRentDuration[rentDuration]}</span>}
               </div>
               <div className="rounded-b-i"></div>
             </div>
@@ -93,33 +93,36 @@ export default function ViewComponent({ details, booleanDetails, price, currency
           id="data-table"
           className="drop-shadow-lg min-h-[200px] rounded-i bg-white px-3 py-2"
         >
-          <Descriptions title="Məlumatlar" layout="horizontal">
-            {Object.entries(details).map(([k, v]) => {
-              return (
-                <Descriptions.Item key={k} label={k}>
-                  {v}
-                </Descriptions.Item>
-              );
-            })}
-          </Descriptions>
-          <Descriptions layout="vertical">
-            {Object.entries(booleanDetails).map(([k, v]) => {
-              return (
-                <Descriptions.Item key={k} label={k} span={2} className="!pb-0">
-                  <div className="pl-3">
-                    {v.map((s) => (
-                      <div
-                        key={s}
-                        className="relative before:-left-2 before:top-[10.5px] before:absolute before:w-1 before:h-1 before:rounded-full before:bg-secondary"
-                      >
-                        {s}
-                      </div>
-                    ))}
-                  </div>
-                </Descriptions.Item>
-              );
-            })}
-          </Descriptions>
+          <h1 className="mb-5 text-xl font-semibold">Məlumatlar</h1>
+          <div className="grid grid-cols-[66%,33%]">
+            <Descriptions layout="horizontal" column={1}>
+              {Object.entries(details).map(([k, v]) => {
+                return (
+                  <Descriptions.Item key={k} label={k} labelStyle={{ color: "" }}>
+                    {v}
+                  </Descriptions.Item>
+                );
+              })}
+            </Descriptions>
+            <Descriptions layout="vertical" column={1} >
+              {Object.entries(booleanDetails).map(([k, v]) => {
+                return (
+                  <Descriptions.Item key={k} label={k} span={2} className="!pb-2" contentStyle={{marginBottom: "20px"}}>
+                    <div className="pl-3">
+                      {v.map((s) => (
+                        <div
+                          key={s}
+                          className="relative before:-left-2 before:top-[10px] before:absolute before:w-1 before:h-1 before:rounded-full before:bg-secondary"
+                        >
+                          {s}
+                        </div>
+                      ))}
+                    </div>
+                  </Descriptions.Item>
+                );
+              })}
+            </Descriptions>
+          </div>
         </div>
       </section>
     </main>

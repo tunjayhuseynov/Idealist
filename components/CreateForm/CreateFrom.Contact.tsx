@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input } from "antd";
+import { Checkbox, Form, Input, InputNumber } from "antd";
 import useFormFunctions from "hooks/useFormFunctions";
 
 
@@ -61,9 +61,9 @@ export default function ContactForm() {
                         { required: true, message: "Mobil nömrə qeyd olunmayıb" },
                     ]}
                 >
-                    <Input
-                        type="number"
-                        pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
+                    <InputNumber
+                        className="w-full"
+                        // pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
                         placeholder="XXX-XX-XX"
                     />
                 </Form.Item>

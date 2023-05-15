@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 // import img from "next/img";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
 // const Carousel = dynamic(() => import("antd").then(s => s.Carousel), { ssr: false });

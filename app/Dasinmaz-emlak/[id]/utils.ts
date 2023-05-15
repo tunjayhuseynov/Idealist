@@ -30,7 +30,8 @@ export async function DetailParser(doc: IBina) {
     } = doc.tikili;
 
     details["Mərtəbə sayı"] = floor.toFixed();
-    details["Binanın mərtəbə sayı"] = buildingFloorAmount.toFixed();
+    if (buildingFloorAmount)
+      details["Binanın mərtəbə sayı"] = buildingFloorAmount?.toFixed();
     details["Sahəsi"] = areaSize.toFixed();
     details["Otaq sayı"] = roomAmount.toFixed();
     details["Hamam sayı"] = hamam.toFixed();

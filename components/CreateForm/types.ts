@@ -46,7 +46,10 @@ export interface IOnFinish {
   toMetro?: { transport: keyof typeof IToMetro, minutes: number }
   contactName: string;
   email: string;
-  phone: string;
+  phone: {
+    number: string,
+    prefix: string
+  };
   isWp: boolean;
   isCall: boolean;
   fileList: File[];

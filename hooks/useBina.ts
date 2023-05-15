@@ -134,7 +134,7 @@ export function useBina({ selectedBina }: IProps) {
             ? {
               roomAmountChanged: values.tikili.roomAmountChanged === "yes",
               areaSize: values.areaSize,
-              buildingFloorAmount: values.tikili?.buildingFloorAmount ?? 0,
+              buildingFloorAmount: values.tikili?.buildingFloorAmount,
               floor: values.tikili.floor,
               hamam: values.tikili.hamam,
               roomAmount: values.tikili.roomAmount,
@@ -252,7 +252,7 @@ export function useBina({ selectedBina }: IProps) {
 
         isPublisherOwner: values.ownerType == "owner",
         contactInfo: {
-          phone: values.phone,
+          phone: `${values.phone.prefix}${values.phone.number}`,
           isCall: values.isCall,
           isWp: values.isWp,
           email: values.email,
