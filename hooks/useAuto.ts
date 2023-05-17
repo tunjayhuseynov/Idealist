@@ -1,6 +1,6 @@
 import { ICreateFormProps, IOnFinish } from "components/CreateForm/types";
 import { Crud } from "modules/Crud";
-import { IAutoDB, INewAuto } from "types/category/Auto";
+import { IAutoDB, IAuto } from "types/category/Auto";
 import {
   AutoBansType,
   AutoColours,
@@ -42,7 +42,7 @@ export type IGenericAutoType = {
 };
 
 export function useAuto({ selectedAuto }: IProps) {
-  const auto = new Crud<INewAuto>("Auto");
+  const auto = new Crud<IAuto>("Auto");
 
   const onFinish: ICreateFormProps<IGenericAutoType>["onFinish"] = async (
     values,
