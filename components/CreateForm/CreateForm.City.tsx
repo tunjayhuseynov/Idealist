@@ -1,7 +1,8 @@
-import { Form, FormInstance, Input, Select, Space } from "antd";
+import { Form, FormInstance, Input, InputNumber, Select, Space } from "antd";
 import { useState } from "react";
 import { IToMetro } from "types/category/Common";
 import { ICity, IRegion } from "types/city";
+import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
 import { IComponentState } from "./types";
 
 interface IProps {
@@ -137,12 +138,12 @@ export default function CityForm({ formInstance: yaratForm, cities, componentSta
                     </Select>
                 </Form.Item>
             )}
-        {(!componentState?.disableMetroItem && metroItem && metroItem !== "noMetro") && <Form.Item name="toMetro" label="Metroya məsafə" required>
+        {(!componentState?.disableMetroItem && metroItem && metroItem !== "noMetro") && <Form.Item label="Metroya məsafə">
             <Space.Compact>
                 <Form.Item
                     name={["toMetro", "transport"]}
                     noStyle
-                    rules={[{ required: true, message: "" }]}
+                    rules={[{ required: true, message: "Nə ilə?" }]}
                 >
                     <Select placeholder="Nə ilə?" style={{ width: "40%" }}>
                         {Object.entries(IToMetro).map(([k, v]) => <Select.Option key={k} value={k}>{v}</Select.Option>)}
@@ -151,13 +152,14 @@ export default function CityForm({ formInstance: yaratForm, cities, componentSta
                 <Form.Item
                     name={["toMetro", "minutes"]}
                     noStyle
-                    rules={[{ required: true, message: "" }]}
+                    rules={[{ required: true, message: "Neçə dəqiqə məsafədir?" }]}
                 >
-                    <Input
-                        type="number"
-                        style={{ width: "100%" }}
+                    <InputNumber
+                        className="w-full"
                         placeholder="Metroya olan dəqiqə"
                         addonAfter={"dəqiqə"}
+                        formatter={InputNumberFormatter}
+                        parser={InputNumberParser}
                     />
                 </Form.Item>
             </Space.Compact>

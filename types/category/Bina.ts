@@ -82,7 +82,7 @@ export interface IBinaTikili {
   roomAmount: number;
   areaSize: number;
   floor: number;
-  buildingFloorAmount: number;
+  buildingFloorAmount?: number;
   temir: keyof typeof BinaRepairing;
   hamam: number;
   withStuff: boolean;

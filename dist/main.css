@@ -513,6 +513,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.static {
+  position: static;
+}
+
 .absolute {
   position: absolute;
 }
@@ -621,6 +625,10 @@ video {
 
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mb-3 {
+  margin-bottom: 0.75rem;
 }
 
 .flex {
@@ -820,6 +828,30 @@ video {
 
 .grid-cols-\[75\%\2c 25\%\] {
   grid-template-columns: 75% 25%;
+}
+
+.grid-cols-\[2\] {
+  grid-template-columns: 2;
+}
+
+.grid-cols-\[66\] {
+  grid-template-columns: 66;
+}
+
+.grid-cols-\[66\%\2c 33\%\] {
+  grid-template-columns: 66% 33%;
+}
+
+.grid-cols-\[\] {
+  grid-template-columns: ;
+}
+
+.grid-cols-\[60\] {
+  grid-template-columns: 60;
+}
+
+.grid-cols-\[66\$\] {
+  grid-template-columns: 66$;
 }
 
 .grid-rows-\[40\%\2c 60\%\] {
@@ -1096,6 +1128,22 @@ video {
   padding-left: 0.75rem;
 }
 
+.\!pb-1 {
+  padding-bottom: 0.25rem !important;
+}
+
+.\!pb-2 {
+  padding-bottom: 0.5rem !important;
+}
+
+.\!pb-4 {
+  padding-bottom: 1rem !important;
+}
+
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -1118,6 +1166,10 @@ video {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .font-semibold {
@@ -1268,6 +1320,11 @@ a {
 .before\:top-\[10\.5px\]::before {
   content: var(--tw-content);
   top: 10.5px;
+}
+
+.before\:top-\[10px\]::before {
+  content: var(--tw-content);
+  top: 10px;
 }
 
 .before\:h-full::before {

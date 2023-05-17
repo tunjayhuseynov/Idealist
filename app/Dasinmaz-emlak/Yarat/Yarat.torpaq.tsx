@@ -1,9 +1,10 @@
-import { Form, Input, Select } from "antd";
+import { Form, InputNumber, Select } from "antd";
 import { LandAppointments } from "types/category/consts/Bina";
+import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
 
-interface IProps {}
+interface IProps { }
 
-export default function YaratTorpaq({}: IProps) {
+export default function YaratTorpaq({ }: IProps) {
   return (
     <>
       <Form.Item
@@ -23,7 +24,13 @@ export default function YaratTorpaq({}: IProps) {
           },
         ]}
       >
-        <Input type="number" placeholder="Torpağın sahəsi" />
+        <InputNumber
+          className="w-full"
+          placeholder="Torpağın sahəsi"
+          addonAfter={"Sot"}
+          formatter={InputNumberFormatter}
+          parser={InputNumberParser}
+        />
       </Form.Item>
       <Form.Item
         label="Torpağın təyinatı"

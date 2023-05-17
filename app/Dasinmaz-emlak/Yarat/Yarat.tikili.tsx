@@ -1,5 +1,6 @@
-import { Form, Input, Radio } from "antd";
+import { Form, Input, InputNumber, Radio } from "antd";
 import { BinaRepairing } from "types/category/consts/Bina";
+import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
 import YaratRental from "./Yarat.rental";
 
 interface IProps {
@@ -30,7 +31,12 @@ export default function YaratTikil({
           },
         ]}
       >
-        <Input type="number" placeholder="Mərtəbə sayı" />
+        <InputNumber
+          className="w-full"
+          placeholder="Mərtəbə sayı"
+          formatter={InputNumberFormatter}
+          parser={InputNumberParser}
+        />
       </Form.Item>
       {buildingFloor && (
         <Form.Item
@@ -52,7 +58,12 @@ export default function YaratTikil({
             },
           ]}
         >
-          <Input type="number" placeholder="Binanın mərtəbə sayı" />
+          <InputNumber
+            className="w-full"
+            placeholder="Binanın mərtəbə sayı"
+            formatter={InputNumberFormatter}
+            parser={InputNumberParser}
+          />
         </Form.Item>
       )}
       <Form.Item
@@ -72,7 +83,12 @@ export default function YaratTikil({
           },
         ]}
       >
-        <Input type="number" placeholder="Otaq sayı" />
+        <InputNumber
+          className="w-full"
+          placeholder="Otaq sayı"
+          formatter={InputNumberFormatter}
+          parser={InputNumberParser}
+        />
       </Form.Item>
       <Form.Item
         name={["tikili", "roomAmountChanged"]}
@@ -106,7 +122,12 @@ export default function YaratTikil({
           },
         ]}
       >
-        <Input type="number" placeholder="Otaq sayı" />
+        <InputNumber
+          className="w-full"
+          placeholder="Otaq sayı"
+          formatter={InputNumberFormatter}
+          parser={InputNumberParser}
+        />
       </Form.Item>
       <Form.Item
         name={["tikili", "temir"]}

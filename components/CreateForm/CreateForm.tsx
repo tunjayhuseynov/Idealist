@@ -5,7 +5,7 @@ import {
   Button,
   UploadFile,
   Modal,
-  Space,
+  InputNumber,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Currency, IToMetro } from "types/category/Common";
@@ -18,6 +18,8 @@ import useError from "hooks/useError";
 import GoogleMaps from "./Components/GoogleMaps";
 import ContactForm from "./CreateFrom.Contact";
 import CityForm from "./CreateForm.City";
+import { v1 as uuid } from 'uuid';
+import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
 
 const { TextArea } = Input;
 
@@ -53,7 +55,7 @@ const CreateForm = <T,>({
 
   const OnFinishFn = async (values: any) => {
     try {
-      const id = crypto.randomUUID();
+      const id = uuid();
       const images =
         disableImageUpload === true
           ? []
@@ -136,7 +138,12 @@ const CreateForm = <T,>({
                 },
               ]}
             >
-              <Input type="number" placeholder="Qiymət" />
+              <InputNumber
+                className="w-full"
+                placeholder="Qiymət"
+                formatter={InputNumberFormatter}
+                parser={InputNumberParser}
+              />
             </Form.Item>
             <CityForm formInstance={yaratForm} cities={cities} componentState={componentState} />
             {!(componentState?.disableTitleItem == true) && (
