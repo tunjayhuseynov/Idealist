@@ -18,7 +18,7 @@ import useError from "hooks/useError";
 import GoogleMaps from "./Components/GoogleMaps";
 import ContactForm from "./CreateFrom.Contact";
 import CityForm from "./CreateForm.City";
-import { v1 as uuid } from 'uuid';
+import { v1 as uuid } from "uuid";
 import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
 
 const { TextArea } = Input;
@@ -41,7 +41,6 @@ const CreateForm = <T,>({
   const [isGoogleMapModalOpen, setIsGoogleMapModalOpen] = useState(false);
 
   const [yaratForm] = Form.useForm();
-
 
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
@@ -69,8 +68,6 @@ const CreateForm = <T,>({
       setError(new Error("Nəsə düzgen etmədi.\nYenidən cəht edin."));
     }
   };
-
-
 
   const selectMarkerCordinates = (e: google.maps.MapMouseEvent) => {
     setLat(e.latLng?.lat() ?? 0);
@@ -145,8 +142,12 @@ const CreateForm = <T,>({
                 parser={InputNumberParser}
               />
             </Form.Item>
-            <CityForm formInstance={yaratForm} cities={cities} componentState={componentState} />
-            {!(componentState?.disableTitleItem == true) && (
+            <CityForm
+              formInstance={yaratForm}
+              cities={cities}
+              componentState={componentState}
+            />
+            {!(componentState?.disableMapItem == true) && (
               <div className="w-full flex justify-center mb-5">
                 {mapButtonClickCount < 3 ? (
                   <button

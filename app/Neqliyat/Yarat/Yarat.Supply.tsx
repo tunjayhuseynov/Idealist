@@ -2,13 +2,10 @@ import React from "react";
 import { Form, Checkbox, Row, Col } from "antd";
 import { VehicleSupplies } from "types/category/consts/Auto";
 
-const { Item } = Form;
-const { Group } = Checkbox;
-
 const YaratSupply = () => {
   return (
-    <Item name="vehicleSupply" label="Avtomobilin təchizatı">
-      <Group>
+    <Form.Item name="vehicleSupplies" label="Avtomobilin təchizatı">
+      <Checkbox.Group>
         <Row>
           {Object.entries(VehicleSupplies).map(([key, value]) => {
             return (
@@ -20,8 +17,8 @@ const YaratSupply = () => {
             );
           })}
         </Row>
-      </Group>
-    </Item>
+      </Checkbox.Group>
+    </Form.Item>
   );
 };
 

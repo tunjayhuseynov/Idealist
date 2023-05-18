@@ -1,4 +1,6 @@
+import CompoundedSpace from "antd/es/space";
 import { ICreateFormProps, IOnFinish } from "components/CreateForm/types";
+import { verify } from "crypto";
 import { Crud } from "modules/Crud";
 import { IAutoDB, IAuto } from "types/category/Auto";
 import {
@@ -13,14 +15,12 @@ import {
 } from "types/category/consts/Auto";
 import { ICity } from "types/city";
 
-interface IProps {
-  selectedAuto: IAutoDB | undefined;
-}
-
 export type IGenericAutoType = {
   category: string; // ID
   year: number;
   VIN: string;
+  isOnCredit: boolean;
+  isBarter: boolean;
   mark?: string; // Required Auto
   model?: string; // Required Auto
   banType?: keyof typeof AutoBansType; // Required Auto
@@ -37,9 +37,13 @@ export type IGenericAutoType = {
   enginePower?: number; // Required Auto
   market?: keyof typeof AutoMarket;
   situation?: (keyof typeof AutoSituation)[]; // Required Auto
-  numberOFfseats?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | "8+" | "notMentioned";
   vehicleSupplies?: (keyof typeof VehicleSupplies)[]; // Required Auto
-};
+  numberOFfseats?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | "8+" | "notMentioned";
+}; // 20
+
+interface IProps {
+  selectedAuto: IAutoDB | undefined;
+}
 
 export function useAuto({ selectedAuto }: IProps) {
   const auto = new Crud<IAuto>("Auto");
@@ -48,24 +52,92 @@ export function useAuto({ selectedAuto }: IProps) {
     values,
     cities,
     images,
-    postId,
-    coordinates
+    postId
   ) => {
     try {
-      // console.log(values);
-      // if (!selectedAuto) throw Error("Nəqliyyatı növü seçilməyib");
       const selectedCity = cities?.find((city) => city.id === values.city);
       if (!selectedAuto) throw Error("Neqliyat növü seçilməyib");
       if (!selectedCity) throw Error("Şəhər seçilməyib");
-      if(values.year) throw Error("Il seçilməyib")
-      if(values.VIN) throw Error("VIN seçilməyib")
+      if (!values.year) throw Error("Il seçilməyib");
+      if (!values.VIN) throw Error("VIN seçilməyib");
 
-      // let newDocument: INewAuto = {
+      let newDocument: IAuto = {
+        category: {
+          id: selectedAuto.id,
+          value: selectedAuto.name,
+        },
+        title: values.title ?? null,
+        city: {
+          id: selectedCity.id,
+          value: selectedCity.name,
+        },
+        year: values.year,
+        VIN: values.VIN,
+        isOnCredit: values.isOnCredit,
+        isBarter: values.isBarter,
+        model: values.model ?? null,
+        mark: values.mark ?? null,
+        mileage: {
+          measure: values.mileage?.measure ?? "km",
+          count: values.mileage?.number ?? 0,
+        },
+        colour: values.colour ?? null,
+        engineCapacity: values.engineCapacity ?? null,
+        enginePower: values.enginePower ?? null,
+        vehicleSupplies: values.vehicleSupplies
+          ? {
+              abs: values.vehicleSupplies.includes("abs"),
+              airCond: values.vehicleSupplies.includes("airCond"),
+              alloyWheels: values.vehicleSupplies.includes("alloyWheels"),
+              centralLocking: values.vehicleSupplies.includes("centralLocking"),
+              hatch: values.vehicleSupplies.includes("hatch"),
+              leatherSalon: values.vehicleSupplies.includes("leatherSalon"),
+              parkingRadar: values.vehicleSupplies.includes("parkingRadar"),
+              rainSensor: values.vehicleSupplies.includes("rainSensor"),
+              rearCamera: values.vehicleSupplies.includes("rearCamera"),
+              seatHeating: values.vehicleSupplies.includes("seatHeating"),
+              seatVentilation:
+                values.vehicleSupplies.includes("seatVentilation"),
+              sideCurtains: values.vehicleSupplies.includes("sideCurtains"),
+              xenonLamps: values.vehicleSupplies.includes("xenonLamps"),
+            }
+          : null,
+        banType: values.banType ?? null,
+        gearBox: values.gearBox ?? null,
+        gearType: values.gearType ?? null,
+        isNew: values.ownerNo ? (values.ownerNo === 1 ? true : false) : null,
+        numberOfSeats: values.numberOFfseats ?? null,
+        situation: values.situation
+          ? {
+              colored: values.situation.includes("colored"),
+              spareParts: values.situation.includes("spareParts"),
+              stroke: values.situation.includes("stroke"),
+            }
+          : null,
+        fuelType: values.fuelType ?? null,
+        market: values.market ?? null,
+        ownerNo: values.ownerNo ?? null,
+        id: postId,
+        packageName: "Standart",
+        statusName: "Pending",
+        paymentData: null,
+        createdBy: "",
+        createdAt: new Date().getTime(),
+        updatedAt: new Date().getTime(),
+        about: values.about,
+        currency: values.currency,
+        price: values.price,
+        images,
+        contactInfo: {
+          phone: `${values.phone.prefix}${values.phone.number}`,
+          isCall: values.isCall,
+          isWp: values.isWp,
+          email: values.email,
+          contactName: values.contactName,
+        },
+      };
 
-      // }
-
-      // console.log(values);
-      // throw Error("Test");
+      await auto.Create(newDocument);
     } catch (e: any) {
       throw new Error(e);
     }

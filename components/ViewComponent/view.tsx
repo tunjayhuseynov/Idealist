@@ -43,11 +43,7 @@ export default function ViewComponent({ details, booleanDetails, price, currency
             onSlideChange={() => console.log("slide change")}
             onSwiper={(swiper) => console.log(swiper)}
           >
-<<<<<<< HEAD
-            {images.map((l,index) => <SwiperSlide key={index}>
-=======
             {images.map((l, i) => <SwiperSlide key={i}>
->>>>>>> a0de67009d861a8eff923f2b93b3b474ddb5e658
               <Image
                 src={l}
                 alt=""

@@ -1,15 +1,17 @@
 import { ICommon, IJoinR } from "./Common";
 import {
   AutoBansType,
+  AutoColours,
   AutoFuelType,
   AutoGearBox,
   AutoGearType,
+  AutoMarket,
   AutoSituation,
   VehicleSupplies,
 } from "./consts/Auto";
 
 export interface IAutoDB {
-  id: number;
+  id: string;
   label: string;
   name: string;
   marks: IAutoMark[] | null;
@@ -28,22 +30,29 @@ export interface IAutoMark {
 
 export interface IAuto extends ICommon {
   category: IJoinR;
+  title: string | null;
   city: IJoinR;
   year: number;
-  mark: IJoinR;
   VIN: string;
+  isOnCredit: boolean;
+  isBarter: boolean;
+  mark: string | null;
+  model: string | null;
   mileage: {
     measure: "km" | "ml";
     count: number;
-  };
-  colour: IJoinR;
-  vehicleSuppplies: { [name in keyof typeof VehicleSupplies]: boolean };
-  model: IJoinR;
+  } | null;
+  colour: keyof typeof AutoColours | null;
   banType: keyof typeof AutoBansType | null;
-  gearBox: keyof typeof AutoGearBox;
-  gearType: keyof typeof AutoGearType;
-  isNew: boolean;
-  numberOfSeats: number | string;
-  situation: { [name in keyof typeof AutoSituation]: boolean };
-  fuelType: keyof typeof AutoFuelType;
+  gearBox: keyof typeof AutoGearBox | null;
+  gearType: keyof typeof AutoGearType | null;
+  isNew: boolean | null;
+  numberOfSeats: number | string | null;
+  situation: { [name in keyof typeof AutoSituation]: boolean } | null;
+  vehicleSupplies: { [name in keyof typeof VehicleSupplies]: boolean } | null;
+  fuelType: keyof typeof AutoFuelType | null;
+  market: keyof typeof AutoMarket | null;
+  ownerNo: number | null;
+  engineCapacity: number | null;
+  enginePower: number | null;
 }
