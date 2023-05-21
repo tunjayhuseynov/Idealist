@@ -23,7 +23,7 @@ import {
 import type { ICity } from "types/city";
 import YaratTikil from "./Yarat.tikili";
 import YaratTorpaq from "./Yarat.torpaq";
-import _ from 'lodash'
+import _ from "lodash";
 import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
 
 interface IProps {
@@ -66,12 +66,14 @@ export default function BinaYarat({ cityList, categories: BinaDB }: IProps) {
           <Select
             onSelect={onCategoryChanged}
             placeholder="Əmlak növü"
-            options={Object.entries(_.groupBy(BinaDB, "subname")).map(([k, v]) => {
-              return {
-                label: k,
-                options: v.map(v => ({ label: v.name, value: v.id }))
+            options={Object.entries(_.groupBy(BinaDB, "subname")).map(
+              ([k, v]) => {
+                return {
+                  label: k,
+                  options: v.map((v) => ({ label: v.name, value: v.id })),
+                };
               }
-            })}
+            )}
           />
         </Form.Item>
         {selectedBina?.rentalStatus && (

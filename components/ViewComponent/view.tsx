@@ -11,7 +11,7 @@ import { Descriptions } from "antd";
 import { Currency, IRentDuration } from "types/category/Common";
 
 interface IProps {
-  id: string,
+  id: string;
   images: string[];
   title: string;
   coordinate: {
@@ -26,7 +26,17 @@ interface IProps {
   booleanDetails: { [name: string]: string[] };
 }
 
-export default function ViewComponent({ details, booleanDetails, price, currency, coordinate, description, images, title, rentDuration }: IProps) {
+export default function ViewComponent({
+  details,
+  booleanDetails,
+  price,
+  currency,
+  coordinate,
+  description,
+  images,
+  title,
+  rentDuration,
+}: IProps) {
   return (
     <main className="px-16 grid grid-cols-[66.66%,33.33%] gap-x-10 mt-24">
       <section id="Left">
@@ -43,14 +53,11 @@ export default function ViewComponent({ details, booleanDetails, price, currency
             onSlideChange={() => console.log("slide change")}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            {images.map((l, i) => <SwiperSlide key={i}>
-              <Image
-                src={l}
-                alt=""
-                fill
-                style={{ objectFit: "contain" }}
-              />
-            </SwiperSlide>)}
+            {images.map((l, i) => (
+              <SwiperSlide key={i}>
+                <Image src={l} alt="" fill style={{ objectFit: "contain" }} />
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
         <div id="Left-Bottom" className="grid grid-cols-[70%,30%] mt-4">
@@ -62,25 +69,32 @@ export default function ViewComponent({ details, booleanDetails, price, currency
               >
                 <span className="text-xl font-semibold">{title}</span>
               </div>
-              <div id="Map">
-                <button className="px-5 py-3 bg-secondary rounded-i text-white font-medium">
-                  Xəritəni aç
-                </button>
-              </div>
+              {(coordinate.lat && coordinate.lng) !== 0 && (
+                <div id="Map">
+                  <button className="px-5 py-3 bg-secondary rounded-i text-white font-medium">
+                    Xəritəni aç
+                  </button>
+                </div>
+              )}
             </div>
             <div id="Description" className="mt-5">
-              <span className="">
-                {description}
-              </span>
+              <span className="">{description}</span>
             </div>
           </div>
           <div id="Left-Bottom-Right">
             <div className="shadow-lg rounded-i w-full h-[150px] grid grid-rows-[32%,68%]">
               <div className="bg-primary rounded-t-i flex items-center justify-center">
                 <span className="font-semibold text-2xl text-white">
-                  {Intl.NumberFormat("de-DE", { style: "currency", currency }).format(price)}
+                  {Intl.NumberFormat("de-DE", {
+                    style: "currency",
+                    currency,
+                  }).format(price)}
                 </span>
-                {rentDuration && <span className="pl-2 font-semibold text-2xl text-white">/ {IRentDuration[rentDuration]}</span>}
+                {rentDuration && (
+                  <span className="pl-2 font-semibold text-2xl text-white">
+                    / {IRentDuration[rentDuration]}
+                  </span>
+                )}
               </div>
               <div className="rounded-b-i"></div>
             </div>
@@ -98,16 +112,26 @@ export default function ViewComponent({ details, booleanDetails, price, currency
             <Descriptions layout="horizontal" column={1}>
               {Object.entries(details).map(([k, v]) => {
                 return (
-                  <Descriptions.Item key={k} label={k} labelStyle={{ color: "" }}>
+                  <Descriptions.Item
+                    key={k}
+                    label={k}
+                    labelStyle={{ color: "" }}
+                  >
                     {v}
                   </Descriptions.Item>
                 );
               })}
             </Descriptions>
-            <Descriptions layout="vertical" column={1} >
+            <Descriptions layout="vertical" column={1}>
               {Object.entries(booleanDetails).map(([k, v]) => {
                 return (
-                  <Descriptions.Item key={k} label={k} span={2} className="!pb-2" contentStyle={{marginBottom: "20px"}}>
+                  <Descriptions.Item
+                    key={k}
+                    label={k}
+                    span={2}
+                    className="!pb-2"
+                    contentStyle={{ marginBottom: "20px" }}
+                  >
                     <div className="pl-3">
                       {v.map((s) => (
                         <div

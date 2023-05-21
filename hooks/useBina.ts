@@ -95,21 +95,21 @@ export function useBina({ selectedBina }: IProps) {
         },
         region: selectedRegion
           ? {
-            id: selectedRegion.id,
-            value: selectedRegion.name,
-          }
+              id: selectedRegion.id,
+              value: selectedRegion.name,
+            }
           : null,
         village: selectedVillage
           ? {
-            id: selectedVillage.id,
-            value: selectedVillage.name,
-          }
+              id: selectedVillage.id,
+              value: selectedVillage.name,
+            }
           : null,
         metro: selectedMetro
           ? {
-            id: selectedMetro.id,
-            value: selectedMetro.name,
-          }
+              id: selectedMetro.id,
+              value: selectedMetro.name,
+            }
           : null,
 
         currency: values.currency,
@@ -118,117 +118,120 @@ export function useBina({ selectedBina }: IProps) {
         address: values.address,
         contract: values?.contract ?? null,
 
-        metroWay: (selectedMetro && values.toMetro) ? {
-          metroDuration: values.toMetro.minutes,
-          metroWay: values.toMetro.transport
-        } : null,
+        metroWay:
+          selectedMetro && values.toMetro
+            ? {
+                metroDuration: values.toMetro.minutes,
+                metroWay: values.toMetro.transport,
+              }
+            : null,
 
         torpaq: values.land
           ? {
-            landSize: values.land.landSize,
-            landAppointment: values.land.landAppointment,
-          }
+              landSize: values.land.landSize,
+              landAppointment: values.land.landAppointment,
+            }
           : null,
         tikili:
           selectedBina.tikili && values.tikili
             ? {
-              roomAmountChanged: values.tikili.roomAmountChanged === "yes",
-              areaSize: values.areaSize,
-              buildingFloorAmount: values.tikili?.buildingFloorAmount,
-              floor: values.tikili.floor,
-              hamam: values.tikili.hamam,
-              roomAmount: values.tikili.roomAmount,
-              temir: values.tikili.temir,
-              withStuff: values.tikili.withStuff,
-              rentalStatus: values.tikili.rentalStatus
-                ? {
-                  rentPropertyType:
-                    values.tikili.rentalStatus.rentPropertyType,
-                  rentDuration: values.tikili.rentalStatus.rentDuration,
-                  rentNotAllowed: {
-                    noAnimal:
-                      values.tikili.rentalStatus.rentNotAllowed.includes(
-                        "noAnimal"
-                      ),
-                    noChild:
-                      values.tikili.rentalStatus.rentNotAllowed.includes(
-                        "noChild"
-                      ),
-                    noSmoking:
-                      values.tikili.rentalStatus.rentNotAllowed.includes(
-                        "noSmoking"
-                      ),
-                  },
-                  rentProps: {
-                    centralHeatingSystem:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "centralHeatingSystem"
-                      ),
-                    cabelTv:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "cabelTv"
-                      ),
-                    combi:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "combi"
-                      ),
-                    balcony:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "balcony"
-                      ),
-                    internet:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "internet"
-                      ),
-                    garage:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "garage"
-                      ),
-                    pool: values.tikili.rentalStatus.rentalPros.includes(
-                      "pool"
-                    ),
-                    lift: values.tikili.rentalStatus.rentalPros.includes(
-                      "lift"
-                    ),
-                    airConditioner:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "airConditioner"
-                      ),
-                    kitchen:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "kitchen"
-                      ),
-                    washer:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "washer"
-                      ),
-                    parkingArea:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "parkingArea"
-                      ),
-                    pvcWindow:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "pvcWindow"
-                      ),
-                    dishes:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "dishes"
-                      ),
-                    refrigerator:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "refrigerator"
-                      ),
-                    telephone:
-                      values.tikili.rentalStatus.rentalPros.includes(
-                        "telephone"
-                      ),
-                    tv: values.tikili.rentalStatus.rentalPros.includes(
-                      "tv"
-                    ),
-                  },
-                }
-                : null,
-            }
+                roomAmountChanged: values.tikili.roomAmountChanged === "yes",
+                areaSize: values.areaSize,
+                buildingFloorAmount: values.tikili?.buildingFloorAmount,
+                floor: values.tikili.floor,
+                hamam: values.tikili.hamam,
+                roomAmount: values.tikili.roomAmount,
+                temir: values.tikili.temir,
+                withStuff: values.tikili.withStuff,
+                rentalStatus: values.tikili.rentalStatus
+                  ? {
+                      rentPropertyType:
+                        values.tikili.rentalStatus.rentPropertyType,
+                      rentDuration: values.tikili.rentalStatus.rentDuration,
+                      rentNotAllowed: {
+                        noAnimal:
+                          values.tikili.rentalStatus.rentNotAllowed.includes(
+                            "noAnimal"
+                          ),
+                        noChild:
+                          values.tikili.rentalStatus.rentNotAllowed.includes(
+                            "noChild"
+                          ),
+                        noSmoking:
+                          values.tikili.rentalStatus.rentNotAllowed.includes(
+                            "noSmoking"
+                          ),
+                      },
+                      rentProps: {
+                        centralHeatingSystem:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "centralHeatingSystem"
+                          ),
+                        cabelTv:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "cabelTv"
+                          ),
+                        combi:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "combi"
+                          ),
+                        balcony:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "balcony"
+                          ),
+                        internet:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "internet"
+                          ),
+                        garage:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "garage"
+                          ),
+                        pool: values.tikili.rentalStatus.rentalPros.includes(
+                          "pool"
+                        ),
+                        lift: values.tikili.rentalStatus.rentalPros.includes(
+                          "lift"
+                        ),
+                        airConditioner:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "airConditioner"
+                          ),
+                        kitchen:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "kitchen"
+                          ),
+                        washer:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "washer"
+                          ),
+                        parkingArea:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "parkingArea"
+                          ),
+                        pvcWindow:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "pvcWindow"
+                          ),
+                        dishes:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "dishes"
+                          ),
+                        refrigerator:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "refrigerator"
+                          ),
+                        telephone:
+                          values.tikili.rentalStatus.rentalPros.includes(
+                            "telephone"
+                          ),
+                        tv: values.tikili.rentalStatus.rentalPros.includes(
+                          "tv"
+                        ),
+                      },
+                    }
+                  : null,
+              }
             : null,
 
         coordinate: {

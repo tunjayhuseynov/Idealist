@@ -42,8 +42,8 @@ export const IRentDuration = {
 
 export const IToMetro = {
   walking: "Ayaqla",
-  withCar: "Maşınla"
-}
+  withCar: "Maşınla",
+};
 
 export interface IJoinR {
   value: string;

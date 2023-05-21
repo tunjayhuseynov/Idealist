@@ -1,11 +1,5 @@
 import { db } from "fb";
-import {
-  deleteDoc,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import ICrud from "types/utils/crud";
 import { Collections } from "utils/collections";
 

@@ -63,7 +63,7 @@ export default function List({}: IProps) {
 
   return (
     <>
-      <ul className="list-none bg-white min-w-[24rem] mt-[1px] grid grid-cols-2 gap-y-4 pl-8 py-3 rounded-b-lg">
+      <ul className="list-none relative z-[90] bg-white min-w-[24rem] mt-[1px] grid grid-cols-2 gap-y-4 pl-8 py-3 rounded-b-lg">
         {list.map((s) => (
           <li
             key={s.name}

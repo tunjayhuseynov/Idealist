@@ -1,5 +1,1 @@
-
-
-export default function useSearch(){
-    
-}
+export default function useSearch() {}

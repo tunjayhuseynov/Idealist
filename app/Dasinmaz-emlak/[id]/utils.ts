@@ -37,7 +37,7 @@ export async function DetailParser(doc: IBina) {
     details["Hamam sayı"] = hamam.toFixed();
     details["Təmir vəziyyəti"] = BinaRepairing[temir];
     details["Əşya vəziyyəti"] = withStuff ? "Əşyalı" : "Əşyasız";
-    details["Otaq artırılıb"] = roomAmountChanged ? "Bəli" : "Xeyir"
+    details["Otaq artırılıb"] = roomAmountChanged ? "Bəli" : "Xeyir";
 
     if (doc.tikili.rentalStatus?.rentPropertyType) {
       let rentType = BinaRentPropertyTypeOptions.find(

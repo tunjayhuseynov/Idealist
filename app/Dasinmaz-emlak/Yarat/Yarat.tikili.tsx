@@ -136,7 +136,7 @@ export default function YaratTikil({
       >
         <Radio.Group>
           {Object.entries(BinaRepairing).map(([k, v]) => {
-            return <Radio value={k}>{v}</Radio>
+            return <Radio value={k}>{v}</Radio>;
           })}
         </Radio.Group>
       </Form.Item>

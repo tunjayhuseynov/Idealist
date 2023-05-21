@@ -93,3 +93,8 @@ export const VehicleSupplies = {
   sideCurtains: "Yan pərdələr",
   seatVentilation: "Oturacaqların ventilyasiyası",
 } as const;
+
+export const AutoAdditional = {
+  isOnCredit: "Kreditdədir",
+  isBarterPossible: "Barter mümkündür",
+} as const;

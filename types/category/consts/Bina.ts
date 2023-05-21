@@ -71,5 +71,5 @@ export const BinaRentPropertyTypeOptions = [
 export const BinaRepairing = {
   repaired: "Təmirli",
   unrepared: "Təmirsiz",
-  halfRepaired: "Orta"
-} as const
+  halfRepaired: "Orta",
+} as const;

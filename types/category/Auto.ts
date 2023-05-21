@@ -1,5 +1,6 @@
 import { ICommon, IJoinR } from "./Common";
 import {
+  AutoAdditional,
   AutoBansType,
   AutoColours,
   AutoFuelType,
@@ -34,10 +35,9 @@ export interface IAuto extends ICommon {
   city: IJoinR;
   year: number;
   VIN: string;
-  isOnCredit: boolean;
-  isBarter: boolean;
   mark: string | null;
   model: string | null;
+  isAutoMobile: boolean;
   mileage: {
     measure: "km" | "ml";
     count: number;
@@ -49,6 +49,7 @@ export interface IAuto extends ICommon {
   isNew: boolean | null;
   numberOfSeats: number | string | null;
   situation: { [name in keyof typeof AutoSituation]: boolean } | null;
+  additiional: { [name in keyof typeof AutoAdditional]: boolean } | null;
   vehicleSupplies: { [name in keyof typeof VehicleSupplies]: boolean } | null;
   fuelType: keyof typeof AutoFuelType | null;
   market: keyof typeof AutoMarket | null;

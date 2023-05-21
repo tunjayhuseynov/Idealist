@@ -43,12 +43,12 @@ export interface IOnFinish {
   region?: string;
   village?: string;
   metro?: string | "noMetro";
-  toMetro?: { transport: keyof typeof IToMetro, minutes: number }
+  toMetro?: { transport: keyof typeof IToMetro; minutes: number };
   contactName: string;
   email: string;
   phone: {
-    number: string,
-    prefix: string
+    number: string;
+    prefix: string;
   };
   isWp: boolean;
   isCall: boolean;

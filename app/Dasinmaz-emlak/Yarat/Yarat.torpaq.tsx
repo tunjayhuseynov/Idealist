@@ -2,9 +2,9 @@ import { Form, InputNumber, Select } from "antd";
 import { LandAppointments } from "types/category/consts/Bina";
 import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
 
-interface IProps { }
+interface IProps {}
 
-export default function YaratTorpaq({ }: IProps) {
+export default function YaratTorpaq({}: IProps) {
   return (
     <>
       <Form.Item

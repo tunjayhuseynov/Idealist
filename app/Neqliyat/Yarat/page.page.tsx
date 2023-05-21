@@ -25,10 +25,10 @@ export default async function Page() {
 
       if (num === 500) {
         step = 100;
-      } 
-      if(num === 10000) {
-        step = 1000
-      } 
+      }
+      if (num === 10000) {
+        step = 1000;
+      }
     }
 
     return result;

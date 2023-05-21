@@ -4,9 +4,8 @@ import React, { useState } from "react";
 import type { ICity } from "types/city";
 import type { IAutoDB, IAutoMark } from "types/category/Auto";
 import CreateForm from "components/CreateForm/CreateForm";
-import { Checkbox, Form, Input, InputNumber, Radio, Select, Space } from "antd";
+import { Form, Input, InputNumber, Radio, Select, Space } from "antd";
 import { IGenericAutoType, useAuto } from "hooks/useAuto";
-import { IComponentState } from "components/CreateForm/types";
 import {
   AutoBansType,
   AutoColours,
@@ -18,6 +17,7 @@ import {
 import YaratVeziyyet from "./Yarat.Veziyyet";
 import YaratSupply from "./Yarat.Supply";
 import { InputNumberFormatter, InputNumberParser } from "utils/inputs";
+import YaratAdditional from "./Yarat.Additional";
 
 const { Option } = Select;
 interface IProps {
@@ -222,15 +222,6 @@ export default function NeqliyatYarat({
                 })}
               </Select>
             </Form.Item>
-            <Form.Item label="Neçənci sahibisiniz?" name="ownerNo">
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder="Neçənci sahibisiniz?"
-                min={1}
-                addonAfter="ci"
-              />
-            </Form.Item>
-
             <Form.Item
               label="Yanacaq növü"
               name="fuelType"
@@ -366,21 +357,14 @@ export default function NeqliyatYarat({
             <YaratSupply />
           </>
         )}
-        <Form.Item
-          name="isOnCredit"
-          valuePropName="checked"
-          label="Kreditdədir?"
-          initialValue={false}
-        >
-          <Checkbox></Checkbox>
-        </Form.Item>
-        <Form.Item
-          name="isBarter"
-          valuePropName="checked"
-          label="Barter mümkündür?"
-          initialValue={false}
-        >
-          <Checkbox></Checkbox>
+        <YaratAdditional />
+        <Form.Item label="Neçənci sahibisiniz?" name="ownerNo">
+          <InputNumber
+            style={{ width: "100%" }}
+            placeholder="Neçənci sahibisiniz?"
+            min={1}
+            addonAfter="ci"
+          />
         </Form.Item>
       </CreateForm>
     </>

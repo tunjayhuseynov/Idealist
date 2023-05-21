@@ -124,7 +124,7 @@ export default function Navbar() {
             animate={animation.animate}
             exit={animation.exit}
             transition={animation.transition}
-            className={`absolute bottom-0 left-1/2 z-[1]`}
+            className={`absolute bottom-0 left-1/2 z-[99]`}
           >
             <List />
           </motion.div>

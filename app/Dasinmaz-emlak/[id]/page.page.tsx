@@ -14,20 +14,20 @@ export default async function Page({ params }: { params: { id: string } }) {
   let details = await DetailParser(doc);
   let booleanDetails = await BooleanDetailParser(doc);
 
-  let title = ""
+  let title = "";
 
   if (doc.village) {
-    title += `${doc.village.value}, ${doc.region?.value}`
+    title += `${doc.village.value}, ${doc.region?.value}`;
   } else if (doc.region) {
-    title += doc.region.value
+    title += doc.region.value;
   } else {
-    title += doc.city.value
+    title += doc.city.value;
   }
 
   let rentDuration;
 
   if (doc.tikili?.rentalStatus) {
-    rentDuration = doc.tikili.rentalStatus.rentDuration
+    rentDuration = doc.tikili.rentalStatus.rentDuration;
   }
 
   return (

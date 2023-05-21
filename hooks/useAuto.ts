@@ -11,16 +11,15 @@ import {
   AutoGearType,
   AutoMarket,
   AutoSituation,
+  AutoAdditional,
   VehicleSupplies,
 } from "types/category/consts/Auto";
-import { ICity } from "types/city";
 
 export type IGenericAutoType = {
   category: string; // ID
   year: number;
   VIN: string;
-  isOnCredit: boolean;
-  isBarter: boolean;
+  additional: (keyof typeof AutoAdditional)[];
   mark?: string; // Required Auto
   model?: string; // Required Auto
   banType?: keyof typeof AutoBansType; // Required Auto
@@ -67,14 +66,19 @@ export function useAuto({ selectedAuto }: IProps) {
           value: selectedAuto.name,
         },
         title: values.title ?? null,
+        isAutoMobile: selectedAuto.isAutoMobile,
         city: {
           id: selectedCity.id,
           value: selectedCity.name,
         },
         year: values.year,
         VIN: values.VIN,
-        isOnCredit: values.isOnCredit,
-        isBarter: values.isBarter,
+        additiional: values.additional
+          ? {
+              isBarterPossible: values.additional.includes("isBarterPossible"),
+              isOnCredit: values.additional.includes("isOnCredit"),
+            }
+          : null,
         model: values.model ?? null,
         mark: values.mark ?? null,
         mileage: {

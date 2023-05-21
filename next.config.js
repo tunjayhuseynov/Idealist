@@ -4,7 +4,11 @@ const nextConfig = {
   swcMinify: true,
   pageExtensions: ["page.tsx", "page.ts", "api.tsx", "api.ts"],
   images: {
-    domains: ["source.unsplash.com", "i.pravatar.cc", "firebasestorage.googleapis.com"],
+    domains: [
+      "source.unsplash.com",
+      "i.pravatar.cc",
+      "firebasestorage.googleapis.com",
+    ],
   },
 };
 
